@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  products-db:
+    container_name: "products-db"
+    image: postgres
+    ports:
+      - 5432:5432
+#    volumes:
+#      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
