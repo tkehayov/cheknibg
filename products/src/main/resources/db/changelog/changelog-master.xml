@@ -5,6 +5,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
     <changeSet author="tkehayov" id="1">
-        <sqlFile path="/changes/db-creation.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="/changes/1.db-creation.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="2">
+        <sqlFile path="/changes/2.create-merchant-product.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="3">
+        <sqlFile path="/changes/3.create-product-description-table.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>
