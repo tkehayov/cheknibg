@@ -13,4 +13,10 @@
     <changeSet author="tkehayov" id="3">
         <sqlFile path="/changes/3.create-product-description-table.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="4">
+        <sqlFile path="/changes/4.create-categories-table.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="5">
+        <sqlFile path="/changes/5.insert-categories.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
