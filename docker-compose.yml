@@ -10,3 +10,13 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+
+  images:
+    image: nginx
+#    volumes:
+#      - ./templates:/etc/nginx/templates
+    ports:
+      - "8081:80"
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
