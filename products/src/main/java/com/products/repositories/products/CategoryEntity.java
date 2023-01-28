@@ -3,6 +3,7 @@ package com.products.repositories.products;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +14,8 @@ import javax.persistence.Table;
 @Entity
 @Getter
 @AllArgsConstructor
-@Table(name = "category")
+@NoArgsConstructor
+@Table(name = "categories")
 public class CategoryEntity {
     @Id
     @Column(name = "id")

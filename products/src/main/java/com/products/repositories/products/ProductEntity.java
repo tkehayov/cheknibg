@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,16 +27,18 @@ public class ProductEntity {
     private Long id;
     @Column(name = "name")
     private String name;
-//    TODO one to many
+
     @Column(name = "merchants")
     private Integer merchants;
 
     @OneToMany(mappedBy="id")
     private Set<ImageEntity> images = new HashSet<>();
 
-//    TODO one to many
-//    @Column(name = "category")
-//    private CategoryEntity category;
+    @OneToOne
+    @JoinColumn(name = "category")
+    private CategoryEntity category;
+
+
 
 
 }

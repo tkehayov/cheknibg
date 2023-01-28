@@ -1,0 +1,1 @@
+ALTER TABLE products ADD CONSTRAINT cateogries_fk FOREIGN KEY (category) REFERENCES categories(id);

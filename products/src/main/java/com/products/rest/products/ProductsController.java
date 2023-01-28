@@ -1,4 +1,4 @@
-package com.products.rest;
+package com.products.rest.products;
 
 import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductRepository;

@@ -4,19 +4,25 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet author="tkehayov" id="1">
+    <changeSet author="tkehayov" id="1" context="dev,prod">
         <sqlFile path="/changes/1.db-creation.sql" relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="tkehayov" id="2">
+    <changeSet author="tkehayov" id="2" context="dev,prod">
         <sqlFile path="/changes/2.create-merchant-product.sql" relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="tkehayov" id="3">
+    <changeSet author="tkehayov" id="3" context="dev,prod">
         <sqlFile path="/changes/3.create-product-description-table.sql" relativeToChangelogFile="true"/>
     </changeSet>
     <changeSet author="tkehayov" id="4">
         <sqlFile path="/changes/4.create-categories-table.sql" relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="tkehayov" id="5">
+    <changeSet author="tkehayov" id="5" context="dev,prod">
         <sqlFile path="/changes/5.insert-categories.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="6" context="dev,prod">
+        <sqlFile path="/changes/6.products_foreign_key_categories.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="7" context="dev">
+        <sqlFile path="/changes/7.insert-products.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>
