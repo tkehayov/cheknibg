@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.HashSet;
 import java.util.Set;
 
 @Builder
@@ -25,14 +24,18 @@ public class ProductEntity {
     @Id
     @Column(name = "id")
     private Long id;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "merchants")
     private Integer merchants;
 
-    @OneToMany(mappedBy="id")
-    private Set<ImageEntity> images = new HashSet<>();
+    @Column(name = "code_id")
+    private String codeId;
+
+    @OneToMany(mappedBy="product_id")
+    private Set<ImageEntity> images;
 
     @OneToOne
     @JoinColumn(name = "category")

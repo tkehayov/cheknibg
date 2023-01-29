@@ -1,6 +1,7 @@
 CREATE TABLE images (
 	id serial4 NOT NULL,
-	filename varchar(255) NOT NULL,
+	product_id int4,
+	filename varchar(255) NOT NULL UNIQUE,
 	CONSTRAINT images_pkey PRIMARY KEY (id)
 );
 
@@ -9,7 +10,8 @@ CREATE TABLE products (
 	"name" varchar(255) NULL,
 	merchants int4 NULL,
 	images int4 NULL,
-	category int4 NULL
+	category int4 NULL,
+	code_id varchar(255) NOT NULL
 );
 
-ALTER TABLE products ADD CONSTRAINT imgages_fk FOREIGN KEY (images) REFERENCES images(id);
+ALTER TABLE images ADD CONSTRAINT products_fk FOREIGN KEY (product_id) REFERENCES products(id);
