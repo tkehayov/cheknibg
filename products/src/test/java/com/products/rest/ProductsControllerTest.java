@@ -1,15 +1,13 @@
 package com.products.rest;
 
-import com.products.repositories.products.ProductEntity;
-import com.products.repositories.products.ProductRepository;
+import com.products.core.products.Product;
+import com.products.core.products.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -24,16 +22,16 @@ class ProductsControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ProductRepository productRepository;
+    private ProductService productService;
 
     @Test
-    public void getProducts() throws Exception {
-        ProductEntity entity = ProductEntity.builder().id(11L).name("Apple iPhone 14").build();
-        List<ProductEntity> entities = List.of(entity);
+    public void getProduct() throws Exception {
+        Product product = Product.builder().id(1L).name("Apple iPhone 14").build();
+        Integer productId = 1;
 
-        when(productRepository.findAll()).thenReturn(entities);
-        mockMvc.perform(get("/products")).andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("[0].id").value("11"))
-                .andExpect(jsonPath("[0].name").value("Apple iPhone 14"));
+        when(productService.getProduct(1L)).thenReturn(product);
+        mockMvc.perform(get("/products/"+productId)).andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("id").value(productId))
+                .andExpect(jsonPath("name").value("Apple iPhone 14"));
     }
 }

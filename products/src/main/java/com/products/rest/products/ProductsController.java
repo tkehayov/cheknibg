@@ -1,29 +1,31 @@
 package com.products.rest.products;
 
-import com.products.repositories.products.ProductEntity;
-import com.products.services.ProductService;
+import com.products.core.products.Product;
+import com.products.core.products.ProductMapper;
+import com.products.core.products.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(value = "/products")
 public class ProductsController {
+    private final ProductMapper productMapper;
     private final ProductService productService;
 
-    public ProductsController(ProductService productService) {
+    public ProductsController(ProductMapper productMapper, ProductService productService) {
+        this.productMapper = productMapper;
         this.productService = productService;
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<List<ProductEntity>> getAllProducts(@PathVariable Long id) {
-        ProductEntity product = productService.getProduct(id);
+    public ResponseEntity<ProductDto> getAllProducts(@PathVariable Long id) {
+        Product product = productService.getProduct(id);
+        ProductDto productDto = productMapper.productToProductDto(product);
 
-        return null;
-//        return new ResponseEntity<>(all, HttpStatus.OK);
+        return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
 }

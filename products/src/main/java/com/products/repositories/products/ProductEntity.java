@@ -40,8 +40,4 @@ public class ProductEntity {
     @OneToOne
     @JoinColumn(name = "category")
     private CategoryEntity category;
-
-
-
-
 }
