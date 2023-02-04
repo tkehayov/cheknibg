@@ -25,5 +25,5 @@ public class ImageEntity {
     private String filename;
 
     @Column(name = "product_id")
-    private Long product_id;
+    private Long productId;
 }

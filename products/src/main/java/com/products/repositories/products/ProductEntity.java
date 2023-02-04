@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.Set;
+import java.util.List;
 
 @Builder
 @Entity
@@ -31,14 +31,15 @@ public class ProductEntity {
     @Column(name = "name")
     private String name;
 
+//    TODO one to many
     @Column(name = "merchants")
     private Integer merchants;
 
     @Column(name = "code_id")
     private String codeId;
 
-    @OneToMany(mappedBy="product_id")
-    private Set<ImageEntity> images;
+    @OneToMany(mappedBy="productId")
+    private List<ImageEntity> images;
 
     @OneToOne
     @JoinColumn(name = "category")
