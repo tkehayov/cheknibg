@@ -6,6 +6,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -23,10 +25,15 @@ class ProductServiceTest {
 
         assertThat(actual.getCategory().getName(), is("лаптопи"));
         assertThat(actual.getName(), is("Apple iPhone 14 Pro 128GB Мобилни телефони (GSM)"));
-        assertThat(actual.getMerchants(), is(1));
         assertThat(actual.getCodeId(), is("PLT-00008"));
         assertThat(actual.getId(), is(1L));
+
         assertThat(actual.getImages().get(0).getFilename(), is("mac.jpg"));
         assertThat(actual.getImages().get(0).getId(), is(1L));
+
+        assertThat(actual.getMerchants().get(0).getMerchantId(), is(1L));
+        assertThat(actual.getMerchants().get(0).getUrl(), is("https://allgsm.eu/samsung-galaxy-a53-5g-128gb-6gb-ram-dual-sim"));
+        assertThat(actual.getMerchants().get(0).getPrice(), is(new BigDecimal("619.00")));
+        assertThat(actual.getMerchants().get(0).getProductId(), is(1L));
     }
 }

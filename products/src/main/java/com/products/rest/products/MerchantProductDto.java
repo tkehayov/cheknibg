@@ -5,16 +5,15 @@ import com.products.repositories.products.ImageEntity;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Builder
 @Getter
-public class ProductDto {
+public class MerchantProductDto {
     private Long id;
-    private String name;
-    private List<MerchantProductDto> merchants;
-    private String codeId;
-    private Set<ImageEntity> images;
-    private CategoryEntity category;
+    private Long merchantId;
+    private String url;
+    private BigDecimal price;
+    private Long productId;
 }

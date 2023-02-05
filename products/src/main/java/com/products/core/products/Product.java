@@ -12,7 +12,7 @@ import java.util.List;
 public class Product {
     private Long id;
     private String name;
-    private Integer merchants;
+    private List<MerchantProduct> merchants;
     private String codeId;
     private List<ImageEntity> images;
     private CategoryEntity category;

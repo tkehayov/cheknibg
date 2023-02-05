@@ -31,9 +31,8 @@ public class ProductEntity {
     @Column(name = "name")
     private String name;
 
-//    TODO one to many
-    @Column(name = "merchants")
-    private Integer merchants;
+    @OneToMany(mappedBy="productId")
+    private List<MerchantProductEntity> merchants;
 
     @Column(name = "code_id")
     private String codeId;

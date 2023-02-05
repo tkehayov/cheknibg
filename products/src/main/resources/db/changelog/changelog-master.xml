@@ -13,7 +13,7 @@
     <changeSet author="tkehayov" id="3" context="dev,prod">
         <sqlFile path="/changes/3.create-product-description-table.sql" relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="tkehayov" id="4">
+    <changeSet author="tkehayov" id="4" context="dev,prod">
         <sqlFile path="/changes/4.create-categories-table.sql" relativeToChangelogFile="true"/>
     </changeSet>
     <changeSet author="tkehayov" id="5" context="dev,prod">
@@ -24,5 +24,11 @@
     </changeSet>
     <changeSet author="tkehayov" id="7" context="dev">
         <sqlFile path="/changes/7.insert-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="8" context="dev,prod">
+        <sqlFile path="/changes/8.merchants-add-fk-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="9" context="dev">
+        <sqlFile path="/changes/9.insert-merchants-products.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>
