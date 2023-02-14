@@ -8,7 +8,6 @@ CREATE TABLE images (
 CREATE TABLE products (
 	id serial4 NOT NULL PRIMARY KEY,
 	"name" varchar(255) NULL,
-	merchants int4 NULL,
 	images int4 NULL,
 	category int4 NULL,
 	code_id varchar(255) NOT NULL

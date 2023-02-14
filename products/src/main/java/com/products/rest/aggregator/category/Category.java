@@ -11,14 +11,14 @@ public class Category {
 
 
         List<String> categoriesUrl = new ArrayList<>();
-        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001001");
-        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001002");
-        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001003");
-        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001004");
-        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001005");
-        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001006");
-        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001007");
-        categories.put("laptops", categoriesUrl);
+//        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001001");
+//        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001002");
+//        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001003");
+//        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001004");
+//        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001005");
+//        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001006");
+//        categoriesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12001007");
+//        categories.put("laptops", categoriesUrl);
 
 //        List<String> pcUrl = new ArrayList<>();
 //        pcUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X12003001");
@@ -48,12 +48,12 @@ public class Category {
 //        bagsAndBackPacksUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X13001004");
 //        categories.put("bagsBackPacks", bagsAndBackPacksUrl);
 //
-//        List<String> smartphonesUrl = new ArrayList<>();
+// TODO       List<String> smartphonesUrl = new ArrayList<>();
 //        smartphonesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X18002001");
 //        smartphonesUrl.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X18002002");
 //        categories.put("smartphones", smartphonesUrl);
 //
-//        List<String> smartWatches = new ArrayList<>();
+//   TODO     List<String> smartWatches = new ArrayList<>();
 //        smartWatches.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X18005002");
 //        categories.put("smartwatches", smartphonesUrl);
 //
@@ -64,7 +64,7 @@ public class Category {
 //        peripheral.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X13007004");
 //        peripheral.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X13007005");
 //        peripheral.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X13007006");
-//
+////
 //        peripheral.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X13006001");
 //        peripheral.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X13006002");
 //        peripheral.add("https://b2b.also.com/invoke/ActDelivery_HTTP.Inbound/receiveXML_API?j_u=11134342&j_p=E0r34A6d_s_D46B&propertyId=X13006003");
