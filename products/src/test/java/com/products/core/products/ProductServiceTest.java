@@ -22,6 +22,7 @@ class ProductServiceTest {
     void getProduct() {
 
         Product actual = productService.getProduct(1L);
+        ProductProperties productProperties = actual.getProperties().get(0);
 
         assertThat(actual.getCategory().getName(), is("лаптопи"));
         assertThat(actual.getName(), is("Apple iPhone 14 Pro 128GB Мобилни телефони (GSM)"));
@@ -35,5 +36,9 @@ class ProductServiceTest {
         assertThat(actual.getMerchants().get(0).getUrl(), is("https://allgsm.eu/samsung-galaxy-a53-5g-128gb-6gb-ram-dual-sim"));
         assertThat(actual.getMerchants().get(0).getPrice(), is(new BigDecimal("619.00")));
         assertThat(actual.getMerchants().get(0).getProductId(), is(1L));
+
+        assertThat(productProperties.getName(),is("ram"));
+        assertThat(productProperties.getValue(),is("8gb"));
+        assertThat(productProperties.getProductId(),is(1L));
     }
 }
