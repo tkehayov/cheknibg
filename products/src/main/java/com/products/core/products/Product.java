@@ -1,7 +1,6 @@
 package com.products.core.products;
 
 import com.products.repositories.products.CategoryEntity;
-import com.products.repositories.products.ImageEntity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,8 +12,8 @@ public class Product {
     private Long id;
     private String name;
     private List<MerchantProduct> merchants;
-    private List<ProductProperties> properties;
+    private List<PropertiesGroup> propertiesGroup;
     private String codeId;
-    private List<ImageEntity> images;
-    private CategoryEntity category;
+    private List<Image> images;
+    private Category category;
 }

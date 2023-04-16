@@ -11,7 +11,7 @@
         <sqlFile path="/changes/2.create-merchant-product.sql" relativeToChangelogFile="true"/>
     </changeSet>
     <changeSet author="tkehayov" id="3" context="test">
-        <sqlFile path="/changes/3.create-product-prop.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="/changes/3.create-properties-group.sql" relativeToChangelogFile="true"/>
     </changeSet>
     <changeSet author="tkehayov" id="4" context="test">
         <sqlFile path="/changes/4.create-categories-table.sql" relativeToChangelogFile="true"/>
@@ -33,5 +33,20 @@
     </changeSet>
     <changeSet author="tkehayov" id="10" context="test">
         <sqlFile path="/changes/10.insert-product-prop.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="11" context="test">
+        <sqlFile path="/changes/11.insert-products-prod.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="12" context="test">
+        <sqlFile path="/changes/12.insert-images.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="13" context="test">
+        <sqlFile path="/changes/13.create-properties.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="14" context="test">
+        <sqlFile path="/changes/14.insert-all-product-properties.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="15" context="test">
+        <sqlFile path="/changes/15.insert-new-products_merchants.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>

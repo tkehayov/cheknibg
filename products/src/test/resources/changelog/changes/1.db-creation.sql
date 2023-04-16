@@ -1,7 +1,7 @@
 CREATE TABLE images (
 	id serial4 NOT NULL,
 	product_id int4,
-	filename varchar(255) NOT NULL UNIQUE,
+	filename varchar(255) NOT NULL,
 	CONSTRAINT images_pkey PRIMARY KEY (id)
 );
 

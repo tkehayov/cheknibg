@@ -46,4 +46,7 @@
     <changeSet author="tkehayov" id="14" context="dev,prod">
         <sqlFile path="/changes/14.insert-all-product-properties.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="15" context="dev">
+        <sqlFile path="/changes/15.insert-new-products_merchants.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>

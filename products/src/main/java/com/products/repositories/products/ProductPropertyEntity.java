@@ -24,11 +24,11 @@ public class ProductPropertyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name")
-    private String name;
+    @Column(name = "key")
+    private String key;
     @Column(name = "value")
     private String value;
 
-    @Column(name = "product_id")
-    private Long productId;
+    @Column(name = "properties_group_id")
+    private Long groupId;
 }

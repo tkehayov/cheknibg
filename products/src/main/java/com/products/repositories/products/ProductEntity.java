@@ -35,7 +35,7 @@ public class ProductEntity {
     private List<MerchantProductEntity> merchants;
 
     @OneToMany(mappedBy="productId")
-    private List<ProductPropertyEntity> properties;
+    private List<PropertiesGroupEntity> propertiesGroup;
 
     @Column(name = "code_id")
     private String codeId;

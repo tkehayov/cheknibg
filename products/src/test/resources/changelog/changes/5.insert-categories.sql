@@ -9,5 +9,5 @@ INSERT into categories(name,alias) values
 ('смартфони','smartphones'),
 ('смарт часовници','smartwatches'),
 ('периферни устройства','peripheral'),
-('мултимедия','мултимедия'),
+('мултимедия','multimedia'),
 ('компоненти','components');

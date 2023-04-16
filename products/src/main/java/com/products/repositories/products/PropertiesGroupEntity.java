@@ -10,23 +10,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 @Builder
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "images")
-public class ImageEntity {
+@AllArgsConstructor
+@Table(name = "properties_group")
+public class PropertiesGroupEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "filename")
-    private String filename;
-
+    @Column(name = "name")
+    private String name;
+//
     @Column(name = "product_id")
     private Long productId;
+
+    @OneToMany(mappedBy = "groupId")
+    private List<ProductPropertyEntity> properties;
 }
