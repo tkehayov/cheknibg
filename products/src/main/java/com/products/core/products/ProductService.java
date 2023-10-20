@@ -2,13 +2,13 @@ package com.products.core.products;
 
 import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProductService {
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
