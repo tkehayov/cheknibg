@@ -1,6 +1,5 @@
 package com.products.core.products;
 
-import com.products.repositories.products.CategoryEntity;
 import lombok.Builder;
 import lombok.Getter;
 

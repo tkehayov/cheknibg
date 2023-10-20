@@ -1,12 +1,9 @@
 package com.products.rest.products;
 
-import com.products.repositories.products.CategoryEntity;
-import com.products.repositories.products.ImageEntity;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.util.Set;
 
 @Builder
 @Getter
