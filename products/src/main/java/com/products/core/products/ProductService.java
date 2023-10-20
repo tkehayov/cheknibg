@@ -2,19 +2,16 @@ package com.products.core.products;
 
 import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
-
-    public ProductService(ProductMapper productMapper, ProductRepository productRepository) {
-        this.productMapper = productMapper;
-        this.productRepository = productRepository;
-    }
 
     public void save(Product product) {
         ProductEntity productEntity = productMapper.productToProductEntity(product);
