@@ -1,4 +1,4 @@
-package com.products.core.products;
+package com.products.core.Image;
 
 import lombok.Builder;
 import lombok.Getter;

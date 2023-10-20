@@ -1,7 +1,7 @@
 package com.products.rest.products;
 
-import com.products.repositories.products.CategoryEntity;
-import com.products.repositories.products.ImageEntity;
+import com.products.repositories.categories.CategoryEntity;
+import com.products.repositories.images.ImageEntity;
 import lombok.Builder;
 import lombok.Getter;
 

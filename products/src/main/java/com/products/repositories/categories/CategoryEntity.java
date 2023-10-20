@@ -1,4 +1,4 @@
-package com.products.repositories.products;
+package com.products.repositories.categories;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

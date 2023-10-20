@@ -1,6 +1,7 @@
 package com.products.core.products;
 
-import com.products.repositories.products.CategoryEntity;
+import com.products.core.Image.Image;
+import com.products.core.categories.Category;
 import lombok.Builder;
 import lombok.Getter;
 

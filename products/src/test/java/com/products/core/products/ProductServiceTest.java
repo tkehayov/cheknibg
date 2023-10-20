@@ -1,5 +1,6 @@
 package com.products.core.products;
 
+import com.products.core.Image.Image;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -10,16 +11,17 @@ import java.math.BigDecimal;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
 @Transactional
-class ProductServiceTest {
+public class ProductServiceTest {
     @Autowired
     private ProductService productService;
 
     @Test
-    void getProducts() {
+    void getProductHappyPath() {
 
         Product actual = productService.getProduct(3L);
         PropertiesGroup productPropertiesGroup = actual.getPropertiesGroup().get(0);
@@ -40,11 +42,18 @@ class ProductServiceTest {
         assertThat(merchantProduct.getPrice(), is(new BigDecimal("619.00")));
         assertThat(merchantProduct.getProductId(), is(3L));
 
-        assertThat(productPropertiesGroup.getName(),is("Input"));
+        assertThat(productPropertiesGroup.getName(), is("Input"));
 
 
-        assertThat(productProperty.getKey(),is("Type"));
-        assertThat(productProperty.getValue(),is("Keyboard, TrackPoint, UltraNav"));
-        assertThat(productProperty.getGroupId(),is(2L));
+        assertThat(productProperty.getKey(), is("Type"));
+        assertThat(productProperty.getValue(), is("Keyboard, TrackPoint, UltraNav"));
+        assertThat(productProperty.getGroupId(), is(2L));
+    }
+
+    @Test
+    void getNotExistsProduct() {
+        Product actual = productService.getProduct(-1L);
+
+        assertNull(actual.getId());
     }
 }
