@@ -1,5 +1,8 @@
 package com.products.repositories.products;
 
+import com.products.repositories.categories.CategoryEntity;
+import com.products.repositories.images.ImageEntity;
+import com.products.repositories.merchants.MerchantProductEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

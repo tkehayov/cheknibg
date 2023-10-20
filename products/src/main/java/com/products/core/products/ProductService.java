@@ -18,6 +18,7 @@ public class ProductService {
 
         productRepository.save(productEntity);
     }
+
     public Product getProduct(Long productId) {
         Optional<ProductEntity> product = productRepository.findById(productId);
 
