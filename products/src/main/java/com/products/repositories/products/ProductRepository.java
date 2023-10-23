@@ -1,6 +1,12 @@
 package com.products.repositories.products;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.products.repositories.categories.CategoryEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
+@Repository
+public interface ProductRepository extends PagingAndSortingRepository<ProductEntity, Long> {
+    Page<ProductEntity> findAllByCategory(CategoryEntity category, Pageable pageable);
 }

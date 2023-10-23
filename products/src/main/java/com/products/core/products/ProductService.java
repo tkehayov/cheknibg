@@ -1,26 +1,27 @@
 package com.products.core.products;
 
+import com.products.repositories.categories.CategoryEntity;
 import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
-
-    public ProductService(ProductMapper productMapper, ProductRepository productRepository) {
-        this.productMapper = productMapper;
-        this.productRepository = productRepository;
-    }
 
     public void save(Product product) {
         ProductEntity productEntity = productMapper.productToProductEntity(product);
 
         productRepository.save(productEntity);
     }
+
     public Product getProduct(Long productId) {
         Optional<ProductEntity> product = productRepository.findById(productId);
 
@@ -32,5 +33,11 @@ public class ProductService {
         ProductEntity emptyProductEntity = ProductEntity.builder().build();
 
         return productMapper.productEntityToProduct(emptyProductEntity);
+    }
+
+    public ProductPage getProductsByCategory(Long categoryId, PageRequest pageRequest) {
+        Page<ProductEntity> productsEntity = productRepository.findAllByCategory(CategoryEntity.builder().id(categoryId).build(), pageRequest);
+
+        return productMapper.productPageEntityToProductPage(productsEntity);
     }
 }
