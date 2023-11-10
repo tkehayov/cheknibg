@@ -20,7 +20,7 @@ public class CategoryController {
     private final CategoryMapper categoryMapper;
     private final CategoryService categoryService;
 
-    @GetMapping(value = "/categories")
+    @GetMapping
     public ResponseEntity<?> getAll() {
         List<Category> category = categoryService.getAll();
         List<CategoryDto> categoryDto = categoryMapper.categoryToCategoryDto(category);
