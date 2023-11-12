@@ -13,6 +13,7 @@ import java.util.Set;
 public class ProductDto {
     private Long id;
     private String name;
+    private List<PropertiesGroupDto> propertiesGroup;
     private List<MerchantProductDto> merchants;
     private String codeId;
     private Set<ImageEntity> images;
