@@ -2,13 +2,17 @@ package com.products.rest.products;
 
 import com.products.core.products.Product;
 import com.products.core.products.ProductMapper;
+import com.products.core.products.ProductPage;
 import com.products.core.products.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,10 +23,22 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ProductDto> getAllProducts(@PathVariable Long id) {
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
         Product product = productService.getProduct(id);
         ProductDto productDto = productMapper.productToProductDto(product);
 
         return new ResponseEntity<>(productDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/category/{id}")
+    public ResponseEntity<ProductPageDto> getProductsByCategory(@PathVariable Long id,
+                                                @RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "20") int size) {
+
+        Pageable paging = PageRequest.of(page, size);
+        ProductPage productsByCategory = productService.getProductsByCategory(id, paging);
+        ProductPageDto productPageDto = productMapper.productPageToProductPageDto(productsByCategory);
+
+        return new ResponseEntity<>(productPageDto, HttpStatus.OK);
     }
 }

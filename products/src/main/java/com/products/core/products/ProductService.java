@@ -5,7 +5,7 @@ import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -35,7 +35,7 @@ public class ProductService {
         return productMapper.productEntityToProduct(emptyProductEntity);
     }
 
-    public ProductPage getProductsByCategory(Long categoryId, PageRequest pageRequest) {
+    public ProductPage getProductsByCategory(Long categoryId, Pageable pageRequest) {
         Page<ProductEntity> productsEntity = productRepository.findAllByCategory(CategoryEntity.builder().id(categoryId).build(), pageRequest);
 
         return productMapper.productPageEntityToProductPage(productsEntity);
