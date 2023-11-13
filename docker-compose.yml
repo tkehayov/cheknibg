@@ -13,6 +13,7 @@ services:
 
   images:
     image: nginx
+    container_name: images
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ../images:/images
@@ -21,3 +22,30 @@ services:
     environment:
       - NGINX_HOST=localhost
       - NGINX_PORT=80
+
+  fe:
+    image: nginx
+    container_name: fe
+    volumes:
+      - ./nginx-fe.conf:/etc/nginx/nginx.conf
+      - ./fe/build:/web/build
+    ports:
+      - "80:80"
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+
+  products:
+    build: ./products
+    container_name: products
+    depends_on:
+      - products-db
+    links:
+      - products-db
+    environment:
+      - JAR_FILE=products-0.0.1-SNAPSHOT.jar
+    ports:
+      - 8080:8080
+    volumes:
+      - ./products/target/products-0.0.1-SNAPSHOT.jar:/app:ro
+    tty: true
