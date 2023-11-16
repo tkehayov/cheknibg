@@ -8,10 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @Builder
@@ -19,8 +18,8 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "categories")
-public class CategoryEntity {
+@Table(name = "group_filters")
+public class FilterGroupEntity {
     @Id
     @Column(name = "id")
     private Long id;
@@ -28,9 +27,7 @@ public class CategoryEntity {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "category_group_filters",
-            joinColumns = { @JoinColumn(name = "category_id") },
-            inverseJoinColumns = { @JoinColumn(name = "group_filter_id") })
-    private Set<FilterGroupEntity> filterGroups;
+    @ManyToMany(mappedBy = "filterGroups")
+    private Set<CategoryEntity> categories = new HashSet<>();
+
 }
