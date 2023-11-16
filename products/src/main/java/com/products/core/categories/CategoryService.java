@@ -6,6 +6,7 @@ import com.products.repositories.categories.FilterGroupEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -19,22 +20,27 @@ public class CategoryService {
 
     public List<Category> getAll() {
         List<CategoryEntity> entities = categoryRepository.findAll();
-        List<Category> categories = categoryMapper.categoryEntityToCategory(entities);
 
-        return categories;
+        return categoryMapper.categoryEntityToCategory(entities);
     }
 
     public List<FilterGroup> getFilters(Long categoryId) {
         Optional<CategoryEntity> categoryOptional = categoryRepository.findById(categoryId);
-// TODO implement
-        if (!categoryOptional.isPresent()) {
+        boolean categoryNotExists = categoryNotExists(categoryOptional);
 
+        if (categoryNotExists) {
+            return Collections.emptyList();
         }
+
         CategoryEntity categoryEntity = categoryOptional.get();
-        Set<FilterGroupEntity> filterGroups = categoryEntity.getFilterGroups();
+        Set<FilterGroupEntity> filterGroupEntities = categoryEntity.getFilterGroups();
 
-        List<FilterGroup> categoryFilterGroup = categoryMapper.filterGroupEntityToFilterGroup(filterGroups).stream().collect(Collectors.toList());
+        return categoryMapper.filterGroupEntityToFilterGroup(filterGroupEntities)
+                .stream()
+                .collect(Collectors.toList());
+    }
 
-        return categoryFilterGroup;
+    private boolean categoryNotExists(Optional<CategoryEntity> categoryOptional) {
+        return !categoryOptional.isPresent();
     }
 }

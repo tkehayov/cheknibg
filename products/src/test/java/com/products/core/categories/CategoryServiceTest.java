@@ -51,4 +51,12 @@ public class CategoryServiceTest {
 //        assertThat(filter.getId(), is(1));
 //        assertThat(filter.getValue(), is(2));
     }
+
+    @Test
+    public void getFiltersToNotExistsCategory() {
+        Long categoryId = 9999L;
+        List<FilterGroup> filterGroups = categoryService.getFilters(categoryId);
+
+        assertThat(filterGroups.size(), is(0));
+    }
 }
