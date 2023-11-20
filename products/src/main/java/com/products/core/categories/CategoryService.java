@@ -2,10 +2,15 @@ package com.products.core.categories;
 
 import com.products.repositories.categories.CategoryEntity;
 import com.products.repositories.categories.CategoryRepository;
+import com.products.repositories.categories.FilterGroupEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -15,8 +20,25 @@ public class CategoryService {
 
     public List<Category> getAll() {
         List<CategoryEntity> entities = categoryRepository.findAll();
-        List<Category> categories = categoryMapper.categoryEntityToCategory(entities);
 
-        return categories;
+        return categoryMapper.categoryEntityToCategory(entities);
+    }
+
+    public List<FilterGroup> getFilters(Long categoryId) {
+        Optional<CategoryEntity> categoryOptional = categoryRepository.findById(categoryId);
+        boolean categoryNotExists = categoryNotExists(categoryOptional);
+
+        if (categoryNotExists) {
+            return Collections.emptyList();
+        }
+
+        CategoryEntity categoryEntity = categoryOptional.get();
+        List<FilterGroupEntity> filterGroupEntities = categoryEntity.getFilterGroups();
+
+        return categoryMapper.filterGroupEntityToFilterGroup(filterGroupEntities);
+    }
+
+    private boolean categoryNotExists(Optional<CategoryEntity> categoryOptional) {
+        return !categoryOptional.isPresent();
     }
 }

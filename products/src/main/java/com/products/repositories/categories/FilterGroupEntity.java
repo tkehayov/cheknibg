@@ -1,5 +1,7 @@
 package com.products.repositories.categories;
 
+import com.products.core.categories.ProductFilter;
+import com.products.repositories.products.ProductFilterEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,14 +13,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Set;
 
 @Builder
 @Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "categories")
-public class CategoryEntity {
+@Table(name = "group_filters")
+public class FilterGroupEntity {
     @Id
     @Column(name = "id")
     private Long id;
@@ -26,6 +29,9 @@ public class CategoryEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "categoryId")
-    private List<FilterGroupEntity> filterGroups;
+    @Column(name = "category_id")
+    private Long categoryId;
+
+    @OneToMany(mappedBy = "groupFiltersId")
+    private List<ProductFilterEntity> productFilters;
 }
