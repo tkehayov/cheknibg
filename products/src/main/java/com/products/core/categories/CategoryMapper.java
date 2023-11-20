@@ -15,5 +15,5 @@ public interface CategoryMapper {
     List<CategoryDto> categoryToCategoryDto(List<Category> category);
     List<Category> categoryEntityToCategory(List<CategoryEntity> category);
 
-    Set<FilterGroup> filterGroupEntityToFilterGroup(Set<FilterGroupEntity> filterGroups);
+    List<FilterGroup> filterGroupEntityToFilterGroup(List<FilterGroupEntity> filterGroups);
 }

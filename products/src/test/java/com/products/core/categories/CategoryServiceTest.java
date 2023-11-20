@@ -39,17 +39,17 @@ public class CategoryServiceTest {
         Long categoryId = 1L;
         List<FilterGroup> filterGroups = categoryService.getFilters(categoryId);
 
-        FilterGroup filterGroup = filterGroups.get(0);
-//      TODO FILTERS
-//        List<CategoryFilter> filters = filterGroup.getFilters();
-//        CategoryFilter filter = filters.get(0);
+        FilterGroup filterGroup = filterGroups.get(1);
+        List<ProductFilter> filters = filterGroup.getProductFilters();
+        ProductFilter firstFilter = filters.get(0);
 
         assertThat(filterGroups.size(), is(3));
         assertThat(filterGroup.getId(), is(2L));
         assertThat(filterGroup.getName(), is("оперативна памет"));
-//        assertThat(filters.size(), is(2));
-//        assertThat(filter.getId(), is(1));
-//        assertThat(filter.getValue(), is(2));
+
+        assertThat(filters.size(), is(3));
+        assertThat(firstFilter.getId(), is(1L));
+        assertThat(firstFilter.getFilter(), is("8 GB"));
     }
 
     @Test

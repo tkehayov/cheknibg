@@ -53,6 +53,9 @@
         <sqlFile path="/changes/16.create-group-filters.sql" relativeToChangelogFile="true"/>
     </changeSet>
     <changeSet author="tkehayov" id="17" context="test">
-        <sqlFile path="/changes/17.create-category-filter-group.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="/changes/17.create-product-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="18" context="test">
+        <sqlFile path="/changes/18.create-products-product-filters.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>

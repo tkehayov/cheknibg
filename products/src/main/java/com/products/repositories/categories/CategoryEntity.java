@@ -8,11 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.Set;
+import java.util.List;
 
 @Builder
 @Entity
@@ -28,9 +26,6 @@ public class CategoryEntity {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "category_group_filters",
-            joinColumns = { @JoinColumn(name = "category_id") },
-            inverseJoinColumns = { @JoinColumn(name = "group_filter_id") })
-    private Set<FilterGroupEntity> filterGroups;
+    @OneToMany(mappedBy = "categoryId")
+    private List<FilterGroupEntity> filterGroups;
 }

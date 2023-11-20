@@ -33,11 +33,9 @@ public class CategoryService {
         }
 
         CategoryEntity categoryEntity = categoryOptional.get();
-        Set<FilterGroupEntity> filterGroupEntities = categoryEntity.getFilterGroups();
+        List<FilterGroupEntity> filterGroupEntities = categoryEntity.getFilterGroups();
 
-        return categoryMapper.filterGroupEntityToFilterGroup(filterGroupEntities)
-                .stream()
-                .collect(Collectors.toList());
+        return categoryMapper.filterGroupEntityToFilterGroup(filterGroupEntities);
     }
 
     private boolean categoryNotExists(Optional<CategoryEntity> categoryOptional) {

@@ -1,6 +1,7 @@
 package com.products.core.products;
 
 import com.products.core.Image.Image;
+import com.products.core.categories.ProductFilter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -24,10 +25,10 @@ public class ProductServiceTest {
 
     @Test
     void getProductHappyPath() {
-
         Product actual = productService.getProduct(3L);
         PropertiesGroup productPropertiesGroup = actual.getPropertiesGroup().get(0);
         ProductProperty productProperty = actual.getPropertiesGroup().get(0).getProperties().get(0);
+        ProductFilter productFilter = actual.getProductFilters().get(0);
         MerchantProduct merchantProduct = actual.getMerchants().get(0);
         Image image = actual.getImages().get(0);
 
@@ -49,6 +50,7 @@ public class ProductServiceTest {
         assertThat(productProperty.getKey(), is("Type"));
         assertThat(productProperty.getValue(), is("Keyboard, TrackPoint, UltraNav"));
         assertThat(productProperty.getGroupId(), is(2L));
+        assertThat(productFilter.getFilter(), is("8 GB"));
     }
 
     @Test

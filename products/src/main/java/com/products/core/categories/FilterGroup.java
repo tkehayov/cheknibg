@@ -10,5 +10,5 @@ import java.util.List;
 public class FilterGroup {
     private Long id;
     private String name;
-    private List<CategoryFilter> filters;
+    private List<ProductFilter> productFilters;
 }
