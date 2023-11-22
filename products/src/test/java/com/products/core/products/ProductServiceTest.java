@@ -86,4 +86,22 @@ public class ProductServiceTest {
         assertThat(productProperty.getValue(), is("Keyboard, Force Touch trackpad"));
         assertThat(productProperty.getGroupId(), is(20L));
     }
+
+    @Test
+    void getProductsByCategoryAndFilter() {
+        ProductPage actual = productService.getProductsByCategoryAndFilters(1L, List.of(1L), PageRequest.of(0, 3));
+        List<Product> content = actual.getContent();
+
+        Product firstProduct = content.get(0);
+        List<ProductFilter> filters = firstProduct.getProductFilters();
+        ProductFilter firstFilter = filters.get(0);
+
+        assertThat(actual.getCurrentPage(), is(0));
+        assertThat(actual.getTotalPages(), is(1));
+
+        assertThat(filters.size(), is(1));
+        assertThat(firstFilter.getFilter(), is("8 GB"));
+
+
+    }
 }

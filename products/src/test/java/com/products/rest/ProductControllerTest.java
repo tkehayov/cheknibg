@@ -1,13 +1,18 @@
 package com.products.rest;
 
+import com.products.core.categories.ProductFilter;
 import com.products.core.products.Product;
+import com.products.core.products.ProductPage;
 import com.products.core.products.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,8 +35,19 @@ class ProductControllerTest {
         Integer productId = 1;
 
         when(productService.getProduct(1L)).thenReturn(product);
-        mockMvc.perform(get("/products/"+productId)).andDo(print()).andExpect(status().isOk())
+        mockMvc.perform(get("/products/" + productId)).andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(productId))
                 .andExpect(jsonPath("name").value("Apple iPhone 14"));
+    }
+
+    @Test
+    public void getProductsByCategoryAndFilters() throws Exception {
+        Product product = Product.builder().id(1L).name("Apple iPhone 14").productFilters(List.of(ProductFilter.builder().id(1L).filter("8 GB").build())).build();
+        ProductPage productPage = ProductPage.builder().content(List.of(product)).totalPages(1).currentPage(0).build();
+
+        when(productService.getProductsByCategoryAndFilters(1L, List.of(1L), PageRequest.of(0, 20))).thenReturn(productPage);
+        mockMvc.perform(get("/products/filters/1?filters=1")).andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].productFilters[0].filter").value("8 GB"))
+                .andExpect(jsonPath("$.content[0].name").value("Apple iPhone 14"));
     }
 }
