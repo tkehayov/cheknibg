@@ -1,6 +1,6 @@
 package com.products.rest;
 
-import com.products.core.categories.ProductFilter;
+import com.products.core.products.ProductFilter;
 import com.products.core.products.Product;
 import com.products.core.products.ProductPage;
 import com.products.core.products.ProductService;

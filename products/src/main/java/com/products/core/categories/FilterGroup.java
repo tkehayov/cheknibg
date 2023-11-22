@@ -1,5 +1,6 @@
 package com.products.core.categories;
 
+import com.products.core.products.ProductFilter;
 import lombok.Builder;
 import lombok.Getter;
 

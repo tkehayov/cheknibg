@@ -1,9 +1,7 @@
-package com.products.core.categories;
+package com.products.core.products;
 
 import lombok.Builder;
 import lombok.Getter;
-
-// TODO move into products category
 
 @Builder
 @Getter
