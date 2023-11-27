@@ -26,6 +26,9 @@ public class CategoryEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "alias")
+    private String alias;
+
     @OneToMany(mappedBy = "categoryId")
     private List<FilterGroupEntity> filterGroups;
 }

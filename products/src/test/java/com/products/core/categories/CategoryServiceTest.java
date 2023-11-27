@@ -29,9 +29,11 @@ public class CategoryServiceTest {
 
         assertThat(firstCategory.getId(), is(1L));
         assertThat(firstCategory.getName(), is("лаптопи"));
+        assertThat(firstCategory.getAlias(), is("laptops"));
 
         assertThat(lastCategory.getId(), is(12L));
         assertThat(lastCategory.getName(), is("компоненти"));
+        assertThat(lastCategory.getAlias(), is("components"));
     }
 
     @Test
