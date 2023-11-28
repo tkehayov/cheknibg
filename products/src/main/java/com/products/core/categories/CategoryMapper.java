@@ -6,13 +6,17 @@ import com.products.rest.products.CategoryDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;
-import java.util.Set;
 
 @Mapper(
         componentModel = "spring"
 )
 public interface CategoryMapper {
     List<CategoryDto> categoryToCategoryDto(List<Category> category);
+
+    CategoryDto categoryToCategoryDto(Category category);
+
+    Category categoryEntityToCategory(CategoryEntity category);
+
     List<Category> categoryEntityToCategory(List<CategoryEntity> category);
 
     List<FilterGroup> filterGroupEntityToFilterGroup(List<FilterGroupEntity> filterGroups);
