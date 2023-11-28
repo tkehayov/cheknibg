@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -34,6 +35,22 @@ public class CategoryServiceTest {
         assertThat(lastCategory.getId(), is(12L));
         assertThat(lastCategory.getName(), is("компоненти"));
         assertThat(lastCategory.getAlias(), is("components"));
+    }
+
+    @Test
+    public void getCategoryByAlias() {
+        Category actual = categoryService.findByAlias("laptops");
+
+        assertThat(actual.getAlias(), is("laptops"));
+        assertThat(actual.getName(), is("лаптопи"));
+        assertThat(actual.getId(), is(1L));
+    }
+
+    @Test
+    public void getCategoryByNotExistAlias() {
+        Category actual = categoryService.findByAlias("not-exist-alias");
+
+        assertThat(actual.getAlias(),is(nullValue()) );
     }
 
     @Test

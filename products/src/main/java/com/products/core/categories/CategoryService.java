@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -36,6 +34,16 @@ public class CategoryService {
         List<FilterGroupEntity> filterGroupEntities = categoryEntity.getFilterGroups();
 
         return categoryMapper.filterGroupEntityToFilterGroup(filterGroupEntities);
+    }
+
+    public Category findByAlias(String alias) {
+        Optional<CategoryEntity> categoryEntity = categoryRepository.findByAlias(alias);
+
+        if (categoryNotExists(categoryEntity)) {
+            return Category.builder().build();
+        }
+
+        return categoryMapper.categoryEntityToCategory(categoryEntity.get());
     }
 
     private boolean categoryNotExists(Optional<CategoryEntity> categoryOptional) {
