@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,11 +33,24 @@ public class ProductController {
 
     @GetMapping(value = "/category/{id}")
     public ResponseEntity<ProductPageDto> getProductsByCategory(@PathVariable Long id,
-                                                @RequestParam(defaultValue = "0") int page,
-                                                @RequestParam(defaultValue = "20") int size) {
+                                                                @RequestParam(defaultValue = "0") int page,
+                                                                @RequestParam(defaultValue = "20") int size) {
 
         Pageable paging = PageRequest.of(page, size);
         ProductPage productsByCategory = productService.getProductsByCategory(id, paging);
+        ProductPageDto productPageDto = productMapper.productPageToProductPageDto(productsByCategory);
+
+        return new ResponseEntity<>(productPageDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/filters/{categoryId}")
+    public ResponseEntity<ProductPageDto> getProductsByCategoryAndFilters(@PathVariable Long categoryId,
+                                                                          @RequestParam List<Long> filters,
+                                                                          @RequestParam(defaultValue = "0") int page,
+                                                                          @RequestParam(defaultValue = "20") int size) {
+
+        Pageable paging = PageRequest.of(page, size);
+        ProductPage productsByCategory = productService.getProductsByCategoryAndFilters(categoryId, filters, paging);
         ProductPageDto productPageDto = productMapper.productPageToProductPageDto(productsByCategory);
 
         return new ResponseEntity<>(productPageDto, HttpStatus.OK);
