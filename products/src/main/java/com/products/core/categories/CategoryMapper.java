@@ -2,11 +2,11 @@ package com.products.core.categories;
 
 import com.products.repositories.categories.CategoryEntity;
 import com.products.repositories.categories.FilterGroupEntity;
+import com.products.rest.categories.FilterGroupDto;
 import com.products.rest.products.CategoryDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;
-import java.util.Set;
 
 @Mapper(
         componentModel = "spring"
@@ -22,5 +22,5 @@ public interface CategoryMapper {
 
     List<FilterGroup> filterGroupEntityToFilterGroup(List<FilterGroupEntity> filterGroups);
 
-    Set<FilterGroup> filterGroupEntityToFilterGroup(Set<FilterGroupEntity> filterGroups);
+    List<FilterGroupDto> filterGroupToFilterGroupDto(List<FilterGroup> filterGroups);
 }

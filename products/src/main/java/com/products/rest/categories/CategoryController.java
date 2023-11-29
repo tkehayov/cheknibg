@@ -3,6 +3,7 @@ package com.products.rest.categories;
 import com.products.core.categories.Category;
 import com.products.core.categories.CategoryMapper;
 import com.products.core.categories.CategoryService;
+import com.products.core.categories.FilterGroup;
 import com.products.rest.products.CategoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,5 +36,13 @@ public class CategoryController {
         CategoryDto categoryDto = categoryMapper.categoryToCategoryDto(category);
 
         return new ResponseEntity<>(categoryDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/filters/{id}")
+    public ResponseEntity<?> getCategoryFilters(@PathVariable Long id) {
+        List<FilterGroup> filterGroups = categoryService.getFilters(id);
+        List<FilterGroupDto> filterGroupDtos = categoryMapper.filterGroupToFilterGroupDto(filterGroups);
+
+        return new ResponseEntity<>(filterGroupDtos, HttpStatus.OK);
     }
 }
