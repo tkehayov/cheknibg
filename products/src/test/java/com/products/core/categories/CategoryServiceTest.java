@@ -79,30 +79,4 @@ public class CategoryServiceTest {
 
         assertThat(filterGroups.size(), is(0));
     }
-
-    @Test
-    public void getCategoryFilters() {
-        Long categoryId = 1L;
-        List<FilterGroup> filterGroups = categoryService.getFilters(categoryId);
-
-        FilterGroup filterGroup = filterGroups.get(1);
-        List<ProductFilter> filters = filterGroup.getProductFilters();
-        ProductFilter firstFilter = filters.get(0);
-
-        assertThat(filterGroups.size(), is(3));
-        assertThat(filterGroup.getId(), is(2L));
-        assertThat(filterGroup.getName(), is("оперативна памет"));
-
-        assertThat(filters.size(), is(3));
-        assertThat(firstFilter.getId(), is(1L));
-        assertThat(firstFilter.getFilter(), is("8 GB"));
-    }
-
-    @Test
-    public void getFiltersToNotExistsCategory() {
-        Long categoryId = 9999L;
-        List<FilterGroup> filterGroups = categoryService.getFilters(categoryId);
-
-        assertThat(filterGroups.size(), is(0));
-    }
 }

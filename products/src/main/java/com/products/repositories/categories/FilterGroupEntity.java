@@ -1,6 +1,6 @@
 package com.products.repositories.categories;
 
-import com.products.core.categories.ProductFilter;
+
 import com.products.repositories.products.ProductFilterEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +11,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import java.util.HashSet;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
