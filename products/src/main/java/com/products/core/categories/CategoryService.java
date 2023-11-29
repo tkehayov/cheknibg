@@ -36,6 +36,16 @@ public class CategoryService {
         return categoryMapper.filterGroupEntityToFilterGroup(filterGroupEntities);
     }
 
+    public Category findByAlias(String alias) {
+        Optional<CategoryEntity> categoryEntity = categoryRepository.findByAlias(alias);
+
+        if (categoryNotExists(categoryEntity)) {
+            return Category.builder().build();
+        }
+
+        return categoryMapper.categoryEntityToCategory(categoryEntity.get());
+    }
+
     private boolean categoryNotExists(Optional<CategoryEntity> categoryOptional) {
         return !categoryOptional.isPresent();
     }

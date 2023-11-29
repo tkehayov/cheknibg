@@ -8,4 +8,5 @@ import lombok.Getter;
 public class CategoryDto {
     private Long id;
     private String name;
+    private String alias;
 }

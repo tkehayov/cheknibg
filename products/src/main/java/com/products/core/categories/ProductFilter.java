@@ -5,8 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class Category {
+public class ProductFilter {
     private Long id;
-    private String name;
-    private String alias;
+    private String filter;
 }

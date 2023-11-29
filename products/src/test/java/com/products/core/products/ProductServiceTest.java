@@ -1,6 +1,7 @@
 package com.products.core.products;
 
 import com.products.core.Image.Image;
+import com.products.core.categories.ProductFilter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
