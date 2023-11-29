@@ -49,4 +49,17 @@
     <changeSet author="tkehayov" id="15" context="dev">
         <sqlFile path="/changes/15.insert-new-products_merchants.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="16" context="dev,prod">
+        <sqlFile path="/changes/16.create-group-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="17" context="dev,prod">
+        <sqlFile path="/changes/17.create-product-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="18" context="dev,prod">
+        <sqlFile path="/changes/18.create-products-product-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="19" context="dev">
+        <sqlFile path="/changes/19.insert-all-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
 </databaseChangeLog>

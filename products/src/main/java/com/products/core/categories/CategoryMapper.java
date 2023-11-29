@@ -13,7 +13,14 @@ import java.util.Set;
 )
 public interface CategoryMapper {
     List<CategoryDto> categoryToCategoryDto(List<Category> category);
+
+    CategoryDto categoryToCategoryDto(Category category);
+
+    Category categoryEntityToCategory(CategoryEntity category);
+
     List<Category> categoryEntityToCategory(List<CategoryEntity> category);
+
+    List<FilterGroup> filterGroupEntityToFilterGroup(List<FilterGroupEntity> filterGroups);
 
     Set<FilterGroup> filterGroupEntityToFilterGroup(Set<FilterGroupEntity> filterGroups);
 }
