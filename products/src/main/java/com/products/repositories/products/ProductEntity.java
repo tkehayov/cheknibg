@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SortNatural;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,9 +20,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @Builder
 @Entity
@@ -48,7 +49,9 @@ public class ProductEntity {
     @JoinTable(name = "products_product_filters",
             joinColumns = {@JoinColumn(name = "product_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_filters_id")})
-    private Set<ProductFilterEntity> productFilters = new HashSet<>();
+    @SortNatural
+    private SortedSet<ProductFilterEntity> productFilters = new TreeSet<>();
+
 
     @Column(name = "code_id")
     private String codeId;

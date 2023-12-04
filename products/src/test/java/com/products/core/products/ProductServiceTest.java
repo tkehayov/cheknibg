@@ -23,11 +23,11 @@ public class ProductServiceTest {
     private ProductService productService;
 
     @Test
-    void getProductHappyPath() {
+    public void getProductHappyPath() {
         Product actual = productService.getProduct(3L);
         PropertiesGroup productPropertiesGroup = actual.getPropertiesGroup().get(0);
         ProductProperty productProperty = actual.getPropertiesGroup().get(0).getProperties().get(0);
-        ProductFilter productFilter = actual.getProductFilters().get(0);
+        ProductFilter productFilter = actual.getProductFilters().get(1);
         MerchantProduct merchantProduct = actual.getMerchants().get(0);
         Image image = actual.getImages().get(0);
 
@@ -49,7 +49,7 @@ public class ProductServiceTest {
         assertThat(productProperty.getKey(), is("Type"));
         assertThat(productProperty.getValue(), is("Keyboard, TrackPoint, UltraNav"));
         assertThat(productProperty.getGroupId(), is(2L));
-        assertThat(productFilter.getFilter(), is("8 GB"));
+        assertThat(productFilter.getFilter(), is("14.00 - 14.99 -инча"));
     }
 
     @Test
@@ -98,9 +98,25 @@ public class ProductServiceTest {
         assertThat(actual.getCurrentPage(), is(0));
         assertThat(actual.getTotalPages(), is(1));
 
-        assertThat(filters.size(), is(1));
-        assertThat(firstFilter.getFilter(), is("8 GB"));
+        assertThat(filters.size(), is(3));
+        assertThat(firstFilter.getFilter(), is("Intel Core i7 (12-ядрен)"));
+    }
 
+    @Test
+    void getSameProductByDifferentFilters() {
+        List<Long> searchedFilters = List.of(7L,4L);
+        ProductPage actual = productService.getProductsByCategoryAndFilters(1L, searchedFilters, PageRequest.of(0, 20));
+        List<Product> content = actual.getContent();
 
+        Product firstProduct = content.get(0);
+        List<ProductFilter> filters = firstProduct.getProductFilters();
+        ProductFilter firstFilter = filters.get(0);
+
+        assertThat(actual.getCurrentPage(), is(0));
+        assertThat(actual.getTotalPages(), is(1));
+
+        assertThat(content.size(), is(1));
+        assertThat(filters.size(), is(3));
+        assertThat(firstFilter.getFilter(), is("Intel Core i7 (12-ядрен)"));
     }
 }

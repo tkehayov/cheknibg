@@ -48,8 +48,8 @@ public class ProductService {
         List<ProductFilterEntity> productFilters = filterIds.stream().map(filter -> ProductFilterEntity.builder().id(filter).build()).collect(Collectors.toList());
         CategoryEntity category = CategoryEntity.builder().id(categoryId).build();
 
-        Page<ProductEntity> productsEntity = productRepository.findAllByCategoryAndProductFiltersIn(category, productFilters, pageRequest);
+        Page<ProductEntity> products = productRepository.findAllByCategoryAndProductFilters(category, productFilters, pageRequest);
 
-        return productMapper.productPageEntityToProductPage(productsEntity);
+        return productMapper.productPageEntityToProductPage(products);
     }
 }

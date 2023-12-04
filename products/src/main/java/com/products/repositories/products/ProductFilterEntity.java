@@ -4,14 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SortNatural;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @Builder
 @Entity
@@ -19,7 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "product_filters")
-public class ProductFilterEntity {
+public class ProductFilterEntity implements Comparable<ProductFilterEntity>{
     @Id
     @Column(name = "id")
     private Long id;
@@ -31,6 +32,11 @@ public class ProductFilterEntity {
     private Long groupFiltersId;
 
     @ManyToMany(mappedBy = "productFilters")
-    private Set<ProductEntity> productFilters = new HashSet<>();
+    @SortNatural
+    private SortedSet<ProductEntity> productFilters =  new TreeSet<>();
 
+    @Override
+    public int compareTo(ProductFilterEntity o) {
+        return o.id.compareTo(this.id);
+    }
 }
