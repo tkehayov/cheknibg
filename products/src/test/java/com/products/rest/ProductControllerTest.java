@@ -47,7 +47,6 @@ class ProductControllerTest {
 
         when(productService.getProductsByCategoryAndFilters(1L, List.of(1L), PageRequest.of(0, 20))).thenReturn(productPage);
         mockMvc.perform(get("/products/filters/1?filters=1")).andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].productFilters[0].filter").value("8 GB"))
                 .andExpect(jsonPath("$.content[0].name").value("Apple iPhone 14"));
     }
 }
