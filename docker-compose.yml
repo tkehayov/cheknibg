@@ -11,6 +11,16 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
+  merchants-db:
+    container_name: "merchants-db"
+    image: postgres:14.0
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_DB=merchants
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
   images:
     image: nginx
     container_name: images
