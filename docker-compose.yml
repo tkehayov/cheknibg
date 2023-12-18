@@ -15,8 +15,9 @@ services:
     image: nginx
     container_name: images
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ../images:/images
+      - ./nginx/nginx-images.conf:/etc/nginx/nginx.conf
+      - ../images/products:/images/products
+      - ../images/merchants:/images/merchants
     ports:
       - "8081:80"
     environment:
@@ -27,7 +28,7 @@ services:
     image: nginx
     container_name: fe
     volumes:
-      - ./nginx-fe.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx-fe.conf:/etc/nginx/nginx.conf
       - ./fe/build:/web/build
     ports:
       - "80:80"
