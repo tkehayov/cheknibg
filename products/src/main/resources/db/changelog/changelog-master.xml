@@ -67,5 +67,8 @@
     <changeSet author="tkehayov" id="21" context="dev">
         <sqlFile path="/changes/21.add-some-groups-and-filters.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="22" context="dev">
+        <sqlFile path="/changes/22.add-properties-for-test-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 
 </databaseChangeLog>

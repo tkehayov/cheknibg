@@ -3,10 +3,8 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
-    <changeSet author="tkehayov" id="1" context="dev,prod">
+
+    <changeSet author="tkehayov" id="1" context="test">
         <sqlFile path="/changes/1.db-creation.sql" relativeToChangelogFile="true"/>
-    </changeSet>
-    <changeSet author="tkehayov" id="2" context="dev">
-        <sqlFile path="/changes/2.add-merchant.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>
