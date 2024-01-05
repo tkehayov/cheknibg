@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SortNatural;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +33,7 @@ import java.util.TreeSet;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "products")
+@Indexed
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +41,7 @@ public class ProductEntity {
     private Long id;
 
     @Column(name = "name")
+    @Field(store = Store.YES)
     private String name;
 
     @OneToMany(mappedBy = "productId")
