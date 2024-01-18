@@ -1,4 +1,5 @@
-package com.products.core.products;
+package com.products.rest.merchantproduct;
+
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,12 +8,10 @@ import java.math.BigDecimal;
 
 @Builder
 @Getter
-public class MerchantProduct {
-
+public class MerchantProductDto {
     private Long id;
     private Long merchantId;
     private String url;
     private BigDecimal price;
-    private Long productId;
-
+    private ProductDto currentProduct;
 }

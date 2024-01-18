@@ -1,9 +1,11 @@
 package com.products.core.products;
 
+import com.products.core.mapstruct.CycleAvoidingMappingContext;
 import com.products.repositories.products.ProductEntity;
 import com.products.rest.products.ProductDto;
 import com.products.rest.products.ProductPageDto;
 import com.products.rest.products.SearchProductDto;
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -15,11 +17,12 @@ import java.util.List;
         componentModel = "spring"
 )
 public interface ProductMapper {
-    Product productEntityToProduct(ProductEntity productEntity);
-    List<Product> productEntityToProduct(List<ProductEntity> productEntity);
+    Product productEntityToProduct(ProductEntity productEntity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
+
+    List<Product> productEntityToProduct(List<ProductEntity> productEntity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
 
     @Mapping(source = "productEntity", target = "currentPage", qualifiedByName = "currentPage")
-    ProductPage productPageEntityToProductPage(Page<ProductEntity> productEntity);
+    ProductPage productPageEntityToProductPage(Page<ProductEntity> productEntity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
 
     ProductPageDto productPageToProductPageDto(ProductPage product);
 
@@ -29,6 +32,7 @@ public interface ProductMapper {
     }
 
     ProductDto productToProductDto(Product product);
+
     List<SearchProductDto> productsToProductsDto(List<Product> product);
 
     ProductEntity productToProductEntity(Product product);

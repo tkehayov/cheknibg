@@ -1,5 +1,6 @@
 package com.products.core.products;
 
+import com.products.core.mapstruct.CycleAvoidingMappingContext;
 import com.products.repositories.categories.CategoryEntity;
 import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductFilterEntity;
@@ -30,18 +31,18 @@ public class ProductService {
 
         if (product.isPresent()) {
             ProductEntity productEntity = product.get();
-            return productMapper.productEntityToProduct(productEntity);
+            return productMapper.productEntityToProduct(productEntity, new CycleAvoidingMappingContext());
         }
 
         ProductEntity emptyProductEntity = ProductEntity.builder().build();
 
-        return productMapper.productEntityToProduct(emptyProductEntity);
+        return productMapper.productEntityToProduct(emptyProductEntity, new CycleAvoidingMappingContext());
     }
 
     public ProductPage getProductsByCategory(Long categoryId, Pageable pageRequest) {
         Page<ProductEntity> productsEntity = productRepository.findAllByCategory(CategoryEntity.builder().id(categoryId).build(), pageRequest);
 
-        return productMapper.productPageEntityToProductPage(productsEntity);
+        return productMapper.productPageEntityToProductPage(productsEntity,new CycleAvoidingMappingContext());
     }
 
     public ProductPage getProductsByCategoryAndFilters(Long categoryId, List<Long> filterIds, Pageable pageRequest) {
@@ -50,6 +51,6 @@ public class ProductService {
 
         Page<ProductEntity> products = productRepository.findAllByCategoryAndProductFilters(category, productFilters, pageRequest);
 
-        return productMapper.productPageEntityToProductPage(products);
+        return productMapper.productPageEntityToProductPage(products, new CycleAvoidingMappingContext());
     }
 }

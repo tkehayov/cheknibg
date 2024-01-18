@@ -16,6 +16,7 @@ public class ProductDto {
     private List<PropertiesGroupDto> propertiesGroup;
     private List<MerchantProductDto> merchants;
     private String codeId;
+    //TODO replace all entities with proper DTOs
     private Set<ImageEntity> images;
     private CategoryEntity category;
 }

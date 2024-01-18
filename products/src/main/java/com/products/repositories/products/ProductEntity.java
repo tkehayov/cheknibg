@@ -44,7 +44,7 @@ public class ProductEntity {
     @Field(store = Store.YES)
     private String name;
 
-    @OneToMany(mappedBy = "productId")
+    @OneToMany(mappedBy = "product")
     private List<MerchantProductEntity> merchants;
 
     @OneToMany(mappedBy = "productId")

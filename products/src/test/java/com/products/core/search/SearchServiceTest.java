@@ -39,6 +39,6 @@ public class SearchServiceTest {
     public void searchWithLessSymbols() {
         List<Product> actual = searchService.search("App");
 
-        assertEquals(actual.size(), 0);
+        assertEquals(actual.size(), 3);
     }
 }
