@@ -1,5 +1,6 @@
 package com.products.core.search;
 
+import com.products.core.mapstruct.CycleAvoidingMappingContext;
 import com.products.core.products.Product;
 import com.products.core.products.ProductMapper;
 import com.products.repositories.products.ProductEntity;
@@ -13,7 +14,6 @@ import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -49,7 +49,7 @@ public class SearchService {
 
         List<ProductEntity> collect = fullTextQuery.getResultList();
 
-        return mapper.productEntityToProduct(collect);
+        return mapper.productEntityToProduct(collect, new CycleAvoidingMappingContext());
     }
 
     private Query generateSubQuery(FullTextEntityManager fullTextEntityManager,

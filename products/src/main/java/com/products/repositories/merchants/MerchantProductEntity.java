@@ -1,5 +1,6 @@
 package com.products.repositories.merchants;
 
+import com.products.repositories.products.ProductEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 
@@ -34,6 +37,7 @@ public class MerchantProductEntity {
     @Column(name = "price")
     private BigDecimal price;
 
-    @Column(name = "product_id")
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private ProductEntity product;
 }

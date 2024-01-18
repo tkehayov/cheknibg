@@ -1,6 +1,7 @@
 package com.products.core.products;
 
 import com.products.core.Image.Image;
+import com.products.core.merchantproducts.MerchantProduct;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -42,7 +43,7 @@ public class ProductServiceTest {
         assertThat(merchantProduct.getMerchantId(), is(3L));
         assertThat(merchantProduct.getUrl(), is("https://plasico.bg/lenovo-thinkpad-x1-carbon-gen-10-140-wuxga"));
         assertThat(merchantProduct.getPrice(), is(new BigDecimal("619.00")));
-        assertThat(merchantProduct.getProductId(), is(3L));
+        assertThat(merchantProduct.getProduct().getId(), is(3L));
 
         assertThat(productPropertiesGroup.getName(), is("Input"));
 
