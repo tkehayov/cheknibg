@@ -1,8 +1,8 @@
 package com.merchants.rest.merchant;
 
-import com.merchants.core.Merchant;
-import com.merchants.core.MerchantMapper;
-import com.merchants.core.MerchantService;
+import com.merchants.core.merchants.Merchant;
+import com.merchants.core.merchants.MerchantMapper;
+import com.merchants.core.merchants.MerchantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -7,4 +7,10 @@
     <changeSet author="tkehayov" id="1" context="test">
         <sqlFile path="/changes/1.db-creation.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="3" context="test">
+        <sqlFile path="/changes/3.product-import-settings.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="4" context="test">
+        <sqlFile path="/changes/4.add-url-product-import-settings.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>

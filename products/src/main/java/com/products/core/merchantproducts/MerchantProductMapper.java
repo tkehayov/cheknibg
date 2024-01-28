@@ -24,20 +24,19 @@ public interface MerchantProductMapper {
     @Mapping(source = "merchantProductPage", target = "content", qualifiedByName = "content")
     MerchantProductPageDto merchantProductPageToMerchantProductDto(MerchantProductPage merchantProductPage);
 
-    List<MerchantProductDto> merchantProductToMerchantProductDto(List<MerchantProduct> merchantProductList);
     @Named("currentPage")
     default Integer currentPage(Page<MerchantProductEntity> merchantProductEntity) {
         return merchantProductEntity.getNumber();
     }
 
     @Named("content")
-    default List<MerchantProductDto> content2(MerchantProductPage merchantProductPage) {
+    default List<MerchantProductDto> content(MerchantProductPage merchantProductPage) {
         return merchantProductPage.getContent().stream().map(content -> MerchantProductDto.builder()
                 .id(content.getId())
                 .merchantId(content.getMerchantId())
                 .url(content.getUrl())
                 .price(content.getPrice())
-                .currentProduct(
+                .productDetails(
                         ProductDto.builder()
                                 .id(content.getProduct().getId())
                                 .name(content.getProduct().getName())

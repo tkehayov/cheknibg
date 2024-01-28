@@ -1,4 +1,4 @@
-package com.merchants.core;
+package com.merchants.core.merchants;
 
 import com.merchants.repositories.merchants.MerchantEntity;
 import com.merchants.rest.merchant.MerchantDto;
