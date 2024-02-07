@@ -6,5 +6,6 @@ import lombok.Getter;
 @Builder
 @Getter
 public class UrlProductImportSettingsDto {
+    private Long id;
     private String url;
 }

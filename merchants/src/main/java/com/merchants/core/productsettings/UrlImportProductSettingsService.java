@@ -32,4 +32,8 @@ public class UrlImportProductSettingsService {
 
         return urlProductImportSettingsMapper.urlProductImportSettingsEntityToUrlProductImportSettings(save);
     }
+
+    public void delete(Long id) {
+        urlProductImportSettingsRepository.deleteById(id);
+    }
 }
