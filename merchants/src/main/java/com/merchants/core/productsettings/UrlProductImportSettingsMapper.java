@@ -1,0 +1,24 @@
+package com.merchants.core.productsettings;
+
+import com.merchants.repositories.productsettings.UrlProductImportSettingsEntity;
+import com.merchants.rest.urlimportproductsettings.UrlProductImportSettingsDto;
+import com.merchants.rest.urlimportproductsettings.UrlProductImportSettingsPersistDto;
+import com.merchants.rest.urlimportproductsettings.UrlProductImportSettingsUpdateDto;
+import org.mapstruct.Mapper;
+
+@Mapper(
+        componentModel = "spring"
+)
+public interface UrlProductImportSettingsMapper {
+    UrlProductImportSettingsEntity urlProductImportSettingsToUrlProductImportSettingsEntity(UrlProductImportSettings urlProductImportSettings);
+
+    UrlProductImportSettingsDto urlProductImportSettingsToUrlProductImportSettingsDto(UrlProductImportSettings urlProductImportSettings);
+
+    UrlProductImportSettings urlProductImportSettingsDtoToUrlProductImportSettings(UrlProductImportSettingsPersistDto urlProductImportSettingsDto);
+
+    UrlProductImportSettings urlProductImportSettingsDtoToUrlProductImportSettings(UrlProductImportSettingsUpdateDto urlProductImportSettingsDto);
+
+    UrlProductImportSettings urlProductImportSettingsEntityToUrlProductImportSettings(UrlProductImportSettingsEntity urlProductImportSettingsEntity);
+
+
+}

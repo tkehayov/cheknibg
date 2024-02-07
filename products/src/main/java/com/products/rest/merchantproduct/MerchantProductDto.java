@@ -13,5 +13,5 @@ public class MerchantProductDto {
     private Long merchantId;
     private String url;
     private BigDecimal price;
-    private ProductDto currentProduct;
+    private ProductDto productDetails;
 }

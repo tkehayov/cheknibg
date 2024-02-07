@@ -9,4 +9,10 @@
     <changeSet author="tkehayov" id="2" context="dev">
         <sqlFile path="/changes/2.add-merchant.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="3" context="dev,prod">
+        <sqlFile path="/changes/3.product-import-settings.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="4" context="dev">
+        <sqlFile path="/changes/4.add-url-product-import-settings.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>

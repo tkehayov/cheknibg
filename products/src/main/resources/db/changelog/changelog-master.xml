@@ -70,5 +70,11 @@
     <changeSet author="tkehayov" id="22" context="dev">
         <sqlFile path="/changes/22.add-properties-for-test-products.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="23" context="dev">
+        <sqlFile path="/changes/23.add-more-merchant-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="24" context="dev">
+        <sqlFile path="/changes/24.add-more-merchant-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 
 </databaseChangeLog>
