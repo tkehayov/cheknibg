@@ -16,4 +16,6 @@ public interface ProductRepository extends PagingAndSortingRepository<ProductEnt
 
     @Query("SELECT p FROM ProductEntity p JOIN p.productFilters filters JOIN p.category cat WHERE cat=:category AND filters IN(:filters) GROUP BY p.id")
     Page<ProductEntity> findAllByCategoryAndProductFilters(@Param("category") CategoryEntity categoryId, @Param("filters") List<ProductFilterEntity> id, Pageable pageable);
+
+    List<ProductEntity> findByCodeIdIn(List<String> codeIds);
 }

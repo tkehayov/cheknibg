@@ -21,6 +21,11 @@ public interface MerchantProductMapper {
     @Mapping(source = "merchantProductEntity", target = "currentPage", qualifiedByName = "currentPage")
     MerchantProductPage merchantProductEntityToMerchantProduct(Page<MerchantProductEntity> merchantProductEntity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
 
+    List<ImportMerchantProduct> merchantProductEntityToImportMerchantProduct(List<MerchantProductEntity> merchantProductEntity);
+
+    @Mapping(source = "product.codeId", target = "codeId")
+    ImportMerchantProduct merchantProductEntityToImportMerchantProduct(MerchantProductEntity source);
+
     @Mapping(source = "merchantProductPage", target = "content", qualifiedByName = "content")
     MerchantProductPageDto merchantProductPageToMerchantProductDto(MerchantProductPage merchantProductPage);
 
