@@ -4,6 +4,8 @@ import com.products.core.mapstruct.CycleAvoidingMappingContext;
 import com.products.core.merchantproducts.comparator.MerchantProductComparatorService;
 import com.products.repositories.merchants.MerchantProductEntity;
 import com.products.repositories.merchants.MerchantProductRepository;
+import com.products.repositories.missingproducts.MissingProductEntity;
+import com.products.repositories.missingproducts.MissingProductRepository;
 import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class MerchantProductService {
     private final MerchantProductMapper merchantProductMapper;
     private final MerchantProductComparatorService merchantProductComparatorService;
     private final ProductRepository productRepository;
+    private final MissingProductRepository missingProductRepository;
 
     public MerchantProductPage findByMerchantId(Long id, Pageable pageRequest) {
         Page<MerchantProductEntity> merchantsProductEntity = merchantProductRepository.findAllByMerchantId(id, pageRequest);
@@ -47,11 +50,26 @@ public class MerchantProductService {
             merchantProductRepository.saveAll(modifiedProductsId);
         }
 
+        if (!notExistsProducts.isEmpty()) {
+            List<MissingProductEntity> missingProductEntities = mapNotExistsProducts(notExistsProducts);
+            missingProductRepository.saveAll(missingProductEntities);
+        }
+
         return ImportMerchantProductResponse.builder()
                 .unchanged(unchangedProducts)
                 .modified(modifiedProducts)
                 .notExists(notExistsProducts)
                 .build();
+    }
+
+    private List<MissingProductEntity> mapNotExistsProducts(List<String> notExistsProducts) {
+//        TODO filter unique
+        return notExistsProducts.stream()
+                .distinct()
+                .map(notExistsProduct -> MissingProductEntity.builder()
+                        .codeId(notExistsProduct)
+                        .build())
+                .toList();
     }
 
     private List<String> getExistsMismatchProductsCodeIds(List<String> mismatchProductsCodeIds) {
