@@ -5,8 +5,6 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class MerchantDto {
+public class MerchantAllDto {
     private final Long id;
-    private final String name;
-    private final String logo;
 }
