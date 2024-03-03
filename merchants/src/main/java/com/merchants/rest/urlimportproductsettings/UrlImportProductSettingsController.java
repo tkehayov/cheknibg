@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,6 +24,14 @@ import java.util.Optional;
 public class UrlImportProductSettingsController {
     private final UrlImportProductSettingsService urlImportProductSettingsService;
     private final UrlProductImportSettingsMapper mapper;
+
+    @GetMapping
+    public ResponseEntity<List<UrlProductImportSettingsAllDto>> getAll() {
+        List<UrlProductImportSettings> allImportSettings = urlImportProductSettingsService.findAll();
+        List<UrlProductImportSettingsAllDto> urlProductImportSettingsDtos = mapper.urlProductImportSettingsToUrlProductImportSettingsAllDto(allImportSettings);
+
+        return new ResponseEntity<>(urlProductImportSettingsDtos,HttpStatus.OK);
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<UrlProductImportSettingsDto> get(@PathVariable Long id) {

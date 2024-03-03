@@ -1,10 +1,13 @@
 package com.merchants.core.productsettings;
 
 import com.merchants.repositories.productsettings.UrlProductImportSettingsEntity;
+import com.merchants.rest.urlimportproductsettings.UrlProductImportSettingsAllDto;
 import com.merchants.rest.urlimportproductsettings.UrlProductImportSettingsDto;
 import com.merchants.rest.urlimportproductsettings.UrlProductImportSettingsPersistDto;
 import com.merchants.rest.urlimportproductsettings.UrlProductImportSettingsUpdateDto;
 import org.mapstruct.Mapper;
+
+import java.util.List;
 
 @Mapper(
         componentModel = "spring"
@@ -19,6 +22,9 @@ public interface UrlProductImportSettingsMapper {
     UrlProductImportSettings urlProductImportSettingsDtoToUrlProductImportSettings(UrlProductImportSettingsUpdateDto urlProductImportSettingsDto);
 
     UrlProductImportSettings urlProductImportSettingsEntityToUrlProductImportSettings(UrlProductImportSettingsEntity urlProductImportSettingsEntity);
+    List<UrlProductImportSettings> urlProductImportSettingsEntityToUrlProductImportSettings(List<UrlProductImportSettingsEntity> urlProductImportSettingsEntity);
+    List<UrlProductImportSettingsDto> urlProductImportSettingsToUrlProductImportSettingsDto(List<UrlProductImportSettings> urlProductImportSettings);
+    List<UrlProductImportSettingsAllDto> urlProductImportSettingsToUrlProductImportSettingsAllDto(List<UrlProductImportSettings> urlProductImportSettings);
 
 
 }

@@ -9,11 +9,17 @@ import com.products.repositories.missingproducts.MissingProductRepository;
 import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.exception.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -24,6 +30,7 @@ public class MerchantProductService {
     private final MerchantProductComparatorService merchantProductComparatorService;
     private final ProductRepository productRepository;
     private final MissingProductRepository missingProductRepository;
+    private final Logger logger = LoggerFactory.getLogger(MerchantProductService.class);
 
     public MerchantProductPage findByMerchantId(Long id, Pageable pageRequest) {
         Page<MerchantProductEntity> merchantsProductEntity = merchantProductRepository.findAllByMerchantId(id, pageRequest);
@@ -39,20 +46,31 @@ public class MerchantProductService {
         List<ImportMerchantProduct> mismatchProducts = merchantProductComparatorService.getMismatchProducts(merchantProducts, importMerchantProductInput);
         List<String> mismatchProductsCodeIds = mismatchProducts.stream().map(ImportMerchantProduct::getCodeId).toList();
 
-        List<String> existsMismatchProductsCodeIds = getExistsMismatchProductsCodeIds(mismatchProductsCodeIds);
+        List<ProductEntity> existsProducts = getExistsProductsByCodeIds(mismatchProductsCodeIds).stream().toList();
+        List<String> existsMismatchProductsCodeIds = existsProducts.stream().map(ProductEntity::getCodeId).toList();
         List<ImportMerchantProduct> modifiedProducts = getModifiedProducts(existsMismatchProductsCodeIds, importMerchantProductInput);
 
         List<String> notExistsProducts = getNotExistsProducts(mismatchProductsCodeIds, existsMismatchProductsCodeIds);
 
         if (!modifiedProducts.isEmpty()) {
-            List<MerchantProductEntity> modifiedProductsId = mapAllMerchantsProductIdByCodeId(modifiedProducts, currentMerchantsProductEntity);
+            List<MerchantProductEntity> modifiedMerchantProductsEntity = filterAllModifiedMerchantsProducts(modifiedProducts, currentMerchantsProductEntity);
+            List<MerchantProductEntity> newMerchantProductsEntity = filterAllNewMerchantsProducts(merchantId, modifiedProducts, currentMerchantsProductEntity, existsProducts);
 
-            merchantProductRepository.saveAll(modifiedProductsId);
+            merchantProductRepository.saveAll(modifiedMerchantProductsEntity);
+            merchantProductRepository.saveAll(newMerchantProductsEntity);
         }
 
         if (!notExistsProducts.isEmpty()) {
             List<MissingProductEntity> missingProductEntities = mapNotExistsProducts(notExistsProducts);
-            missingProductRepository.saveAll(missingProductEntities);
+
+            try {
+                missingProductRepository.saveAll(missingProductEntities);
+            } catch (DataIntegrityViolationException ex) {
+                if (ex.getCause() instanceof ConstraintViolationException) {
+                    logger.info("duplicate code_id : {}", ex.getMessage());
+
+                }
+            }
         }
 
         return ImportMerchantProductResponse.builder()
@@ -63,7 +81,6 @@ public class MerchantProductService {
     }
 
     private List<MissingProductEntity> mapNotExistsProducts(List<String> notExistsProducts) {
-//        TODO filter unique
         return notExistsProducts.stream()
                 .distinct()
                 .map(notExistsProduct -> MissingProductEntity.builder()
@@ -72,12 +89,11 @@ public class MerchantProductService {
                 .toList();
     }
 
-    private List<String> getExistsMismatchProductsCodeIds(List<String> mismatchProductsCodeIds) {
-        List<ProductEntity> existsMismatchProducts = productRepository.findByCodeIdIn(mismatchProductsCodeIds);
-        return existsMismatchProducts.stream().map(ProductEntity::getCodeId).toList();
+    private List<ProductEntity> getExistsProductsByCodeIds(List<String> mismatchProductsCodeIds) {
+        return productRepository.findByCodeIdIn(mismatchProductsCodeIds);
     }
 
-    private List<MerchantProductEntity> mapAllMerchantsProductIdByCodeId(List<ImportMerchantProduct> modifiedProducts, List<MerchantProductEntity> currentMerchantsProductEntity) {
+    private List<MerchantProductEntity> filterAllModifiedMerchantsProducts(List<ImportMerchantProduct> modifiedProducts, List<MerchantProductEntity> currentMerchantsProductEntity) {
         List<String> modifiedProductsCodeIds = modifiedProducts.stream().map(ImportMerchantProduct::getCodeId).toList();
 
         List<MerchantProductEntity> filteredMerchants = currentMerchantsProductEntity.stream()
@@ -96,6 +112,26 @@ public class MerchantProductService {
         });
 
         return filteredMerchants;
+    }
+
+    private List<MerchantProductEntity> filterAllNewMerchantsProducts(Long merchantId, List<ImportMerchantProduct> modifiedProducts, List<MerchantProductEntity> currentMerchantsProductEntity, List<ProductEntity> existsProducts) {
+        List<String> currentMerchantsProductCodeIds = currentMerchantsProductEntity.stream().map(merchantProduct -> merchantProduct.getProduct().getCodeId()).toList();
+        var newMerchantProducts = new ArrayList<MerchantProductEntity>();
+
+        List<ImportMerchantProduct> filteredMerchants = modifiedProducts.stream()
+                .filter(entity -> !currentMerchantsProductCodeIds.contains(entity.getCodeId()))
+                .toList();
+
+        filteredMerchants.forEach(newMerchantProduct -> {
+            Optional<ProductEntity> productEntity = existsProducts.stream().filter(existsProduct -> existsProduct.getCodeId().equalsIgnoreCase(newMerchantProduct.getCodeId())).findFirst();
+            newMerchantProducts.add(MerchantProductEntity.builder()
+                    .merchantId(merchantId)
+                    .url(newMerchantProduct.getUrl())
+                    .price(newMerchantProduct.getPrice())
+                    .product(productEntity.get()).build());
+        });
+
+        return newMerchantProducts;
     }
 
     private List<String> getNotExistsProducts(List<String> existsCodeId,
