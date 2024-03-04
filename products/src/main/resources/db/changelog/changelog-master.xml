@@ -76,5 +76,8 @@
     <changeSet author="tkehayov" id="24" context="dev">
         <sqlFile path="/changes/24.add-more-merchant-products.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="25" context="dev,prod">
+        <sqlFile path="/changes/25.create-missing-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 
 </databaseChangeLog>

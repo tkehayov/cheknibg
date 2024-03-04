@@ -1,19 +1,15 @@
 package com.products.core.merchantproducts;
 
-import com.products.core.products.Product;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
 import java.math.BigDecimal;
 
 @Builder
 @Getter
 @EqualsAndHashCode
-public class MerchantProduct {
-    public Long id;
-    private Long merchantId;
-    private String url;
+public class ImportMerchantProduct {
+    private String codeId;
     private BigDecimal price;
-    private Product product;
+    private String url;
 }

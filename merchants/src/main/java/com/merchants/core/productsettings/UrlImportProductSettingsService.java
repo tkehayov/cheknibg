@@ -5,6 +5,7 @@ import com.merchants.repositories.productsettings.UrlProductImportSettingsReposi
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,6 +14,11 @@ public class UrlImportProductSettingsService {
     private final UrlProductImportSettingsRepository urlProductImportSettingsRepository;
     private final UrlProductImportSettingsMapper urlProductImportSettingsMapper;
 
+    public List<UrlProductImportSettings> findAll() {
+        List<UrlProductImportSettingsEntity> allImportSettings = urlProductImportSettingsRepository.findAll();
+
+        return urlProductImportSettingsMapper.urlProductImportSettingsEntityToUrlProductImportSettings(allImportSettings);
+    }
     public Optional<UrlProductImportSettings> findByMerchant(Long merchantId) {
         Optional<UrlProductImportSettingsEntity> urlSettingsOptional = urlProductImportSettingsRepository.findByMerchantId(merchantId);
 

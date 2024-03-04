@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -52,5 +53,17 @@ class UrlImportProductSettingsServiceTest {
         assertEquals(settings.getMerchant().getName(), "CoolCorp");
         assertEquals(settings.getMerchant().getLogo(), "Logo.avif");
 
+    }
+
+    @Test
+    public void findAll() {
+        List<UrlProductImportSettings> all = urlImportProductSettingsService.findAll();
+
+        assertEquals(all.size(),2);
+        assertEquals(all.get(0).getUrl(),"https://tisho.free.beeceptor.com/q");
+        assertEquals(all.get(0).getMerchant().getName(),"All GSM");
+
+        assertEquals(all.get(1).getUrl(),"https://tisho.free.beeceptor.com/q2");
+        assertEquals(all.get(1).getMerchant().getName(),"novmac");
     }
 }
