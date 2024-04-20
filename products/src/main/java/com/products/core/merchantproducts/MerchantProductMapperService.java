@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.util.StringUtils;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -29,7 +29,12 @@ import java.util.List;
 public class MerchantProductMapperService {
     private final Logger logger = LoggerFactory.getLogger(MerchantProductController.class);
     private final MerchantProductMapper mapper;
+    private static final List<String> validFileExtensions = List.of("xml", "json");
+    public boolean isValidFilename(MultipartFile file) {
+        String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
 
+        return validFileExtensions.stream().anyMatch(ext -> ext.equalsIgnoreCase(extension));
+    }
 
     public List<ImportMerchantProduct> map(MultipartFile file) {
         String fileContent = getFileContent(file);
