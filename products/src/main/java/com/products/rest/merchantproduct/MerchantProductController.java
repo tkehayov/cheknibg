@@ -24,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/merchant-product")
@@ -49,17 +51,20 @@ public class MerchantProductController {
 
     @PostMapping(value = "/file")
     public ResponseEntity<?> importFile(@RequestPart("file") MultipartFile file) {
+        boolean isValidFilename = merchantProductMapperService.isValidFilename(file);
+        if (!isValidFilename) {
+            return ResponseEntity.status(UNPROCESSABLE_ENTITY).build();
+        }
         List<ImportMerchantProduct> importMerchantProducts = merchantProductMapperService.map(file);
 
 //            TODO get merchantId Dynamically
         ImportMerchantProductResponse importMerchantProductResponse = merchantProductService.importMerchantProducts(2L, importMerchantProducts);
-        logger.info("import Merchant Product with id {} started",2);
+        logger.info("import Merchant Product with id {} started", 2);
         ImportMerchantProductResponseDto importMerchantProductResponseDto = mapper.importMerchantProductResponseDto(importMerchantProductResponse);
 
-        logger.info("import Merchant Product with id {} finished successfully",2);
+        logger.info("import Merchant Product with id {} finished successfully", 2);
 
         return ResponseEntity.ok(importMerchantProductResponseDto);
 
     }
-
 }

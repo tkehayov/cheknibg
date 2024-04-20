@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class MerchantProductScheduler {
     @Scheduled(cron = "0 1 1 * * ?")
     public void scheduleFixedRateTask() {
         MerchantSettingsDto[] merchantSettingsArray = restTemplate.getForObject(merchantSettingsUrl, MerchantSettingsDto[].class);
-        logger.info("Scheduler Merchant settings started");
+        logger.info("Scheduler Merchant settings started at: {}", Instant.now());
 
         if (merchantSettingsArray == null) {
             logger.info("No Merchant Settings");
