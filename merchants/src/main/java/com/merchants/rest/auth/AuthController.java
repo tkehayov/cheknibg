@@ -1,7 +1,7 @@
 package com.merchants.rest.auth;
 
-import com.merchants.config.auth.UserAuthProvider;
-import com.merchants.config.auth.UserService;
+import com.merchants.core.auth.UserAuthProvider;
+import com.merchants.core.auth.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

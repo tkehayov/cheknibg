@@ -1,5 +1,6 @@
-package com.merchants.config.auth;
+package com.merchants.core.auth;
 
+import com.merchants.repositories.auth.UserEntity;
 import com.merchants.rest.auth.SignUpDto;
 import com.merchants.rest.auth.UserDto;
 import org.mapstruct.Mapper;

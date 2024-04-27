@@ -1,4 +1,4 @@
-package com.merchants.config.auth;
+package com.merchants.core.exceptions;
 
 import org.springframework.http.HttpStatus;
 

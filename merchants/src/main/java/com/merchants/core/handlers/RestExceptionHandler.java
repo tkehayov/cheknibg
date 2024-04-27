@@ -1,5 +1,6 @@
-package com.merchants.config.auth;
+package com.merchants.core.handlers;
 
+import com.merchants.core.exceptions.AppException;
 import com.merchants.rest.auth.ErrorDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

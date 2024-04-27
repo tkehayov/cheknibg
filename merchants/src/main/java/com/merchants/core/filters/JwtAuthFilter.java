@@ -1,5 +1,6 @@
-package com.merchants.config.auth;
+package com.merchants.core.filters;
 
+import com.merchants.core.auth.UserAuthProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.context.SecurityContextHolder;

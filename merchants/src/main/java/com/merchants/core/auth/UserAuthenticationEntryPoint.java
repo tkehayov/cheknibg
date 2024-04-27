@@ -1,4 +1,4 @@
-package com.merchants.config.auth;
+package com.merchants.core.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.merchants.rest.auth.ErrorDto;

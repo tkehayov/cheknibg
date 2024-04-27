@@ -1,5 +1,8 @@
-package com.merchants.config.auth;
+package com.merchants.core.auth;
 
+import com.merchants.core.exceptions.AppException;
+import com.merchants.repositories.auth.UserEntity;
+import com.merchants.repositories.auth.UserRepository;
 import com.merchants.rest.auth.CredentialsUserDto;
 import com.merchants.rest.auth.SignUpDto;
 import com.merchants.rest.auth.UserDto;

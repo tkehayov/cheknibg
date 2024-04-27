@@ -1,5 +1,8 @@
 package com.merchants.config.auth;
 
+import com.merchants.core.auth.UserAuthProvider;
+import com.merchants.core.auth.UserAuthenticationEntryPoint;
+import com.merchants.core.filters.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

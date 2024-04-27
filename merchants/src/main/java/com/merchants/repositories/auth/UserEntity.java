@@ -1,4 +1,4 @@
-package com.merchants.config.auth;
+package com.merchants.repositories.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
