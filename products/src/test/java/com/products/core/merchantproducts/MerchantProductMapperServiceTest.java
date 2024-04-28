@@ -12,7 +12,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class MerchantProductMapperServiceTest {
@@ -34,6 +36,19 @@ public class MerchantProductMapperServiceTest {
         assertEquals(importMerchantProduct.get(2).getCodeId(), "28599-989-998");
         assertEquals(importMerchantProduct.get(2).getUrl(), "https://media.bechtle.com/is/180712/1c4b3d4ee288fc9434f5175bf56070570/c3/gallery/25c0a2f598ad486b92836c8199525db8?version=0");
         assertEquals(importMerchantProduct.get(2).getPrice(), new BigDecimal("1100.0"));
+    }
+
+    @Test
+    public void checkIsValidFile() {
+        byte[] fileContent = newJsonFileContent();
+        MultipartFile mockInValidFile = new MockMultipartFile("file", "file.jpeg", StandardCharsets.UTF_8.displayName(), fileContent);
+        MultipartFile mockValidFile = new MockMultipartFile("file", "file.JsOn", StandardCharsets.UTF_8.displayName(), fileContent);
+
+        boolean notValid = merchantProductMapperService.isValidFilename(mockInValidFile);
+        boolean valid = merchantProductMapperService.isValidFilename(mockValidFile);
+
+        assertFalse(notValid);
+        assertTrue(valid);
     }
 
     @Test
