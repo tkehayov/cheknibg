@@ -1,4 +1,4 @@
-package com.merchants.rest.auth;
+package com.gateway.apigateway.rest.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

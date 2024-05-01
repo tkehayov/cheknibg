@@ -1,4 +1,4 @@
-package com.merchants.rest.auth;
+package com.gateway.apigateway.rest.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @Setter
-public class UserDto {
-    private Long id;
-    private String firstName;
-    private String lastName;
+public class CredentialsUserDto {
     private String login;
-    private String token;
+    private char[] password;
 }

@@ -1,11 +1,11 @@
-package com.merchants.core.auth;
+package com.gateway.apigateway.core.auth;
+import com.gateway.apigateway.core.exceptions.AppException;
 
-import com.merchants.core.exceptions.AppException;
-import com.merchants.repositories.auth.UserEntity;
-import com.merchants.repositories.auth.UserRepository;
-import com.merchants.rest.auth.CredentialsUserDto;
-import com.merchants.rest.auth.SignUpDto;
-import com.merchants.rest.auth.UserDto;
+import com.gateway.apigateway.repositories.auth.UserEntity;
+import com.gateway.apigateway.repositories.auth.UserRepository;
+import com.gateway.apigateway.rest.auth.CredentialsUserDto;
+import com.gateway.apigateway.rest.auth.SignUpDto;
+import com.gateway.apigateway.rest.auth.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;

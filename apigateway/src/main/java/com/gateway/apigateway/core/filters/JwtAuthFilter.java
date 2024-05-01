@@ -1,16 +1,16 @@
-package com.merchants.core.filters;
+package com.gateway.apigateway.core.filters;
 
-import com.merchants.core.auth.UserAuthProvider;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.OncePerRequestFilter;
-
+import com.gateway.apigateway.core.auth.UserAuthProvider;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
+
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final UserAuthProvider userAuthProvider;

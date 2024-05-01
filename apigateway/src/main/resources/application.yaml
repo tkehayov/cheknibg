@@ -1,21 +1,44 @@
+#TODO
 server:
   port: 9090
+#  servlet:
+#    contextPath: /gateway
 spring:
   application:
     name: API-GATEWAY-SERVICE
   cloud:
     gateway:
       routes:
+
         - id: products
           uri: http://localhost:8080
           predicates:
-            - Path=/api/products/**
+            - Path=/gateway/api/products/**
           filters:
-            - RewritePath=/api/products/(?<segment>.*), /api/$\{segment}
+            - RewritePath=/gateway/api/products/(?<segment>.*), /api/$\{segment}
 
         - id: merchants
           uri: http://localhost:8070
-          predicates:
-            - Path=/api/merchants/**
+#          predicates:
+#            - Path=/api/merchants/**
           filters:
             - RewritePath=/api/merchants/(?<segment>.*), /api/$\{segment}
+  datasource:
+    url: jdbc:postgresql://localhost:5434/auth
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    defaultSchema: public
+    change-log: classpath:/db/changelog/changelog-master.xml
+    contexts: dev
+security:
+  jwt:
+    token:
+      secret-key: secret-value

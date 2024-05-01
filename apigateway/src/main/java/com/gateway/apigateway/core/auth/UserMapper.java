@@ -1,8 +1,8 @@
-package com.merchants.core.auth;
+package com.gateway.apigateway.core.auth;
 
-import com.merchants.repositories.auth.UserEntity;
-import com.merchants.rest.auth.SignUpDto;
-import com.merchants.rest.auth.UserDto;
+import com.gateway.apigateway.repositories.auth.UserEntity;
+import com.gateway.apigateway.rest.auth.SignUpDto;
+import com.gateway.apigateway.rest.auth.UserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

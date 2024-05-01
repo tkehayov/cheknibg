@@ -1,4 +1,4 @@
-package com.merchants.core.exceptions;
+package com.gateway.apigateway.core.exceptions;
 
 import org.springframework.http.HttpStatus;
 

@@ -1,11 +1,12 @@
-package com.merchants.core.handlers;
+package com.gateway.apigateway.core.handlers;
 
-import com.merchants.core.exceptions.AppException;
-import com.merchants.rest.auth.ErrorDto;
+import com.gateway.apigateway.core.exceptions.AppException;
+import com.gateway.apigateway.rest.auth.ErrorDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 @ControllerAdvice
 public class RestExceptionHandler {
