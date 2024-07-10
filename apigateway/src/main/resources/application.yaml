@@ -1,9 +1,7 @@
-#TODO
 server:
   port: 9090
 
 spring:
-
   application:
     name: API-GATEWAY-SERVICE
   datasource:
@@ -34,3 +32,8 @@ application:
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
+
+service:
+  uri:
+    products: http://localhost:8080
+    merchants: http://localhost:8070

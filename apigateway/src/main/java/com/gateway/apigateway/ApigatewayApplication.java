@@ -1,5 +1,6 @@
 package com.gateway.apigateway;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,11 @@ import static org.springframework.web.servlet.function.RequestPredicates.path;
 
 @SpringBootApplication
 public class ApigatewayApplication {
+    @Value("${service.uri.products}")
+    private String productsUri;
+
+    @Value("${service.uri.merchants}")
+    private String merchantsUri;
 
     public static void main(String[] args) {
         SpringApplication.run(ApigatewayApplication.class, args);
@@ -22,12 +28,10 @@ public class ApigatewayApplication {
     public RouterFunction<ServerResponse> routeConfig() {
 
         return route("routes")
-                .route(path("/products/**"), http("http://localhost:8080"))
+                .route(path("/products/**"), http(productsUri))
                 .before(rewritePath("/products/(?<segment>.*)", "/${segment}"))
-                .route(path("/merchants/**"), http("http://localhost:8070"))
+                .route(path("/merchants/**"), http(merchantsUri))
                 .before(rewritePath("/merchants/(?<segment>.*)", "/${segment}"))
-
-//                .route()
                 .build();
     }
 
