@@ -11,15 +11,19 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
 
 import java.util.Collection;
 import java.util.List;
 
 @Data
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -27,12 +31,14 @@ import java.util.List;
 public class User implements UserDetails {
 
   @Id
-  @GeneratedValue
-  private Integer id;
-  private String firstname;
-  private String lastname;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  public Integer id;
+  private String url;
   private String email;
   private String password;
+  @Column(name = "is_active")
+  private Boolean isActive;
 
   @Enumerated(EnumType.STRING)
   private Role role;

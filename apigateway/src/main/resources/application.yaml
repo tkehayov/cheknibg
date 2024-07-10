@@ -1,8 +1,7 @@
 #TODO
 server:
   port: 9090
-#  servlet:
-#    contextPath: /gateway
+
 spring:
 
   application:
@@ -23,10 +22,6 @@ spring:
     defaultSchema: public
     change-log: classpath:/changelog/changelog-masters.xml
     contexts: dev
-
-#springfox:
-#  documentation:
-#    enabled: false
 
 springdoc:
   api-docs:

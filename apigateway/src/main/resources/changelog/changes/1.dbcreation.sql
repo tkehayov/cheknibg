@@ -1,17 +1,17 @@
 CREATE TABLE "_user" (
-	id int4 NOT NULL,
-	email varchar(255) NULL,
-	firstname varchar(255) NULL,
-	lastname varchar(255) NULL,
+	id serial4 NOT NULL,
+	email varchar(255) NOT NULL UNIQUE,
+	url varchar(255) NULL,
 	"password" varchar(255) NULL,
 	"role" varchar(255) NULL,
+	"is_active" bool NOT NULL,
 	CONSTRAINT "_user_pkey" PRIMARY KEY (id),
 	CONSTRAINT "_user_role_check" CHECK (((role)::text = ANY ((ARRAY['USER'::character varying, 'ADMIN'::character varying, 'MANAGER'::character varying])::text[])))
 );
 
 CREATE TABLE "token" (
 	expired bool NOT NULL,
-	id int4 NOT NULL,
+	id serial4 NOT NULL,
 	revoked bool NOT NULL,
 	user_id int4 NULL,
 	"token" varchar(255) NULL,
