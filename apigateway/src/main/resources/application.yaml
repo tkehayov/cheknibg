@@ -1,21 +1,39 @@
 server:
   port: 9090
+
 spring:
   application:
     name: API-GATEWAY-SERVICE
-  cloud:
-    gateway:
-      routes:
-        - id: products
-          uri: http://localhost:8080
-          predicates:
-            - Path=/api/products/**
-          filters:
-            - RewritePath=/api/products/(?<segment>.*), /api/$\{segment}
+  datasource:
+    url: jdbc:postgresql://localhost:5434/auth
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    enabled: true
+    defaultSchema: public
+    change-log: classpath:/changelog/changelog-masters.xml
+    contexts: dev
 
-        - id: merchants
-          uri: http://localhost:8070
-          predicates:
-            - Path=/api/merchants/**
-          filters:
-            - RewritePath=/api/merchants/(?<segment>.*), /api/$\{segment}
+springdoc:
+  api-docs:
+    enabled: true
+
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
+
+service:
+  uri:
+    products: http://localhost:8080
+    merchants: http://localhost:8070

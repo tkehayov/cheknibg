@@ -21,6 +21,16 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
+  auth-db:
+    container_name: "auth-db"
+    image: postgres:14.0
+    ports:
+      - 5434:5432
+    environment:
+      - POSTGRES_DB=auth
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
   images:
     image: nginx
     container_name: images
