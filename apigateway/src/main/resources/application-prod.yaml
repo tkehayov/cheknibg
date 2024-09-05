@@ -1,0 +1,35 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: API-GATEWAY-SERVICE
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    enabled: true
+    defaultSchema: public
+    change-log: classpath:/changelog/changelog-masters.xml
+    contexts: prod
+
+springdoc:
+  api-docs:
+    enabled: true
+
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
+
+service:
+  uri:
+    products: ${SERVICE_URI_PRODUCTS}
+    merchants: ${SERVICE_URI_MERCHANTS}

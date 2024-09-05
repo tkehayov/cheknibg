@@ -70,3 +70,18 @@ services:
     volumes:
       - ./products/target/products-0.0.1-SNAPSHOT.jar:/app:ro
     tty: true
+
+  api-gateway:
+    build: ./apigateway
+    container_name: api-gateway
+    depends_on:
+      - auth-db
+    links:
+      - auth-db
+    environment:
+      - JAR_FILE=auth-0.0.1-SNAPSHOT.jar
+    ports:
+      - 9090:9090
+    volumes:
+      - ./apigateway/target/apigateway-0.0.1-SNAPSHOT.jar:/app:ro
+    tty: true

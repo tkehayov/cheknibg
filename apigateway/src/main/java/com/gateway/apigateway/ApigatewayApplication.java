@@ -28,10 +28,10 @@ public class ApigatewayApplication {
     public RouterFunction<ServerResponse> routeConfig() {
 
         return route("routes")
-                .route(path("/products/**"), http(productsUri))
-                .before(rewritePath("/products/(?<segment>.*)", "/${segment}"))
-                .route(path("/merchants/**"), http(merchantsUri))
-                .before(rewritePath("/merchants/(?<segment>.*)", "/${segment}"))
+                .route(path("/products-service/**"), http(productsUri))
+                .before(rewritePath("/products-service/(?<segment>.*)", "/${segment}"))
+                .route(path("/merchants-service/**"), http(merchantsUri))
+                .before(rewritePath("/merchants-service/(?<segment>.*)", "/${segment}"))
                 .build();
     }
 
