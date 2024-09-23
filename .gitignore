@@ -1,5 +1,8 @@
 .idea
 target
 fe
+docker/images/images
 *.iml
 data/lucene
+docker/cheknibg-client/build
+docker/cheknibg-merchant-admin/build
