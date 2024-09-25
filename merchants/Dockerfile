@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM arm64v8/openjdk:17-ea-12-jdk-buster
 MAINTAINER kehayov89@gmail.com
 
 COPY target/merchants-0.0.1-SNAPSHOT.jar merchants-0.0.1-SNAPSHOT.jar
