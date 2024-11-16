@@ -1,4 +1,4 @@
-FROM nginx
+FROM arm64v8/nginx
 MAINTAINER kehayov89@gmail.com
 COPY ./nginx.conf /etc/nginx/nginx.conf
 #build directory
