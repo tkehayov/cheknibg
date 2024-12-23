@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet author="tkehayov" id="1" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/1.db-creation.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="2" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/2.create-merchant-product.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="3" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/3.create-properties-group.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="4" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/4.create-categories-table.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="5" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/5.insert-categories.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="6" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/6.products_foreign_key_categories.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="7" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/7.insert-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="8" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/8.merchants-add-fk-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="9" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/9.insert-merchants-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="10" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/10.insert-product-prop.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="11" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/11.insert-products-prod.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="12" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/12.insert-images.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="13" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/13.create-properties.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="14" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/14.insert-all-product-properties.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="15" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/15.insert-new-products_merchants.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="16" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/16.create-group-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="17" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/17.create-product-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="18" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/18.create-products-product-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="19" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/19.insert-all-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="20" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/20.add-some-groups-and-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="21" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/21.add-some-groups-and-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="22" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/22.add-properties-for-test-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="23" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/23.add-more-merchant-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="24" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/24.add-more-merchant-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="25" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/25.create-missing-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+</databaseChangeLog>
