@@ -11,11 +11,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-  liquibase:
-    enabled: true
-    defaultSchema: public
-    change-log: classpath:/changelog/changelog-masters.xml
-    contexts: prod
 
 springdoc:
   api-docs:

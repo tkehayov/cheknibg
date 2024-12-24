@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @AutoConfigureTestDatabase
 @Transactional
-class MerchantServiceTest {
+public class MerchantServiceTest {
     @Autowired
     private MerchantService merchantService;
 

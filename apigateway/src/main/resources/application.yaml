@@ -15,11 +15,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  liquibase:
-    enabled: true
-    defaultSchema: public
-    change-log: classpath:/changelog/changelog-masters.xml
-    contexts: dev
 
 springdoc:
   api-docs:
