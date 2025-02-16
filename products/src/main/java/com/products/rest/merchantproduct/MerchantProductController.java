@@ -44,25 +44,23 @@ public class MerchantProductController {
         MerchantProductPage merchantProductPage = merchantProductService.findByMerchantId(merchantId, paging);
 
         MerchantProductPageDto merchantProductPageDto = mapper.merchantProductPageToMerchantProductDto(merchantProductPage);
+
         return merchantProductPageDto;
-
-
     }
 
-    @PostMapping(value = "/file")
-    public ResponseEntity<?> importFile(@RequestPart("file") MultipartFile file) {
+    @PostMapping(value = "/file/{merchantId}")
+    public ResponseEntity<?> importFile(@RequestPart("file") MultipartFile file, @PathVariable Long merchantId) {
         boolean isValidFilename = merchantProductMapperService.isValidFilename(file);
         if (!isValidFilename) {
             return ResponseEntity.status(UNPROCESSABLE_ENTITY).build();
         }
         List<ImportMerchantProduct> importMerchantProducts = merchantProductMapperService.map(file);
 
-//            TODO get merchantId Dynamically
-        ImportMerchantProductResponse importMerchantProductResponse = merchantProductService.importMerchantProducts(2L, importMerchantProducts);
-        logger.info("import Merchant Product with id {} started", 2);
+        ImportMerchantProductResponse importMerchantProductResponse = merchantProductService.importMerchantProducts(merchantId, importMerchantProducts);
+        logger.info("import Merchant Product with id {} started", merchantId);
         ImportMerchantProductResponseDto importMerchantProductResponseDto = mapper.importMerchantProductResponseDto(importMerchantProductResponse);
 
-        logger.info("import Merchant Product with id {} finished successfully", 2);
+        logger.info("import Merchant Product with id {} finished successfully", merchantId);
 
         return ResponseEntity.ok(importMerchantProductResponseDto);
 

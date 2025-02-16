@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -34,8 +35,13 @@ public class MerchantProductService {
 
     public MerchantProductPage findByMerchantId(Long id, Pageable pageRequest) {
         Page<MerchantProductEntity> merchantsProductEntity = merchantProductRepository.findAllByMerchantId(id, pageRequest);
-
-        return merchantProductMapper.merchantProductEntityToMerchantProduct(merchantsProductEntity, new CycleAvoidingMappingContext());
+        if (merchantsProductEntity.getContent().isEmpty()) {
+            return MerchantProductPage.builder()
+                    .content(Collections.emptyList())
+                    .currentPage(0)
+                    .build();
+        }
+            return merchantProductMapper.merchantProductEntityToMerchantProduct(merchantsProductEntity, new CycleAvoidingMappingContext());
     }
 
     public ImportMerchantProductResponse importMerchantProducts(Long merchantId, List<ImportMerchantProduct> importMerchantProductInput) {

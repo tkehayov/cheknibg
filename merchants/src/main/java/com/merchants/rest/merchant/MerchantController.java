@@ -6,8 +6,11 @@ import com.merchants.core.merchants.MerchantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,9 +23,24 @@ public class MerchantController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<MerchantDto> getMerchant(@PathVariable Long id) {
-        Merchant merchant = merchantService.findMerchant(id);
+        Merchant merchant = merchantService.find(id);
         MerchantDto merchantDto = mapper.merchantToMerchantDto(merchant);
 
         return new ResponseEntity<>(merchantDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/user-id/{userId}")
+    public ResponseEntity<Long> getMerchantId(@PathVariable Long userId) {
+        Long merchant = merchantService.findByUserId(userId);
+
+        return new ResponseEntity<>(merchant, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> insertMerchant(@Validated @RequestBody MerchantPersistDto dto) {
+        Merchant merchant = mapper.merchantDtoToMerchant(dto);
+        merchantService.persist(merchant);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

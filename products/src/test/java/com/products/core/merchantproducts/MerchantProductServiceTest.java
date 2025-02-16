@@ -44,6 +44,16 @@ public class MerchantProductServiceTest {
     }
 
     @Test
+    public void getNotExistsMerchantProducts() {
+        PageRequest pageRequest = PageRequest.of(0, 1000);
+        MerchantProductPage merchantProduct = merchantProductService.findByMerchantId(99999L, pageRequest);
+
+        assertEquals(merchantProduct.getContent().size(), 0);
+        assertEquals(merchantProduct.getCurrentPage(), 0);
+        assertEquals(merchantProduct.getTotalPages(), 0);
+    }
+
+    @Test
     public void importMerchantProducts() {
         List<ImportMerchantProduct> merchantProducts = newImportMerchantProducts();
 

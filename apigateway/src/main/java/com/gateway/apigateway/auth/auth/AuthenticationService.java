@@ -135,4 +135,14 @@ public class AuthenticationService {
             }
         }
     }
+
+    public Integer getUserId(String token) {
+//        String username = jwtService.extractUsername(token);
+        Optional<Token> tokenRepo = tokenRepository.findByToken(token);
+        if (tokenRepo.isPresent()) {
+            return tokenRepo.get().user.getId();
+        }
+
+        throw new UserTokenNotExistsException("User token not exists:" + token);
+    }
 }

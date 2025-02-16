@@ -1,4 +1,4 @@
-insert into merchants(name,logo) values
-('All GSM','allgsm-logo.svg'),
-('novmac','novmac.avif'),
-('extreme bg','extreme-bg.avif');
+insert into merchants(name,logo,_user_id) values
+('All GSM','allgsm-logo.svg',1),
+('novmac','novmac.avif',2),
+('extreme bg','extreme-bg.avif',3);
