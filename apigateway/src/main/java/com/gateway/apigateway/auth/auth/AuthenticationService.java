@@ -2,9 +2,6 @@ package com.gateway.apigateway.auth.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gateway.apigateway.auth.config.JwtService;
-import com.gateway.apigateway.auth.token.Token;
-import com.gateway.apigateway.auth.token.TokenRepository;
-import com.gateway.apigateway.auth.token.TokenType;
 import com.gateway.apigateway.auth.user.User;
 import com.gateway.apigateway.auth.user.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +24,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository repository;
-    private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -48,7 +44,6 @@ public class AuthenticationService {
         var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-        saveUserToken(savedUser, jwtToken);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
@@ -78,35 +73,13 @@ public class AuthenticationService {
 
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-        revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
+
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
     }
 
-    private void saveUserToken(User user, String jwtToken) {
-        var token = Token.builder()
-                .user(user)
-                .token(jwtToken)
-                .tokenType(TokenType.BEARER)
-                .expired(false)
-                .revoked(false)
-                .build();
-        tokenRepository.save(token);
-    }
-
-    private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
-        if (validUserTokens.isEmpty())
-            return;
-        validUserTokens.forEach(token -> {
-            token.setExpired(true);
-            token.setRevoked(true);
-        });
-        tokenRepository.saveAll(validUserTokens);
-    }
 
     public void refreshToken(
             HttpServletRequest request,
@@ -125,8 +98,7 @@ public class AuthenticationService {
                     .orElseThrow();
             if (jwtService.isTokenValid(refreshToken, user)) {
                 var accessToken = jwtService.generateToken(user);
-                revokeAllUserTokens(user);
-                saveUserToken(user, accessToken);
+
                 var authResponse = AuthenticationResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
@@ -137,10 +109,10 @@ public class AuthenticationService {
     }
 
     public Integer getUserId(String token) {
-//        String username = jwtService.extractUsername(token);
-        Optional<Token> tokenRepo = tokenRepository.findByToken(token);
+        String username = jwtService.extractUsername(token);
+        var tokenRepo = repository.findByEmail(username);
         if (tokenRepo.isPresent()) {
-            return tokenRepo.get().user.getId();
+            return tokenRepo.get().getId();
         }
 
         throw new UserTokenNotExistsException("User token not exists:" + token);
