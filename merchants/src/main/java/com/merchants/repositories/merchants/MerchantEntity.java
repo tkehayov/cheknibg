@@ -29,4 +29,7 @@ public class MerchantEntity {
 
     @Column(name = "logo")
     private String logo;
+
+    @Column(name = "_user_id")
+    private Long userId;
 }

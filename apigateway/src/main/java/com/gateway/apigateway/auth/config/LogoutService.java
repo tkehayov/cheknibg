@@ -1,6 +1,5 @@
 package com.gateway.apigateway.auth.config;
 
-import com.gateway.apigateway.auth.token.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class LogoutService implements LogoutHandler {
-
-  private final TokenRepository tokenRepository;
-
+  private JwtService jwtService;
   @Override
   public void logout(
       HttpServletRequest request,
@@ -27,13 +24,14 @@ public class LogoutService implements LogoutHandler {
       return;
     }
     jwt = authHeader.substring(7);
-    var storedToken = tokenRepository.findByToken(jwt)
-        .orElse(null);
-    if (storedToken != null) {
-      storedToken.setExpired(true);
-      storedToken.setRevoked(true);
-      tokenRepository.save(storedToken);
-      SecurityContextHolder.clearContext();
-    }
+//    TODO implement
+    var username = jwtService.extractUsername(jwt);
+//    jwtService.isTokenValid(jwt, UserDe);
+//    if (storedToken != null) {
+//      storedToken.setExpired(true);
+//      storedToken.setRevoked(true);
+//      tokenRepository.save(storedToken);
+//      SecurityContextHolder.clearContext();
+//    }
   }
 }

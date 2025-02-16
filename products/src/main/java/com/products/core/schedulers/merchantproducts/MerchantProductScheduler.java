@@ -44,7 +44,5 @@ public class MerchantProductScheduler {
             ImportMerchantProductResponse importMerchantProductResponse = merchantProductService.importMerchantProducts(merchantSettings.getMerchant().getId(), importMerchantProduct);
 
         });
-
-        logger.info("Scheduler Merchant settings started");
     }
 }
