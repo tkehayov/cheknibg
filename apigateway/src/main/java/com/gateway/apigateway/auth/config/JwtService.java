@@ -2,6 +2,7 @@ package com.gateway.apigateway.auth.config;
 
 import com.gateway.apigateway.auth.auth.UserTokenNotExistsException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -91,6 +92,8 @@ public class JwtService {
                     .getBody();
         } catch (MalformedJwtException exception) {
             throw new UserTokenNotExistsException("User token not exists: " + token);
+        } catch (ExpiredJwtException expiredJwtException) {
+            throw new TokenExpiredException("User token expired: " + expiredJwtException.getMessage());
         }
     }
 
