@@ -25,20 +25,12 @@ public class UrlImportProductSettingsController {
     private final UrlImportProductSettingsService urlImportProductSettingsService;
     private final UrlProductImportSettingsMapper mapper;
 
-    @GetMapping
-    public ResponseEntity<List<UrlProductImportSettingsAllDto>> getAll() {
-        List<UrlProductImportSettings> allImportSettings = urlImportProductSettingsService.findAll();
-        List<UrlProductImportSettingsAllDto> urlProductImportSettingsDtos = mapper.urlProductImportSettingsToUrlProductImportSettingsAllDto(allImportSettings);
-
-        return new ResponseEntity<>(urlProductImportSettingsDtos,HttpStatus.OK);
-    }
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<UrlProductImportSettingsDto> get(@PathVariable Long id) {
         Optional<UrlProductImportSettings> urlProductImportSettingsOptional = urlImportProductSettingsService.findByMerchant(id);
 
         if (!urlProductImportSettingsOptional.isPresent()) {
-            return new ResponseEntity<>(UrlProductImportSettingsDto.builder().url("").build(), HttpStatus.OK);
+            return new ResponseEntity<>(UrlProductImportSettingsDto.builder().id(id).url("").build(), HttpStatus.OK);
         }
 
         UrlProductImportSettings urlProductImportSettings = urlProductImportSettingsOptional.get();
