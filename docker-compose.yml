@@ -31,6 +31,16 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
+  finance-db:
+    container_name: "finance-db"
+    image: postgres:14.0
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_DB=finance
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
   images:
     image: nginx
     container_name: images
