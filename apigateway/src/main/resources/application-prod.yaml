@@ -32,3 +32,4 @@ service:
   uri:
     products: ${SERVICE_URI_PRODUCTS}
     merchants: ${SERVICE_URI_MERCHANTS}
+    finance: ${SERVICE_URI_FINANCE}

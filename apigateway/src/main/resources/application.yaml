@@ -32,3 +32,4 @@ service:
   uri:
     products: http://localhost:8080
     merchants: http://localhost:8070
+    finance: http://localhost:9091
