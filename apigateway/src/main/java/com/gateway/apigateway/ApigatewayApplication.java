@@ -20,6 +20,9 @@ public class ApigatewayApplication {
     @Value("${service.uri.merchants}")
     private String merchantsUri;
 
+    @Value("${service.uri.finance}")
+    private String financeUri;
+
     public static void main(String[] args) {
         SpringApplication.run(ApigatewayApplication.class, args);
     }
@@ -32,6 +35,8 @@ public class ApigatewayApplication {
                 .before(rewritePath("/products-service/(?<segment>.*)", "/${segment}"))
                 .route(path("/merchants-service/**"), http(merchantsUri))
                 .before(rewritePath("/merchants-service/(?<segment>.*)", "/${segment}"))
+                .route(path("/finance-service/**"), http(financeUri))
+                .before(rewritePath("/finance-service/(?<segment>.*)", "/${segment}"))
                 .build();
     }
 
