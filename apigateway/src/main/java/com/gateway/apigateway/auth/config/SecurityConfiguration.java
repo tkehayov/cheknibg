@@ -47,7 +47,7 @@ public class SecurityConfiguration {
                                 .permitAll()
                                 .requestMatchers(HttpMethod.GET, "/merchants-service/api/merchants/**")
                                 .permitAll()
-                                .requestMatchers(HttpMethod.POST, "/finance-service/api/finance/product-counter")
+                                .requestMatchers(HttpMethod.POST, "/finance-service/api/product-counter")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
