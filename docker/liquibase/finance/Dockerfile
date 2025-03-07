@@ -1,4 +1,4 @@
-FROM liquibase:4.30.0
+FROM arm64v8/liquibase:4.30.0
 
 COPY changelog/ /liquibase
 COPY changelog/changes /liquibase/changelog/changes
