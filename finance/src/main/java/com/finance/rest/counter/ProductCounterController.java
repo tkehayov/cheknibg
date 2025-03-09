@@ -28,7 +28,7 @@ public class ProductCounterController {
     public ResponseEntity<?> add(
             @Valid @RequestBody ProductCounterDto productCounterDto
     ) {
-        productCounterService.add(new ProductCounter(productCounterDto.merchantId(), productCounterDto.merchantId(), LocalDateTime.now()));
+        productCounterService.add(new ProductCounter(productCounterDto.merchantId(), productCounterDto.productId(), LocalDateTime.now()));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
