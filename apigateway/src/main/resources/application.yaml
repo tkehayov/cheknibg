@@ -16,10 +16,6 @@ spring:
       hibernate:
         format_sql: true
 
-springdoc:
-  api-docs:
-    enabled: true
-
 application:
   security:
     jwt:
