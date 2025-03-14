@@ -1,8 +1,5 @@
 package com.gateway.apigateway.auth.auth;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -20,26 +17,10 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@Tag(name = "Authentication")
 public class AuthenticationController {
 
     private final AuthenticationService service;
 
-    @Operation(
-            description = "Get endpoint for Registration",
-            summary = "",
-            responses = {
-                    @ApiResponse(
-                            description = "Success",
-                            responseCode = "200"
-                    ),
-                    @ApiResponse(
-                            description = "Unauthorized / Invalid Token",
-                            responseCode = "403"
-                    )
-            }
-
-    )
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @Valid @RequestBody RegisterRequest request
