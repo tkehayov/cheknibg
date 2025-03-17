@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,9 +35,16 @@ public class ProductCounterController {
     }
 
     @GetMapping("/month/{month}")
-    public ResponseEntity<TotalCounterResponseDto> getTotalCounter(@RequestParam @NotNull(message = "merchantId should not be null") Long merchantId, @PathVariable int month) {
+    public ResponseEntity<TotalCounterResponseDto> getTotalCounter(@RequestParam @NotNull(message = "merchantId should not be empty") Long merchantId, @PathVariable int month) {
         Long totalByMerchantAndMonth = productCounterService.getTotalByMerchantAndMonth(merchantId, month);
 
         return new ResponseEntity<>(new TotalCounterResponseDto(totalByMerchantAndMonth), HttpStatus.OK);
+    }
+
+    @GetMapping("/yearly/{productId}")
+    public ResponseEntity<Map<Integer, Long>> getProductYearlyCounter(@RequestParam @NotNull(message = "merchantId should not be empty") Long merchantId, @PathVariable @NotNull(message = "productId should not be empty") Long productId) {
+        Map<Integer, Long> productYearlyCounter = productCounterService.getProductYearlyCounter(merchantId, productId);
+
+        return new ResponseEntity<>(productYearlyCounter, HttpStatus.OK);
     }
 }
