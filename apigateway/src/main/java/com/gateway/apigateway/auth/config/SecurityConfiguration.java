@@ -37,7 +37,10 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers(WHITE_LIST_URL)
+                        //exclude from WHITELIST
+                        req.requestMatchers(HttpMethod.GET, "/products-service/api/products/code-id/**")
+                                .authenticated().
+                                requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
                                 .requestMatchers(HttpMethod.GET, "/merchants-service/api/merchants/**")
                                 .permitAll()
