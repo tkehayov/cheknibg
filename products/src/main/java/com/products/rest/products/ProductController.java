@@ -55,4 +55,11 @@ public class ProductController {
 
         return new ResponseEntity<>(productPageDto, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/code-id/{codeId}")
+    public ResponseEntity<Long> getProductIdByCodeId(@PathVariable String codeId) {
+        Long productId = productService.getProductIdsByCodeId(codeId);
+
+        return new ResponseEntity<>(productId, HttpStatus.OK);
+    }
 }

@@ -105,7 +105,7 @@ public class ProductServiceTest {
 
     @Test
     void getSameProductByDifferentFilters() {
-        List<Long> searchedFilters = List.of(7L,4L);
+        List<Long> searchedFilters = List.of(7L, 4L);
         ProductPage actual = productService.getProductsByCategoryAndFilters(1L, searchedFilters, PageRequest.of(0, 20));
         List<Product> content = actual.getContent();
 
@@ -119,5 +119,12 @@ public class ProductServiceTest {
         assertThat(content.size(), is(1));
         assertThat(filters.size(), is(3));
         assertThat(firstFilter.getFilter(), is("Intel Core i7 (12-ядрен)"));
+    }
+
+    @Test
+    void getProductIdByCodeId() {
+        Long productId = productService.getProductIdsByCodeId("DUMMY-PLT-00009");
+
+        assertThat(productId, is(2L));
     }
 }

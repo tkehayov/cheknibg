@@ -32,6 +32,13 @@ public class ProductCounterServiceTest {
     }
 
     @Test
+    public void getProductYearlyCounter() {
+        var actual = productCounterService.getProductYearlyCounter(2L, 1L);
+
+        assertEquals(1, actual.get(2));
+    }
+
+    @Test
     public void addProductCounterHappyPath() {
         ProductCounter productCounter = new ProductCounter(1L, 2L, LocalDateTime.now());
 
