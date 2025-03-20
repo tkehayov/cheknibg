@@ -53,4 +53,8 @@ public class ProductService {
 
         return productMapper.productPageEntityToProductPage(products, new CycleAvoidingMappingContext());
     }
+
+    public Long getProductIdsByCodeId(String codeId) {
+        return productRepository.findByCodeId(codeId);
+    }
 }

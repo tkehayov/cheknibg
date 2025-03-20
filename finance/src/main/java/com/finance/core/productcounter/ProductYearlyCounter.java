@@ -19,7 +19,7 @@ public class ProductYearlyCounter {
     public Map<Integer, Long> toMonthly() {
         Map<Integer, Long> months = new HashMap<>();
 
-        for (int i = 0; i < 13; i++) {
+        for (int i = 1; i < 13; i++) {
             months.put(i, 0L);
         }
 

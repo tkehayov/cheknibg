@@ -42,7 +42,7 @@ public class ProductCounterController {
     }
 
     @GetMapping("/yearly/{productId}")
-    public ResponseEntity<Map<Integer, Long>> getProductYearlyCounter(@RequestParam @NotNull(message = "merchantId should not be empty") Long merchantId, @PathVariable @NotNull(message = "productId should not be empty") Long productId) {
+    public ResponseEntity<Map<Integer, Long>> getProductYearlyCounter(@PathVariable @NotNull(message = "productId should not be empty") Long productId,@RequestParam @NotNull(message = "merchantId should not be empty") Long merchantId ) {
         Map<Integer, Long> productYearlyCounter = productCounterService.getProductYearlyCounter(merchantId, productId);
 
         return new ResponseEntity<>(productYearlyCounter, HttpStatus.OK);

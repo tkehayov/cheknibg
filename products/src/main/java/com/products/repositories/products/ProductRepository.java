@@ -18,4 +18,7 @@ public interface ProductRepository extends PagingAndSortingRepository<ProductEnt
     Page<ProductEntity> findAllByCategoryAndProductFilters(@Param("category") CategoryEntity categoryId, @Param("filters") List<ProductFilterEntity> id, Pageable pageable);
 
     List<ProductEntity> findByCodeIdIn(List<String> codeIds);
+
+    @Query("SELECT p.id FROM ProductEntity p WHERE p.codeId=:codeId")
+    Long findByCodeId(@Param("codeId") String codeId);
 }
