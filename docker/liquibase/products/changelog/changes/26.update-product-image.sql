@@ -1,0 +1,1 @@
+update images i set filename ='e5d51409-46eb-430f-9519-fc57936b6102.jpg' where filename = 'https://cdn.cs.1worldsync.com/e5/d5/e5d51409-46eb-430f-9519-fc57936b6102.jpg';
