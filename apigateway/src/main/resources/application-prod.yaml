@@ -29,3 +29,15 @@ service:
     products: ${SERVICE_URI_PRODUCTS}
     merchants: ${SERVICE_URI_MERCHANTS}
     finance: ${SERVICE_URI_FINANCE}
+
+management:
+  server:
+    port: 8090
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus
