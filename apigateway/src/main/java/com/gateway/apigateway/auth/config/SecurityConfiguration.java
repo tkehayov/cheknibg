@@ -27,6 +27,7 @@ public class SecurityConfiguration {
             "/products-service/api/**",
             "/configuration/ui",
             "/configuration/security",
+            "/actuator/prometheus",
     };
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
