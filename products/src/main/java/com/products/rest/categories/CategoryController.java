@@ -6,6 +6,8 @@ import com.products.core.categories.CategoryService;
 import com.products.core.categories.FilterGroup;
 import com.products.rest.products.CategoryDto;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +23,15 @@ import java.util.List;
 public class CategoryController {
     private final CategoryMapper categoryMapper;
     private final CategoryService categoryService;
+    private final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     @GetMapping
     public ResponseEntity<?> getAll() {
+        logger.info("HELLO INFO");
+        logger.error("HELLO ERROR");
+        logger.debug("HELLO DEBUG");
+        logger.warn("HELLO WARN");
+
         List<Category> category = categoryService.getAll();
         List<CategoryDto> categoryDto = categoryMapper.categoryToCategoryDto(category);
 
