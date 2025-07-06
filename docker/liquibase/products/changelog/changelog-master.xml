@@ -82,4 +82,7 @@
     <changeSet author="tkehayov" id="26" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/26.update-product-image.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="27" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/27.add-product-model-filter.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
