@@ -63,7 +63,7 @@ public class CategoryServiceTest {
         List<ProductFilter> filters = filterGroup.getProductFilters();
         ProductFilter firstFilter = filters.get(0);
 
-        assertThat(filterGroups.size(), is(3));
+        assertThat(filterGroups.size(), is(4));
         assertThat(filterGroup.getId(), is(2L));
         assertThat(filterGroup.getName(), is("оперативна памет"));
 

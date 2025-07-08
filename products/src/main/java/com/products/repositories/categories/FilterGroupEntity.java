@@ -37,6 +37,9 @@ public class FilterGroupEntity {
     @Column(name = "category_id")
     private Long categoryId;
 
+    @Column(name = "orders")
+    private Integer orders;
+
     @OneToMany(mappedBy = "groupFiltersId")
     private List<ProductFilterEntity> productFilters;
 }

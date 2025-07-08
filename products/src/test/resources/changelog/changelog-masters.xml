@@ -64,4 +64,7 @@
     <changeSet author="tkehayov" id="20" context="test">
         <sqlFile path="/changes/20.create-missing-products.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="21" context="test">
+        <sqlFile path="/changes/21.add-product-model-filter.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
