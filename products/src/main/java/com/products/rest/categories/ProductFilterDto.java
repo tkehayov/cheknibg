@@ -8,4 +8,5 @@ import lombok.Getter;
 public class ProductFilterDto {
     private Long id;
     private String filter;
+    private Integer orders;
 }

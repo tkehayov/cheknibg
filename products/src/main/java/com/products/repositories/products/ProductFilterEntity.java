@@ -31,6 +31,9 @@ public class ProductFilterEntity implements Comparable<ProductFilterEntity>{
     @Column(name = "group_filters_id")
     private Long groupFiltersId;
 
+    @Column(name = "orders")
+    private Integer orders;
+
     @ManyToMany(mappedBy = "productFilters")
     @SortNatural
     private SortedSet<ProductEntity> productFilters =  new TreeSet<>();

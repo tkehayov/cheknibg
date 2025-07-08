@@ -85,4 +85,13 @@
     <changeSet author="tkehayov" id="27" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/27.add-product-model-filter.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="28" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/28.update-categories.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="29" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/29.update-categories.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="30" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/30.update-categories.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>

@@ -11,4 +11,5 @@ public class FilterGroupDto {
     private Long id;
     private String name;
     private List<ProductFilterDto> productFilters;
+    private Integer orders;
 }

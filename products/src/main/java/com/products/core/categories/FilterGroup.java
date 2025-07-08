@@ -12,4 +12,5 @@ public class FilterGroup {
     private Long id;
     private String name;
     private List<ProductFilter> productFilters;
+    private Integer orders;
 }
