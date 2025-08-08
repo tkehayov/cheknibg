@@ -1,5 +1,6 @@
 package com.products.repositories.categories;
 
+import com.products.repositories.filters.FilterGroupEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

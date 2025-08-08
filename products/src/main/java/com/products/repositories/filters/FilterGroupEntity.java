@@ -1,6 +1,7 @@
-package com.products.repositories.categories;
+package com.products.repositories.filters;
 
 
+import com.products.repositories.categories.CategoryEntity;
 import com.products.repositories.products.ProductFilterEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,9 @@ public class FilterGroupEntity {
 
     @Column(name = "orders")
     private Integer orders;
+
+    @Column(name = "alias")
+    private String alias;
 
     @OneToMany(mappedBy = "groupFiltersId")
     private List<ProductFilterEntity> productFilters;

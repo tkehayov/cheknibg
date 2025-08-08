@@ -66,6 +66,7 @@ public class CategoryServiceTest {
         assertThat(filterGroups.size(), is(4));
         assertThat(filterGroup.getId(), is(2L));
         assertThat(filterGroup.getName(), is("оперативна памет"));
+        assertThat(filterGroup.getAlias(), is("ram"));
 
         assertThat(filters.size(), is(3));
         assertThat(firstFilter.getId(), is(1L));
