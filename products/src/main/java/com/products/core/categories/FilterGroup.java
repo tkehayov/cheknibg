@@ -13,4 +13,5 @@ public class FilterGroup {
     private String name;
     private List<ProductFilter> productFilters;
     private Integer orders;
+    private String alias;
 }
