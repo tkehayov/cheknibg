@@ -1,7 +1,7 @@
 package com.products.core.filters;
 
 import com.products.core.categories.FilterGroup;
-import com.products.repositories.filters.FilterGroupEntity;
+import com.products.repositories.categories.FilterGroupEntity;
 import com.products.rest.categories.FilterGroupDto;
 import org.mapstruct.Mapper;
 

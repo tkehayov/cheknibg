@@ -2,7 +2,7 @@ package com.products.core.categories;
 
 import com.products.repositories.categories.CategoryEntity;
 import com.products.repositories.categories.CategoryRepository;
-import com.products.repositories.filters.FilterGroupEntity;
+import com.products.repositories.categories.FilterGroupEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
