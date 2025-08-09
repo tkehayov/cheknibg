@@ -1,7 +1,6 @@
-package com.products.repositories.filters;
+package com.products.repositories.categories;
 
 
-import com.products.repositories.categories.CategoryEntity;
 import com.products.repositories.products.ProductFilterEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

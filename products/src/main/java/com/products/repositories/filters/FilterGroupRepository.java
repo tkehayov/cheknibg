@@ -1,5 +1,6 @@
 package com.products.repositories.filters;
 
+import com.products.repositories.categories.FilterGroupEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
