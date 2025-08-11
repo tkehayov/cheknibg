@@ -1,0 +1,11 @@
+update categories set orders=1 where alias='laptops';
+update categories set orders=2 where alias='pc';
+update categories set orders=3 where alias='tablets';
+update categories set orders=4 where alias='smartphones';
+update categories set orders=5 where alias='watches';
+update categories set orders=6 where alias='audio';
+update categories set orders=7 where alias='monitors';
+update categories set orders=8 where alias='tv';
+update categories set orders=9 where alias='peripheral';
+update categories set orders=10 where alias='components';
+update categories set orders=11 where alias='accessories';
