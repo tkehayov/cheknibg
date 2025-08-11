@@ -103,4 +103,16 @@
     <changeSet author="tkehayov" id="33" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/33.add-alias-group-filters.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="34" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/34.add-category-orders-column.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="35" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/35.update-category-orders.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="36" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/36.update-group-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="37" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/37.update-product-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
