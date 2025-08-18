@@ -1,0 +1,4 @@
+INSERT INTO products_product_filters( product_filters_id,product_id) values
+((select id from product_filters where filter='Intel Core i7' and group_filters_id=(select id from group_filters where alias='processor-pc')),(select id from products where code_id='599Z6EA#AKS')),
+((select id from product_filters where filter='ssd' and group_filters_id=(select id from group_filters where alias='memory-pc')),(select id from products where code_id='5L2A4EA#AKS')),
+((select id from product_filters where filter='Apple' and group_filters_id=(select id from group_filters where alias='brand-pc')),(select id from products where code_id='DUMMY-PLT-00008'));
