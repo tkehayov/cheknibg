@@ -121,4 +121,7 @@
     <changeSet author="tkehayov" id="39" context="dev">
         <sqlFile path="/liquibase/changelog/changes/39.insert-pc-products-product-filters.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="40" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/40.add-tablets-category-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
