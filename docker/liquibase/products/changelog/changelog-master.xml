@@ -124,4 +124,14 @@
     <changeSet author="tkehayov" id="40" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/40.add-tablets-category-filters.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="41" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/41.insert-products-smartphones.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="42" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/42.insert-products-smartphones-apple.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="43" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/43.add-smartphones-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
 </databaseChangeLog>
