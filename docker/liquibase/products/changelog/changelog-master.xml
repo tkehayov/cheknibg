@@ -142,6 +142,10 @@
     <changeSet author="tkehayov" id="46" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/46.add-smartwatches-filters.sql" relativeToChangelogFile="true"/>
     </changeSet>
-
-
+    <changeSet author="tkehayov" id="47" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/47.add-audio-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="48" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/48.add-audio-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
