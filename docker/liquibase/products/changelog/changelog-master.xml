@@ -148,4 +148,13 @@
     <changeSet author="tkehayov" id="48" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/48.add-audio-filters.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="49" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/49.add-monitors-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="50" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/50.add-monitors-products2.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="51" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/51.add-monitor-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
