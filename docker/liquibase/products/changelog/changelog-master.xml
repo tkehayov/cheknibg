@@ -157,4 +157,13 @@
     <changeSet author="tkehayov" id="51" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/51.add-monitor-filters.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="52" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/52.add-tv-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="53" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/53.add-tv-properties.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="54" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/54.add-tv-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
