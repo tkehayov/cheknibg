@@ -166,4 +166,8 @@
     <changeSet author="tkehayov" id="54" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/54.add-tv-filters.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="55" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/55.add-peripheral-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
 </databaseChangeLog>
