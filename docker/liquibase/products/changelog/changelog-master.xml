@@ -187,4 +187,7 @@
     <changeSet author="tkehayov" id="61" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/61.add-components-filters.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="62" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/62.add-accessories-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
