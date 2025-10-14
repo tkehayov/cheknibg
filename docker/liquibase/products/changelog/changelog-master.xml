@@ -169,5 +169,22 @@
     <changeSet author="tkehayov" id="55" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/55.add-peripheral-filters.sql" relativeToChangelogFile="true"/>
     </changeSet>
-
+    <changeSet author="tkehayov" id="56" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/56.add-components-products.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="57" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/57.add-components-properties.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="58" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/58.add-components-properties2.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="59" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/59.add-components-properties3.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="60" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/60.add-components-properties4.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="61" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/61.add-components-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
