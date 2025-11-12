@@ -193,4 +193,19 @@
     <changeSet author="tkehayov" id="63" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/63.map-all-product-brands.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="64" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/64.map-all-product-screen-size-filter.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="65" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/65.map-all-product-screen-size-filter.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="66" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/66.map-all-product-screen-size-filter.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="67" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/67.map-all-product-screen-size-filter.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="68" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/68.map-all-product-screen-size-filter.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
