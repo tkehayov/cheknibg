@@ -2,6 +2,7 @@ package com.products.core.products;
 
 import com.products.core.mapstruct.CycleAvoidingMappingContext;
 import com.products.repositories.categories.CategoryEntity;
+import com.products.repositories.productfilter.ProductFilterRepository;
 import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductFilterEntity;
 import com.products.repositories.products.ProductRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.SortedSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
-
+    private final ProductFilterRepository productFilterRepository;
     public void save(Product product) {
         ProductEntity productEntity = productMapper.productToProductEntity(product);
 
@@ -49,8 +51,13 @@ public class ProductService {
         List<ProductFilterEntity> productFilters = filterIds.stream().map(filter -> ProductFilterEntity.builder().id(filter).build()).collect(Collectors.toList());
         CategoryEntity category = CategoryEntity.builder().id(categoryId).build();
 
-        Page<ProductEntity> products = productRepository.findAllByCategoryAndProductFilters(category, productFilters, pageRequest);
+        Iterable<ProductFilterEntity> allById = productFilterRepository.findAllById(filterIds);
 
+        Page<ProductEntity> products = productRepository.findAllByCategoryAndProductFilters(category, productFilters, productFilters, pageRequest);
+
+        List<SortedSet<ProductFilterEntity>> list = products.stream().map(ProductEntity::getProductFilters).distinct().toList();
+
+//        return null;
         return productMapper.productPageEntityToProductPage(products, new CycleAvoidingMappingContext());
     }
 
