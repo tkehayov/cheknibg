@@ -2,29 +2,30 @@ package com.products.core.products;
 
 import com.products.core.mapstruct.CycleAvoidingMappingContext;
 import com.products.repositories.categories.CategoryEntity;
+import com.products.repositories.productfilter.ProductFilterRepository;
 import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductFilterEntity;
 import com.products.repositories.products.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
-
-    public void save(Product product) {
-        ProductEntity productEntity = productMapper.productToProductEntity(product);
-
-        productRepository.save(productEntity);
-    }
+    private final ProductFilterRepository productFilterRepository;
 
     public Product getProduct(Long productId) {
         Optional<ProductEntity> product = productRepository.findById(productId);
@@ -46,15 +47,55 @@ public class ProductService {
     }
 
     public ProductPage getProductsByCategoryAndFilters(Long categoryId, List<Long> filterIds, Pageable pageRequest) {
-        List<ProductFilterEntity> productFilters = filterIds.stream().map(filter -> ProductFilterEntity.builder().id(filter).build()).collect(Collectors.toList());
+        Iterable<ProductFilterEntity> allById = productFilterRepository.findAllById(filterIds);
+        List<ProductFilterEntity> filterListEntity = StreamSupport.stream(allById.spliterator(), false).toList();
+
+        // 2. Group the filters dynamically by their GroupFiltersId
+        Map<Long, List<ProductFilterEntity>> groupedFilters = filterListEntity.stream()
+                .collect(Collectors.groupingBy(ProductFilterEntity::getGroupFiltersId));
+
+        // 3. Build the specifications
         CategoryEntity category = CategoryEntity.builder().id(categoryId).build();
 
-        Page<ProductEntity> products = productRepository.findAllByCategoryAndProductFilters(category, productFilters, pageRequest);
+        Specification<ProductEntity> finalSpec = withCategory(category)
+                .and(withDynamicFilters(groupedFilters));
+
+        // 4. Execute the dynamic query
+        Page<ProductEntity> products = productRepository.findAll(finalSpec, pageRequest);
 
         return productMapper.productPageEntityToProductPage(products, new CycleAvoidingMappingContext());
     }
 
     public Long getProductIdsByCodeId(String codeId) {
         return productRepository.findByCodeId(codeId);
+    }
+
+    private Specification<ProductEntity> withDynamicFilters(Map<Long, List<ProductFilterEntity>> filtersByGroup) {
+        Specification<ProductEntity> spec = Specification.where(null); // Start with a TRUE condition
+
+        for (Map.Entry<Long, List<ProductFilterEntity>> entry : filtersByGroup.entrySet()) {
+            List<ProductFilterEntity> groupFilters = entry.getValue();
+
+            Specification<ProductEntity> groupSpec = (root, query, cb) -> {
+
+                // 1. Join the product to its filters
+                Join<ProductEntity, ProductFilterEntity> filterJoin = root.join("productFilters");
+
+                // 2. Create the IN predicate (e.g., filter IN (19", 24"))
+                Predicate inPredicate = filterJoin.in(groupFilters);
+
+                return inPredicate;
+            };
+
+            // AND the new group condition with the existing conditions (ensuring cross-group 'AND' logic)
+            spec = spec.and(groupSpec);
+        }
+
+        return spec;
+    }
+
+    // Optional: Add category specification
+    private Specification<ProductEntity> withCategory(CategoryEntity category) {
+        return (root, query, cb) -> cb.equal(root.get("category"), category);
     }
 }
