@@ -211,4 +211,7 @@
     <changeSet author="tkehayov" id="69" context="prod">
         <sqlFile path="/liquibase/changelog/changes/69.map-all-product-screen-size-filter.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="70" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/70.map-all-product-ram-filter.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
