@@ -16,18 +16,13 @@ public class ImageController {
 
     @GetMapping
     public void redirect(HttpServletResponse httpServletResponse, HttpServletRequest request) {
-
         String requestURI = request.getRequestURI();
-        String cdnUrl = request.getParameter("url");
-        if (cdnUrl != null) {
-            httpServletResponse.setHeader("Location", cdnUrl);
-        } else {
-            String[] split = requestURI.split("/");
-            String image = split[split.length - 2] + "/" + split[split.length - 1];
-            String redirectUrl = serviceImagesUrl + "/" + image;
-            httpServletResponse.setHeader("Location", redirectUrl);
 
-        }
+        String[] split = requestURI.split("/");
+        String image = split[split.length - 2] + "/" + split[split.length - 1];
+        String redirectUrl = serviceImagesUrl + "/" + image;
+        httpServletResponse.setHeader("Location", redirectUrl);
+
         httpServletResponse.setStatus(302);
     }
 }

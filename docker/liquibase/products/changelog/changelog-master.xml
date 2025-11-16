@@ -214,4 +214,7 @@
     <changeSet author="tkehayov" id="70" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/70.map-all-product-ram-filter.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="71" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/71.load-all-images-locally.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
