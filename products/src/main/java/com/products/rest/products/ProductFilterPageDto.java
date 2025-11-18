@@ -7,8 +7,8 @@ import java.util.List;
 
 @Builder
 @Getter
-public class ProductPageDto {
-    private List<ProductDto> content;
+public class ProductFilterPageDto {
+    private List<ProductFilterDto> content;
     private int totalPages;
     private Integer currentPage;
 }

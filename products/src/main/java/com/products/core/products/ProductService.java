@@ -1,5 +1,6 @@
 package com.products.core.products;
 
+import com.products.core.Image.Image;
 import com.products.core.mapstruct.CycleAvoidingMappingContext;
 import com.products.repositories.categories.CategoryEntity;
 import com.products.repositories.productfilter.ProductFilterRepository;
@@ -40,13 +41,13 @@ public class ProductService {
         return productMapper.productEntityToProduct(emptyProductEntity, new CycleAvoidingMappingContext());
     }
 
-    public ProductPage getProductsByCategory(Long categoryId, Pageable pageRequest) {
+    public ProductFilterPage getProductsByCategory(Long categoryId, Pageable pageRequest) {
         Page<ProductEntity> productsEntity = productRepository.findAllByCategory(CategoryEntity.builder().id(categoryId).build(), pageRequest);
 
-        return productMapper.productPageEntityToProductPage(productsEntity,new CycleAvoidingMappingContext());
+        return productMapper.productPageEntityToProductFilterPage(productsEntity, new CycleAvoidingMappingContext());
     }
 
-    public ProductPage getProductsByCategoryAndFilters(Long categoryId, List<Long> filterIds, Pageable pageRequest) {
+    public ProductFilterPage getProductsByCategoryAndFilters(Long categoryId, List<Long> filterIds, Pageable pageRequest) {
         Iterable<ProductFilterEntity> allById = productFilterRepository.findAllById(filterIds);
         List<ProductFilterEntity> filterListEntity = StreamSupport.stream(allById.spliterator(), false).toList();
 
@@ -63,7 +64,7 @@ public class ProductService {
         // 4. Execute the dynamic query
         Page<ProductEntity> products = productRepository.findAll(finalSpec, pageRequest);
 
-        return productMapper.productPageEntityToProductPage(products, new CycleAvoidingMappingContext());
+        return productPageEntityToProductFilterPage(products);
     }
 
     public Long getProductIdsByCodeId(String codeId) {
@@ -94,8 +95,32 @@ public class ProductService {
         return spec;
     }
 
-    // Optional: Add category specification
     private Specification<ProductEntity> withCategory(CategoryEntity category) {
         return (root, query, cb) -> cb.equal(root.get("category"), category);
+    }
+
+    private ProductFilterPage productPageEntityToProductFilterPage(Page<ProductEntity> productEntity) {
+        if (productEntity == null) {
+            return null;
+        }
+
+        ProductFilterPage.ProductFilterPageBuilder productFilterPage = ProductFilterPage.builder();
+
+        List<Product> list = productEntity.getContent().stream()
+                .map(entity -> Product.builder()
+                        .id(entity.getId())
+                        .name(entity.getName())
+                        .images(entity.getImages().stream()
+                                .map(imageEntity -> Image.builder().
+                                        id(imageEntity.getId())
+                                        .filename(imageEntity.getFilename())
+                                        .productId(imageEntity.getProductId())
+                                        .build())
+                                .toList())
+                        .build())
+                .toList();
+        productFilterPage.totalPages(productEntity.getTotalPages()).currentPage(productEntity.getNumber()).content(list);
+
+        return productFilterPage.build();
     }
 }

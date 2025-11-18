@@ -62,7 +62,7 @@ public class ProductServiceTest {
 
     @Test
     void getProductsByCategory() {
-        ProductPage actual = productService.getProductsByCategory(1L, PageRequest.of(1, 3));
+        ProductFilterPage actual = productService.getProductsByCategory(1L, PageRequest.of(1, 3));
         List<Product> content = actual.getContent();
         Product firstElement = content.get(0);
         PropertiesGroup productPropertiesGroup = firstElement.getPropertiesGroup().get(0);
@@ -89,36 +89,30 @@ public class ProductServiceTest {
 
     @Test
     void getProductsByCategoryAndFilter() {
-        ProductPage actual = productService.getProductsByCategoryAndFilters(1L, List.of(1L), PageRequest.of(0, 3));
+        ProductFilterPage actual = productService.getProductsByCategoryAndFilters(1L, List.of(1L), PageRequest.of(0, 3));
         List<Product> content = actual.getContent();
 
         Product firstProduct = content.get(0);
-        List<ProductFilter> filters = firstProduct.getProductFilters();
-        ProductFilter firstFilter = filters.get(0);
 
         assertThat(actual.getCurrentPage(), is(0));
         assertThat(actual.getTotalPages(), is(1));
-
-        assertThat(filters.size(), is(3));
-        assertThat(firstFilter.getFilter(), is("Intel Core i7 (12-ядрен)"));
+        assertThat(firstProduct.getName(), is("LENOVO ThinkPad X1 C10 Intel Core i7-1260P 14inch WUXGA 16GB 512GB SSD M.2 Intel Iris Xe Wi-Fi 6E +BT FPR W11P 3Y Premier"));
     }
 
     @Test
     void getSameProductByDifferentFilters() {
         List<Long> searchedFilters = List.of(7L, 4L);
-        ProductPage actual = productService.getProductsByCategoryAndFilters(1L, searchedFilters, PageRequest.of(0, 20));
+        ProductFilterPage actual = productService.getProductsByCategoryAndFilters(1L, searchedFilters, PageRequest.of(0, 20));
         List<Product> content = actual.getContent();
 
         Product firstProduct = content.get(0);
-        List<ProductFilter> filters = firstProduct.getProductFilters();
-        ProductFilter firstFilter = filters.get(0);
 
         assertThat(actual.getCurrentPage(), is(0));
         assertThat(actual.getTotalPages(), is(1));
 
         assertThat(content.size(), is(1));
-        assertThat(filters.size(), is(3));
-        assertThat(firstFilter.getFilter(), is("Intel Core i7 (12-ядрен)"));
+        assertThat(firstProduct.getName(), is("LENOVO ThinkPad X1 C10 Intel Core i7-1260P 14inch WUXGA 16GB 512GB SSD M.2 Intel Iris Xe Wi-Fi 6E +BT FPR W11P 3Y Premier"));
+        assertThat(firstProduct.getId(), is(3L));
     }
 
     @Test

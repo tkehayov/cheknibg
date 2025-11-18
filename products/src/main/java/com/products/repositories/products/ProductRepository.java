@@ -3,6 +3,8 @@ package com.products.repositories.products;
 import com.products.repositories.categories.CategoryEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +21,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
 
     @Query("SELECT p.id FROM ProductEntity p WHERE p.codeId=:codeId")
     Long findByCodeId(@Param("codeId") String codeId);
+
+    @EntityGraph(attributePaths = { "id","name",
+            "codeId",
+            "images" })
+    Page<ProductEntity> findAll(Specification<ProductEntity> spec, Pageable pageable);
 }

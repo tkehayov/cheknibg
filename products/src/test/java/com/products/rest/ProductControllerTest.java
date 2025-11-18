@@ -2,7 +2,7 @@ package com.products.rest;
 
 import com.products.core.products.ProductFilter;
 import com.products.core.products.Product;
-import com.products.core.products.ProductPage;
+import com.products.core.products.ProductFilterPage;
 import com.products.core.products.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ class ProductControllerTest {
     @Test
     public void getProductsByCategoryAndFilters() throws Exception {
         Product product = Product.builder().id(1L).name("Apple iPhone 14").productFilters(List.of(ProductFilter.builder().id(1L).filter("8 GB").build())).build();
-        ProductPage productPage = ProductPage.builder().content(List.of(product)).totalPages(1).currentPage(0).build();
+        ProductFilterPage productPage = ProductFilterPage.builder().content(List.of(product)).totalPages(1).currentPage(0).build();
 
         when(productService.getProductsByCategoryAndFilters(1L, List.of(1L), PageRequest.of(0, 20))).thenReturn(productPage);
         mockMvc.perform(get("/products/filters/1?filters=1")).andDo(print()).andExpect(status().isOk())
