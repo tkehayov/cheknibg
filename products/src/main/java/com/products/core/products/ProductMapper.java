@@ -21,9 +21,6 @@ public interface ProductMapper {
 
     List<Product> productEntityToProduct(List<ProductEntity> productEntity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
 
-    @Mapping(source = "productEntity", target = "currentPage", qualifiedByName = "currentPage")
-    ProductFilterPage productPageEntityToProductFilterPage(Page<ProductEntity> productEntity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
-
     ProductFilterPageDto productFilterPageToProductPageDto(ProductFilterPage product);
 
     @Named("currentPage")
