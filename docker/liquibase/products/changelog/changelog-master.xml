@@ -223,5 +223,8 @@
     <changeSet author="tkehayov" id="73" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/73.map-all-product-processor-filter.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="74" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/74.map-all-product-video-card-filter.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 
 </databaseChangeLog>
