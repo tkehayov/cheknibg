@@ -44,7 +44,7 @@ public class ProductService {
     public ProductFilterPage getProductsByCategory(Long categoryId, Pageable pageRequest) {
         Page<ProductEntity> productsEntity = productRepository.findAllByCategory(CategoryEntity.builder().id(categoryId).build(), pageRequest);
 
-        return productMapper.productPageEntityToProductFilterPage(productsEntity, new CycleAvoidingMappingContext());
+        return productPageEntityToProductFilterPage(productsEntity);
     }
 
     public ProductFilterPage getProductsByCategoryAndFilters(Long categoryId, List<Long> filterIds, Pageable pageRequest) {
