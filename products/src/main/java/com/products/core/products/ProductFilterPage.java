@@ -7,7 +7,7 @@ import java.util.List;
 
 @Builder
 @Getter
-public class ProductPage {
+public class ProductFilterPage {
     private List<Product> content;
     private int totalPages;
     private Integer currentPage;

@@ -1,8 +1,8 @@
 package com.products.rest.products;
 
 import com.products.core.products.Product;
+import com.products.core.products.ProductFilterPage;
 import com.products.core.products.ProductMapper;
-import com.products.core.products.ProductPage;
 import com.products.core.products.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -32,26 +32,27 @@ public class ProductController {
     }
 
     @GetMapping(value = "/category/{id}")
-    public ResponseEntity<ProductPageDto> getProductsByCategory(@PathVariable Long id,
+    public ResponseEntity<ProductFilterPageDto> getProductsByCategory(@PathVariable Long id,
                                                                 @RequestParam(defaultValue = "0") int page,
                                                                 @RequestParam(defaultValue = "20") int size) {
 
         Pageable paging = PageRequest.of(page, size);
-        ProductPage productsByCategory = productService.getProductsByCategory(id, paging);
-        ProductPageDto productPageDto = productMapper.productPageToProductPageDto(productsByCategory);
+        ProductFilterPage productsByCategory = productService.getProductsByCategory(id, paging);
+        ProductFilterPageDto productPageDto = productMapper.productFilterPageToProductPageDto(productsByCategory);
 
         return new ResponseEntity<>(productPageDto, HttpStatus.OK);
     }
 
     @GetMapping(value = "/filters/{categoryId}")
-    public ResponseEntity<ProductPageDto> getProductsByCategoryAndFilters(@PathVariable Long categoryId,
+    public ResponseEntity<ProductFilterPageDto> getProductsByCategoryAndFilters(@PathVariable Long categoryId,
                                                                           @RequestParam List<Long> filters,
                                                                           @RequestParam(defaultValue = "0") int page,
                                                                           @RequestParam(defaultValue = "20") int size) {
 
         Pageable paging = PageRequest.of(page, size);
-        ProductPage productsByCategory = productService.getProductsByCategoryAndFilters(categoryId, filters, paging);
-        ProductPageDto productPageDto = productMapper.productPageToProductPageDto(productsByCategory);
+
+        ProductFilterPage productsByCategory = productService.getProductsByCategoryAndFilters(categoryId, filters, paging);
+        ProductFilterPageDto productPageDto = productMapper.productFilterPageToProductPageDto(productsByCategory);
 
         return new ResponseEntity<>(productPageDto, HttpStatus.OK);
     }

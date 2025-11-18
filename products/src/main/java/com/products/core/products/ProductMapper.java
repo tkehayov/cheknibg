@@ -3,7 +3,7 @@ package com.products.core.products;
 import com.products.core.mapstruct.CycleAvoidingMappingContext;
 import com.products.repositories.products.ProductEntity;
 import com.products.rest.products.ProductDto;
-import com.products.rest.products.ProductPageDto;
+import com.products.rest.products.ProductFilterPageDto;
 import com.products.rest.products.SearchProductDto;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
@@ -22,9 +22,9 @@ public interface ProductMapper {
     List<Product> productEntityToProduct(List<ProductEntity> productEntity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
 
     @Mapping(source = "productEntity", target = "currentPage", qualifiedByName = "currentPage")
-    ProductPage productPageEntityToProductPage(Page<ProductEntity> productEntity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
+    ProductFilterPage productPageEntityToProductFilterPage(Page<ProductEntity> productEntity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
 
-    ProductPageDto productPageToProductPageDto(ProductPage product);
+    ProductFilterPageDto productFilterPageToProductPageDto(ProductFilterPage product);
 
     @Named("currentPage")
     default Integer currentPage(Page<ProductEntity> productEntities) {
