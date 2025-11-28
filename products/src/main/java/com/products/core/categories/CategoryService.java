@@ -1,6 +1,7 @@
 package com.products.core.categories;
 
 import com.products.repositories.categories.CategoryEntity;
+import com.products.repositories.categories.CategoryNameProjection;
 import com.products.repositories.categories.CategoryRepository;
 import com.products.repositories.categories.FilterGroupEntity;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,20 @@ public class CategoryService {
         }
 
         return categoryMapper.categoryEntityToCategory(categoryEntity.get());
+    }
+
+    public String findCategoryNameById(Long id) {
+        Optional<CategoryNameProjection> categoryName = categoryRepository.findNameById(id);
+
+        if (categoryNameNotExists(categoryName)) {
+            return "";
+        }
+
+        return categoryName.get().getName();
+    }
+
+    private boolean categoryNameNotExists(Optional<CategoryNameProjection> categoryName) {
+        return !categoryName.isPresent();
     }
 
     private boolean categoryNotExists(Optional<CategoryEntity> categoryOptional) {

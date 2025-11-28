@@ -7,4 +7,6 @@ import java.util.Optional;
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
     Optional<CategoryEntity> findByAlias(String alias);
+
+    Optional<CategoryNameProjection> findNameById(Long alias);
 }

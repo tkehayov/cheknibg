@@ -38,6 +38,13 @@ public class CategoryController {
         return new ResponseEntity<>(categoryDto, HttpStatus.OK);
     }
 
+    @GetMapping("/name/{id}")
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        String category = categoryService.findCategoryNameById(id);
+
+        return new ResponseEntity<>(category, HttpStatus.OK);
+    }
+
     @GetMapping("/filters/{id}")
     public ResponseEntity<?> getCategoryFilters(@PathVariable Long id) {
         List<FilterGroup> filterGroups = categoryService.getFilters(id);
