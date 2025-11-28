@@ -48,6 +48,20 @@ public class CategoryServiceTest {
     }
 
     @Test
+    public void getCategoryNameByAlias() {
+        String actual = categoryService.findCategoryNameById(1L);
+
+        assertThat(actual, is("лаптопи"));
+    }
+
+    @Test
+    public void getCategoryNameByNotExistAlias() {
+        String actual = categoryService.findCategoryNameById(-1L);
+
+        assertThat(actual, is(""));
+    }
+
+    @Test
     public void getCategoryByNotExistAlias() {
         Category actual = categoryService.findByAlias("not-exist-alias");
 

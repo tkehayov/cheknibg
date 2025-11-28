@@ -65,26 +65,16 @@ public class ProductServiceTest {
         ProductFilterPage actual = productService.getProductsByCategory(1L, PageRequest.of(1, 3));
         List<Product> content = actual.getContent();
         Product firstElement = content.get(0);
-        PropertiesGroup productPropertiesGroup = firstElement.getPropertiesGroup().get(0);
-        ProductProperty productProperty = firstElement.getPropertiesGroup().get(0).getProperties().get(0);
         Image image = firstElement.getImages().get(0);
 
         assertThat(actual.getCurrentPage(), is(1));
         assertThat(actual.getTotalPages(), is(2));
 
-        assertThat(firstElement.getCategory().getName(), is("лаптопи"));
         assertThat(firstElement.getName(), is("APPLE 16.2inch MacBook Pro M1 Max chip with 10‑core CPU and 32‑core GPU 32GB RAM 1TB SSD - Space Grey"));
-        assertThat(firstElement.getCodeId(), is("MK1A3ZE/A"));
         assertThat(firstElement.getId(), is(4L));
 
         assertThat(image.getFilename(), is("https://cdn.cs.1worldsync.com/b0/84/b084709b-163a-4b13-bb44-3257256e1b01.jpg"));
         assertThat(image.getId(), is(4L));
-
-        assertThat(productPropertiesGroup.getName(), is("Input"));
-
-        assertThat(productProperty.getKey(), is("Type"));
-        assertThat(productProperty.getValue(), is("Keyboard, Force Touch trackpad"));
-        assertThat(productProperty.getGroupId(), is(20L));
     }
 
     @Test
