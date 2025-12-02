@@ -2,6 +2,7 @@ package com.products.core.categories;
 
 import com.products.repositories.categories.CategoryEntity;
 import com.products.repositories.categories.FilterGroupEntity;
+import com.products.rest.categories.CategoryFilterDto;
 import com.products.rest.categories.FilterGroupDto;
 import com.products.rest.products.CategoryDto;
 import org.mapstruct.Mapper;
@@ -23,4 +24,6 @@ public interface CategoryMapper {
     List<FilterGroup> filterGroupEntityToFilterGroup(List<FilterGroupEntity> filterGroups);
 
     List<FilterGroupDto> filterGroupToFilterGroupDto(List<FilterGroup> filterGroups);
+
+    List<CategoryFilterDto> categoryFilterToCategoryFilterDto(List<CategoryFilter> filterGroups);
 }

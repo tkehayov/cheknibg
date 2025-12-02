@@ -94,4 +94,13 @@ public class CategoryServiceTest {
 
         assertThat(filterGroups.size(), is(0));
     }
+
+    @Test
+    public void getCategorySearchFilter() {
+        List<CategoryFilter> filters = categoryService.getCategorySearchFilter("pple");
+
+        assertThat(filters.size(), is(1));
+        assertThat(filters.get(0).getId(), is(1L));
+        assertThat(filters.get(0).getValue(), is("лаптопи"));
+    }
 }
