@@ -1,6 +1,7 @@
 package com.products.rest.categories;
 
 import com.products.core.categories.Category;
+import com.products.core.categories.CategoryFilter;
 import com.products.core.categories.CategoryMapper;
 import com.products.core.categories.CategoryService;
 import com.products.core.categories.FilterGroup;
@@ -51,5 +52,13 @@ public class CategoryController {
         List<FilterGroupDto> filterGroupDtos = categoryMapper.filterGroupToFilterGroupDto(filterGroups);
 
         return new ResponseEntity<>(filterGroupDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/filters/search/{searchTerm}")
+    public ResponseEntity<?> getCategorySearchFilters(@PathVariable String searchTerm) {
+        List<CategoryFilter> filters = categoryService.getCategorySearchFilter(searchTerm);
+        List<CategoryFilterDto> filterDto = categoryMapper.categoryFilterToCategoryFilterDto(filters);
+
+        return new ResponseEntity<>(filterDto, HttpStatus.OK);
     }
 }

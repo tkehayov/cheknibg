@@ -2,6 +2,7 @@ package com.products.core.search;
 
 import com.products.core.mapstruct.CycleAvoidingMappingContext;
 import com.products.core.products.Product;
+import com.products.core.products.ProductFilterPage;
 import com.products.core.products.ProductMapper;
 import com.products.repositories.products.ProductEntity;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,9 @@ import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.BooleanJunction;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -22,7 +26,6 @@ public class SearchService {
     private final EntityManager entityManager;
     private final ProductMapper mapper;
     private static final int MAX_RESULTS = 10;
-    private static final int FUZZY_DISTANCE = 2;
     private static final String SEARCHABLE_FIELD = "name";
 
     public List<Product> search(String searchTerm) {
@@ -36,10 +39,13 @@ public class SearchService {
                 .get();
         BooleanJunction booleanJunction = queryBuilder.bool();
 
-        Query titleQuery = generateSubQuery(fullTextEntityManager,
-                searchTerm, SEARCHABLE_FIELD);
+        Query titleQuery = queryBuilder
+                .phrase()
+                .onField(SEARCHABLE_FIELD)
+                .sentence(searchTerm) // Treat the entire search term as a contiguous phrase
+                .createQuery();
 
-        booleanJunction.should(titleQuery);
+        booleanJunction.must(titleQuery);
 
         Query finalQuery = booleanJunction.createQuery();
 
@@ -52,18 +58,57 @@ public class SearchService {
         return mapper.productEntityToProduct(collect, new CycleAvoidingMappingContext());
     }
 
-    private Query generateSubQuery(FullTextEntityManager fullTextEntityManager,
-                                   String matchingCriteria, String fieldName) {
+    public ProductFilterPage searchDetailed(String searchTerm, List<Long> filtersId, Pageable pageable) {
+        FullTextEntityManager fullTextEntityManager =
+                Search.getFullTextEntityManager(entityManager);
+
         QueryBuilder queryBuilder = fullTextEntityManager
                 .getSearchFactory()
                 .buildQueryBuilder()
                 .forEntity(ProductEntity.class)
                 .get();
 
-        return queryBuilder.keyword().fuzzy()
-                .withEditDistanceUpTo(FUZZY_DISTANCE)
-                .onField(fieldName)
-                .matching(matchingCriteria)
+        Query titleQuery = queryBuilder
+                .phrase()
+                .onField(SEARCHABLE_FIELD)
+                .sentence(searchTerm) // Treat the entire search term as a contiguous phrase
                 .createQuery();
+        BooleanJunction booleanJunction = queryBuilder.bool();
+        booleanJunction.must(titleQuery);
+        if (filtersId != null && !filtersId.isEmpty()) {
+
+            BooleanJunction<BooleanJunction> filterJunction = queryBuilder.bool();
+
+            for (Long categoryId : filtersId) {
+                Query categoryQuery = queryBuilder
+                        .keyword()
+                        .onField("category.id_searchable")
+                        .matching(categoryId)
+                        .createQuery();
+
+                filterJunction.should(categoryQuery);
+            }
+
+            booleanJunction.must(filterJunction.createQuery());
+        }
+        Query finalQuery = booleanJunction.createQuery();
+
+        FullTextQuery fullTextQuery = fullTextEntityManager
+                .createFullTextQuery(finalQuery, ProductEntity.class);
+        fullTextQuery.setSort(queryBuilder.sort().byScore().createSort());
+
+        int totalElements = fullTextQuery.getResultSize();
+
+        if (pageable != null) {
+            fullTextQuery.setFirstResult((int) pageable.getOffset());
+            fullTextQuery.setMaxResults(pageable.getPageSize());
+        }
+
+        List<ProductEntity> productEntities = fullTextQuery.getResultList();
+        List<Product> products = ProductFilterPage.mapToProducts(productEntities);
+
+        Page<Product> productPage = new PageImpl<>(products, pageable, totalElements);
+
+        return ProductFilterPage.mapToProductFilterPage(productPage);
     }
 }
