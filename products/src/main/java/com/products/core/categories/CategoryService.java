@@ -81,10 +81,14 @@ public class CategoryService {
                 .get();
         BooleanJunction booleanJunction = queryBuilder.bool();
 
-        Query titleQuery = SearchSubQuery.generate(fullTextEntityManager,
-                searchTerm, SEARCHABLE_FIELD);
 
-        booleanJunction.should(titleQuery);
+        Query titleQuery = queryBuilder
+                .phrase()
+                .onField(SEARCHABLE_FIELD)
+                .sentence(searchTerm)
+                .createQuery();
+
+        booleanJunction.must(titleQuery);
 
         Query finalQuery = booleanJunction.createQuery();
 
@@ -92,7 +96,7 @@ public class CategoryService {
                 .createFullTextQuery(finalQuery, ProductEntity.class);
 
         fullTextQuery.setSort(queryBuilder.sort().byScore().createSort())
-                .setProjection(FullTextQuery.ID, "category.name");
+                .setProjection("category.id_searchable", "category.name");
 
         List<Object[]> resultList = fullTextQuery.getResultList();
         List<CategoryFilter> list = resultList.stream()

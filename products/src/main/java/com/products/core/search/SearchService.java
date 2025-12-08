@@ -39,10 +39,13 @@ public class SearchService {
                 .get();
         BooleanJunction booleanJunction = queryBuilder.bool();
 
-        Query titleQuery = SearchSubQuery.generate(fullTextEntityManager,
-                searchTerm, SEARCHABLE_FIELD);
+        Query titleQuery = queryBuilder
+                .phrase()
+                .onField(SEARCHABLE_FIELD)
+                .sentence(searchTerm) // Treat the entire search term as a contiguous phrase
+                .createQuery();
 
-        booleanJunction.should(titleQuery);
+        booleanJunction.must(titleQuery);
 
         Query finalQuery = booleanJunction.createQuery();
 
@@ -55,7 +58,7 @@ public class SearchService {
         return mapper.productEntityToProduct(collect, new CycleAvoidingMappingContext());
     }
 
-    public ProductFilterPage searchDetailed(String searchTerm, List<Long> filters, Pageable pageable) {
+    public ProductFilterPage searchDetailed(String searchTerm, List<Long> filtersId, Pageable pageable) {
         FullTextEntityManager fullTextEntityManager =
                 Search.getFullTextEntityManager(entityManager);
 
@@ -64,17 +67,19 @@ public class SearchService {
                 .buildQueryBuilder()
                 .forEntity(ProductEntity.class)
                 .get();
+
+        Query titleQuery = queryBuilder
+                .phrase()
+                .onField(SEARCHABLE_FIELD)
+                .sentence(searchTerm) // Treat the entire search term as a contiguous phrase
+                .createQuery();
         BooleanJunction booleanJunction = queryBuilder.bool();
-
-        Query titleQuery = SearchSubQuery.generate(fullTextEntityManager,
-                searchTerm, SEARCHABLE_FIELD);
-
         booleanJunction.must(titleQuery);
-        if (filters != null && !filters.isEmpty()) {
+        if (filtersId != null && !filtersId.isEmpty()) {
 
             BooleanJunction<BooleanJunction> filterJunction = queryBuilder.bool();
 
-            for (Long categoryId : filters) {
+            for (Long categoryId : filtersId) {
                 Query categoryQuery = queryBuilder
                         .keyword()
                         .onField("category.id_searchable")

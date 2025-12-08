@@ -32,11 +32,11 @@ public class SearchController {
 
     @GetMapping("/detailed")
     public ProductFilterPageDto searchDetailed(@RequestParam @Size(min = 3, max = 100, message = "search text length must be between 3 and 100") String s,
-                                               @RequestParam List<Long> id,
+                                               @RequestParam(required = false) List<Long> filtersId,
                                                @RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "20") int size) {
         Pageable paging = PageRequest.of(page, size);
-        ProductFilterPage productFilterPage = searchService.searchDetailed(s, id, paging);
+        ProductFilterPage productFilterPage = searchService.searchDetailed(s, filtersId, paging);
 
         return ProductFilterPage.mapToDto(productFilterPage);
     }
