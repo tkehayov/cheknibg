@@ -229,5 +229,8 @@
     <changeSet author="tkehayov" id="75" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/75.map-all-product-memory-filter.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="76" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/76.update-products-without-categories.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 
 </databaseChangeLog>
