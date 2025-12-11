@@ -18,8 +18,7 @@ public class ImageController {
     public void redirect(HttpServletResponse httpServletResponse, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
 
-        String[] split = requestURI.split("/");
-        String image = split[split.length - 2] + "/" + split[split.length - 1];
+        String image = requestURI.replaceFirst("/api/images/", "");
         String redirectUrl = serviceImagesUrl + "/" + image;
         httpServletResponse.setHeader("Location", redirectUrl);
 
