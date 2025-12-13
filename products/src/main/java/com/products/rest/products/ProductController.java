@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 @RestController
@@ -33,8 +34,8 @@ public class ProductController {
 
     @GetMapping(value = "/category/{id}")
     public ResponseEntity<ProductFilterPageDto> getProductsByCategory(@PathVariable Long id,
-                                                                @RequestParam(defaultValue = "0") int page,
-                                                                @RequestParam(defaultValue = "20") int size) {
+                                                                      @RequestParam(defaultValue = "0") int page,
+                                                                      @RequestParam(defaultValue = "20") int size) {
 
         Pageable paging = PageRequest.of(page, size);
         ProductFilterPage productsByCategory = productService.getProductsByCategory(id, paging);
@@ -43,15 +44,15 @@ public class ProductController {
         return new ResponseEntity<>(productPageDto, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/filters/{categoryId}")
-    public ResponseEntity<ProductFilterPageDto> getProductsByCategoryAndFilters(@PathVariable Long categoryId,
-                                                                          @RequestParam List<Long> filters,
-                                                                          @RequestParam(defaultValue = "0") int page,
-                                                                          @RequestParam(defaultValue = "20") int size) {
+    @GetMapping(value = "/filters")
+    public ResponseEntity<ProductFilterPageDto> getProductsByCategoryAndFilters(
+            @RequestParam List<Long> filters,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
 
         Pageable paging = PageRequest.of(page, size);
 
-        ProductFilterPage productsByCategory = productService.getProductsByCategoryAndFilters(categoryId, filters, paging);
+        ProductFilterPage productsByCategory = productService.getProductsByCategoryAndFilters(filters, paging);
         ProductFilterPageDto productPageDto = productMapper.productFilterPageToProductPageDto(productsByCategory);
 
         return new ResponseEntity<>(productPageDto, HttpStatus.OK);

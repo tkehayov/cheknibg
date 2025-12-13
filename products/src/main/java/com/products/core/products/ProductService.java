@@ -47,7 +47,7 @@ public class ProductService {
         return productPageEntityToProductFilterPage(productsEntity);
     }
 
-    public ProductFilterPage getProductsByCategoryAndFilters(Long categoryId, List<Long> filterIds, Pageable pageRequest) {
+    public ProductFilterPage getProductsByCategoryAndFilters(List<Long> filterIds, Pageable pageRequest) {
         Iterable<ProductFilterEntity> allById = productFilterRepository.findAllById(filterIds);
         List<ProductFilterEntity> filterListEntity = StreamSupport.stream(allById.spliterator(), false).toList();
 
@@ -55,13 +55,9 @@ public class ProductService {
         Map<Long, List<ProductFilterEntity>> groupedFilters = filterListEntity.stream()
                 .collect(Collectors.groupingBy(ProductFilterEntity::getGroupFiltersId));
 
-        // 3. Build the specifications
-        CategoryEntity category = CategoryEntity.builder().id(categoryId).build();
+        Specification<ProductEntity> finalSpec = withDynamicFilters(groupedFilters);
 
-        Specification<ProductEntity> finalSpec = withCategory(category)
-                .and(withDynamicFilters(groupedFilters));
-
-        // 4. Execute the dynamic query
+        // 3. Execute the dynamic query
         Page<ProductEntity> products = productRepository.findAll(finalSpec, pageRequest);
 
         return productPageEntityToProductFilterPage(products);
