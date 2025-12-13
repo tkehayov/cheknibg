@@ -79,7 +79,7 @@ public class ProductServiceTest {
 
     @Test
     void getProductsByCategoryAndFilter() {
-        ProductFilterPage actual = productService.getProductsByCategoryAndFilters(1L, List.of(1L), PageRequest.of(0, 3));
+        ProductFilterPage actual = productService.getProductsByCategoryAndFilters(List.of(1L), PageRequest.of(0, 3));
         List<Product> content = actual.getContent();
 
         Product firstProduct = content.get(0);
@@ -92,7 +92,7 @@ public class ProductServiceTest {
     @Test
     void getSameProductByDifferentFilters() {
         List<Long> searchedFilters = List.of(7L, 4L);
-        ProductFilterPage actual = productService.getProductsByCategoryAndFilters(1L, searchedFilters, PageRequest.of(0, 20));
+        ProductFilterPage actual = productService.getProductsByCategoryAndFilters(searchedFilters, PageRequest.of(0, 20));
         List<Product> content = actual.getContent();
 
         Product firstProduct = content.get(0);
