@@ -232,5 +232,8 @@
     <changeSet author="tkehayov" id="76" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/76.update-products-without-categories.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="77" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/77.map-all-product-technology-panel-filter.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 
 </databaseChangeLog>
