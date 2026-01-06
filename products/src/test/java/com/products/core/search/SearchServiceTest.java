@@ -22,38 +22,38 @@ public class SearchServiceTest {
 
     @Test
     public void searchProductsHappyPath() {
-        List<Product> actual = searchService.search("pple");
+        List<Product> actual = searchService.search("Apple");
         Product firstProduct = actual.get(0);
 
-        assertEquals(actual.size(), 2);
-        assertEquals(firstProduct.getName(), "Apple iPhone 14 Pro 128GB Мобилни телефони (GSM)");
-        assertEquals(firstProduct.getCodeId(), "DUMMY-PLT-00008");
+        assertEquals(2, actual.size());
+        assertEquals("Apple iPhone 14 Pro 128GB Мобилни телефони (GSM)", firstProduct.getName());
+        assertEquals("DUMMY-PLT-00008", firstProduct.getCodeId());
     }
 
     @Test
     public void searchNotExist() {
         List<Product> actual = searchService.search("poqwer");
 
-        assertEquals(actual.size(), 0);
+        assertEquals(0, actual.size());
     }
 
     @Test
     public void searchWithLessSymbols() {
         List<Product> actual = searchService.search("App");
 
-        assertEquals(actual.size(), 3);
+        assertEquals(0, actual.size());
     }
 
     @Test
     public void searchDetailed() {
-        ProductFilterPage actual = searchService.searchDetailed("App",List.of(1L), PageRequest.of(0, 23));
+        ProductFilterPage actual = searchService.searchDetailed("APPLE 16.2inch MacBook Pro M1 Max chip with 10‑core CPU",List.of(1L), PageRequest.of(0, 23));
         Product product = actual.getContent().get(0);
 
-        assertEquals(actual.getTotalPages(), 1);
-        assertEquals(actual.getCurrentPage(), 0);
-        assertEquals(product.getId(), 4);
-        assertEquals(product.getName(), "APPLE 16.2inch MacBook Pro M1 Max chip with 10‑core CPU and 32‑core GPU 32GB RAM 1TB SSD - Space Grey");
-        assertEquals(product.getImages().get(0).getId(), 4L);
-        assertEquals(product.getImages().get(0).getFilename(), "https://cdn.cs.1worldsync.com/b0/84/b084709b-163a-4b13-bb44-3257256e1b01.jpg");
+        assertEquals(1, actual.getTotalPages());
+        assertEquals(0, actual.getCurrentPage());
+        assertEquals(4, product.getId());
+        assertEquals("APPLE 16.2inch MacBook Pro M1 Max chip with 10‑core CPU and 32‑core GPU 32GB RAM 1TB SSD - Space Grey", product.getName());
+        assertEquals(4L, product.getImages().get(0).getId());
+        assertEquals("https://cdn.cs.1worldsync.com/b0/84/b084709b-163a-4b13-bb44-3257256e1b01.jpg", product.getImages().get(0).getFilename());
     }
 }

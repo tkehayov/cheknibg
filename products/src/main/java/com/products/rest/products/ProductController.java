@@ -1,5 +1,6 @@
 package com.products.rest.products;
 
+import com.products.core.categories.MinMaxProductPrice;
 import com.products.core.products.Product;
 import com.products.core.products.ProductFilterPage;
 import com.products.core.products.ProductMapper;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -35,24 +37,29 @@ public class ProductController {
     @GetMapping(value = "/category/{id}")
     public ResponseEntity<ProductFilterPageDto> getProductsByCategory(@PathVariable Long id,
                                                                       @RequestParam(defaultValue = "0") int page,
-                                                                      @RequestParam(defaultValue = "20") int size) {
+                                                                      @RequestParam(defaultValue = "20") int size,
+                                                                      @RequestParam(required = false) BigDecimal minPrice,
+                                                                      @RequestParam(required = false) BigDecimal maxPrice) {
 
         Pageable paging = PageRequest.of(page, size);
-        ProductFilterPage productsByCategory = productService.getProductsByCategory(id, paging);
+        ProductFilterPage productsByCategory = productService.getProductsByCategory(id, paging, minPrice, maxPrice);
         ProductFilterPageDto productPageDto = productMapper.productFilterPageToProductPageDto(productsByCategory);
 
         return new ResponseEntity<>(productPageDto, HttpStatus.OK);
     }
 
     @GetMapping(value = "/filters")
-    public ResponseEntity<ProductFilterPageDto> getProductsByCategoryAndFilters(
+    public ResponseEntity<ProductFilterPageDto> getProductsByFilters(
             @RequestParam List<Long> filters,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice) {
 
         Pageable paging = PageRequest.of(page, size);
+        MinMaxProductPrice minMaxProductPrice = MinMaxProductPrice.builder().minPrice(minPrice).maxPrice(maxPrice).build();
 
-        ProductFilterPage productsByCategory = productService.getProductsByCategoryAndFilters(filters, paging);
+        ProductFilterPage productsByCategory = productService.getProductsByCategoryAndFilters(filters, paging, minMaxProductPrice);
         ProductFilterPageDto productPageDto = productMapper.productFilterPageToProductPageDto(productsByCategory);
 
         return new ResponseEntity<>(productPageDto, HttpStatus.OK);

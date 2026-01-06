@@ -1,11 +1,13 @@
 package com.products.core.categories;
 
-import com.products.core.search.SearchSubQuery;
 import com.products.repositories.categories.CategoryEntity;
 import com.products.repositories.categories.CategoryNameProjection;
 import com.products.repositories.categories.CategoryRepository;
 import com.products.repositories.categories.FilterGroupEntity;
+import com.products.repositories.merchants.MerchantProductRepository;
+import com.products.repositories.merchants.ProductPrice;
 import com.products.repositories.products.ProductEntity;
+import com.products.repositories.products.ProductFilterEntity;
 import lombok.AllArgsConstructor;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class CategoryService {
+    private final MerchantProductRepository merchantProductRepository;
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
     private final EntityManager entityManager;
@@ -117,11 +120,33 @@ public class CategoryService {
         return list;
     }
 
+    public MinMaxProductPrice getPriceFilters(Long categoryId, List<Long> filters) {
+        List<Long> filtersId = filters;
+        if (categoryId != null) {
+            CategoryEntity categoryEntity = categoryRepository.findById(categoryId).get();
+            List<FilterGroupEntity> filterGroupEntities = categoryEntity.getFilterGroups();
+
+            filtersId = getFiltersId(filterGroupEntities);
+        }
+
+        ProductPrice minMaxPriceByFilterIds = merchantProductRepository.findMinMaxPriceByFilterIds(filtersId);
+
+        return MinMaxProductPrice.mapToProductPrice(minMaxPriceByFilterIds);
+    }
+
     private boolean categoryNameNotExists(Optional<CategoryNameProjection> categoryName) {
         return !categoryName.isPresent();
     }
 
     private boolean categoryNotExists(Optional<CategoryEntity> categoryOptional) {
         return !categoryOptional.isPresent();
+    }
+
+    private List<Long> getFiltersId(List<FilterGroupEntity> filterGroupEntities) {
+        return filterGroupEntities.stream()
+                .map(FilterGroupEntity::getProductFilters)
+                .flatMap(List::stream)
+                .map(ProductFilterEntity::getId)
+                .toList();
     }
 }
