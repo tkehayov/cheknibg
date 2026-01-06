@@ -5,6 +5,7 @@ import com.products.core.categories.CategoryFilter;
 import com.products.core.categories.CategoryMapper;
 import com.products.core.categories.CategoryService;
 import com.products.core.categories.FilterGroup;
+import com.products.core.categories.MinMaxProductPrice;
 import com.products.rest.products.CategoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -52,6 +54,14 @@ public class CategoryController {
         List<FilterGroupDto> filterGroupDtos = categoryMapper.filterGroupToFilterGroupDto(filterGroups);
 
         return new ResponseEntity<>(filterGroupDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/filters/price-range")
+    public ResponseEntity<?> getPriceFilters(@RequestParam(required = false) Long category, @RequestParam(required = false) List<Long> filters) {
+        MinMaxProductPrice categoryFilter = categoryService.getPriceFilters(category, filters);
+        MinMaxProductPriceDto minMaxProductPriceDto = MinMaxProductPrice.mapToProductPriceDto(categoryFilter);
+
+        return new ResponseEntity<>(minMaxProductPriceDto, HttpStatus.OK);
     }
 
     @GetMapping("/filters/search/{searchTerm}")

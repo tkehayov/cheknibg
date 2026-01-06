@@ -11,11 +11,22 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long>, JpaSpecificationExecutor<ProductEntity> {
-    Page<ProductEntity> findAllByCategory(CategoryEntity category, Pageable pageable);
+    @Query("SELECT DISTINCT p FROM ProductEntity p " +
+            "LEFT JOIN p.merchants m " +
+            "WHERE p.category = :category " +
+            "AND m.price >= :minPrice " +
+            "AND m.price <= :maxPrice")
+    Page<ProductEntity> findAllByCategoryAndPriceRange(
+            @Param("category") CategoryEntity category,
+            @Param("minPrice") BigDecimal minPrice,
+            @Param("maxPrice") BigDecimal maxPrice,
+            Pageable pageable
+    );
 
     List<ProductEntity> findByCodeIdIn(List<String> codeIds);
 

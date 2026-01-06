@@ -54,32 +54,32 @@ public class ProductServiceTest {
     }
 
     @Test
-    void getNotExistsProduct() {
+    public void getNotExistsProduct() {
         Product actual = productService.getProduct(-1L);
 
         assertNull(actual.getId());
     }
 
     @Test
-    void getProductsByCategory() {
-        ProductFilterPage actual = productService.getProductsByCategory(1L, PageRequest.of(1, 3));
+    public void getProductsByCategory() {
+        ProductFilterPage actual = productService.getProductsByCategory(1L, PageRequest.of(0, 3), new BigDecimal("0"), new BigDecimal("9000"));
         List<Product> content = actual.getContent();
         Product firstElement = content.get(0);
         Image image = firstElement.getImages().get(0);
 
-        assertThat(actual.getCurrentPage(), is(1));
-        assertThat(actual.getTotalPages(), is(2));
+        assertThat(actual.getCurrentPage(), is(0));
+        assertThat(actual.getTotalPages(), is(1));
 
-        assertThat(firstElement.getName(), is("APPLE 16.2inch MacBook Pro M1 Max chip with 10‑core CPU and 32‑core GPU 32GB RAM 1TB SSD - Space Grey"));
-        assertThat(firstElement.getId(), is(4L));
+        assertThat(firstElement.getName(), is("Apple iPhone 14 Pro 128GB Мобилни телефони (GSM)"));
+        assertThat(firstElement.getId(), is(1L));
 
-        assertThat(image.getFilename(), is("https://cdn.cs.1worldsync.com/b0/84/b084709b-163a-4b13-bb44-3257256e1b01.jpg"));
-        assertThat(image.getId(), is(4L));
+        assertThat(image.getFilename(), is("mac.jpg"));
+        assertThat(image.getId(), is(1L));
     }
 
     @Test
-    void getProductsByCategoryAndFilter() {
-        ProductFilterPage actual = productService.getProductsByCategoryAndFilters(List.of(1L), PageRequest.of(0, 3));
+    public void getProductsByCategoryAndFilter() {
+        ProductFilterPage actual = productService.getProductsByCategoryAndFilters(List.of(1L), PageRequest.of(0, 3), null);
         List<Product> content = actual.getContent();
 
         Product firstProduct = content.get(0);
@@ -90,9 +90,9 @@ public class ProductServiceTest {
     }
 
     @Test
-    void getSameProductByDifferentFilters() {
+    public void getSameProductByDifferentFilters() {
         List<Long> searchedFilters = List.of(7L, 4L);
-        ProductFilterPage actual = productService.getProductsByCategoryAndFilters(searchedFilters, PageRequest.of(0, 20));
+        ProductFilterPage actual = productService.getProductsByCategoryAndFilters(searchedFilters, PageRequest.of(0, 20), null);
         List<Product> content = actual.getContent();
 
         Product firstProduct = content.get(0);
@@ -106,7 +106,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    void getProductIdByCodeId() {
+    public void getProductIdByCodeId() {
         Long productId = productService.getProductIdsByCodeId("DUMMY-PLT-00009");
 
         assertThat(productId, is(2L));

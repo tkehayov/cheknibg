@@ -7,11 +7,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import java.math.BigDecimal;
+import java.util.List;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -27,45 +27,45 @@ public class CategoryServiceTest {
         Category firstCategory = categories.get(0);
         Category lastCategory = categories.get(categories.size() - 1);
 
-        assertThat(categories.size(), is(12));
+        assertEquals(12, categories.size());
 
-        assertThat(firstCategory.getId(), is(1L));
-        assertThat(firstCategory.getName(), is("лаптопи"));
-        assertThat(firstCategory.getAlias(), is("laptops"));
+        assertEquals(1L, firstCategory.getId());
+        assertEquals("лаптопи", firstCategory.getName());
+        assertEquals("laptops", firstCategory.getAlias());
 
-        assertThat(lastCategory.getId(), is(12L));
-        assertThat(lastCategory.getName(), is("компоненти"));
-        assertThat(lastCategory.getAlias(), is("components"));
+        assertEquals(12L, lastCategory.getId());
+        assertEquals("компоненти", lastCategory.getName());
+        assertEquals("components", lastCategory.getAlias());
     }
 
     @Test
     public void getCategoryByAlias() {
         Category actual = categoryService.findByAlias("laptops");
 
-        assertThat(actual.getAlias(), is("laptops"));
-        assertThat(actual.getName(), is("лаптопи"));
-        assertThat(actual.getId(), is(1L));
+        assertEquals("laptops", actual.getAlias());
+        assertEquals("лаптопи", actual.getName());
+        assertEquals(1L, actual.getId());
     }
 
     @Test
     public void getCategoryNameByAlias() {
         String actual = categoryService.findCategoryNameById(1L);
 
-        assertThat(actual, is("лаптопи"));
+        assertEquals("лаптопи", actual);
     }
 
     @Test
     public void getCategoryNameByNotExistAlias() {
         String actual = categoryService.findCategoryNameById(-1L);
 
-        assertThat(actual, is(""));
+        assertEquals("", actual);
     }
 
     @Test
     public void getCategoryByNotExistAlias() {
         Category actual = categoryService.findByAlias("not-exist-alias");
 
-        assertThat(actual.getAlias(),is(nullValue()) );
+        assertNull(actual.getAlias());
     }
 
     @Test
@@ -77,14 +77,14 @@ public class CategoryServiceTest {
         List<ProductFilter> filters = filterGroup.getProductFilters();
         ProductFilter firstFilter = filters.get(0);
 
-        assertThat(filterGroups.size(), is(4));
-        assertThat(filterGroup.getId(), is(2L));
-        assertThat(filterGroup.getName(), is("оперативна памет"));
-        assertThat(filterGroup.getAlias(), is("ram"));
+        assertEquals(4, filterGroups.size());
+        assertEquals(2L, filterGroup.getId());
+        assertEquals("оперативна памет", filterGroup.getName());
+        assertEquals("ram", filterGroup.getAlias());
 
-        assertThat(filters.size(), is(3));
-        assertThat(firstFilter.getId(), is(1L));
-        assertThat(firstFilter.getFilter(), is("8 GB"));
+        assertEquals(3, filters.size());
+        assertEquals(1L, firstFilter.getId());
+        assertEquals("8 GB", firstFilter.getFilter());
     }
 
     @Test
@@ -92,15 +92,31 @@ public class CategoryServiceTest {
         Long categoryId = 9999L;
         List<FilterGroup> filterGroups = categoryService.getFilters(categoryId);
 
-        assertThat(filterGroups.size(), is(0));
+        assertEquals(0, filterGroups.size());
     }
 
     @Test
     public void getCategorySearchFilter() {
-        List<CategoryFilter> filters = categoryService.getCategorySearchFilter("pple");
+        List<CategoryFilter> filters = categoryService.getCategorySearchFilter("Apple");
 
-        assertThat(filters.size(), is(1));
-        assertThat(filters.get(0).getId(), is(1L));
-        assertThat(filters.get(0).getValue(), is("лаптопи"));
+        assertEquals(1, filters.size());
+        assertEquals(1L, filters.get(0).getId());
+        assertEquals("лаптопи", filters.get(0).getValue());
+    }
+
+    @Test
+    public void getPriceFilters() {
+        MinMaxProductPrice priceRange = categoryService.getPriceFilters(null, List.of(1L, 2L));
+
+        assertEquals(new BigDecimal("619.00"), priceRange.getMinPrice());
+        assertEquals(new BigDecimal("5076.23"), priceRange.getMaxPrice());
+    }
+
+    @Test
+    public void getPriceFiltersCategory() {
+        MinMaxProductPrice priceRange = categoryService.getPriceFilters(1L, null);
+
+        assertEquals(new BigDecimal("619.00"), priceRange.getMinPrice());
+        assertEquals(new BigDecimal("5076.23"), priceRange.getMaxPrice());
     }
 }

@@ -1,6 +1,7 @@
 package com.products.core.products;
 
 import com.products.core.Image.Image;
+import com.products.core.categories.MinMaxProductPrice;
 import com.products.core.mapstruct.CycleAvoidingMappingContext;
 import com.products.repositories.categories.CategoryEntity;
 import com.products.repositories.productfilter.ProductFilterRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -41,13 +43,13 @@ public class ProductService {
         return productMapper.productEntityToProduct(emptyProductEntity, new CycleAvoidingMappingContext());
     }
 
-    public ProductFilterPage getProductsByCategory(Long categoryId, Pageable pageRequest) {
-        Page<ProductEntity> productsEntity = productRepository.findAllByCategory(CategoryEntity.builder().id(categoryId).build(), pageRequest);
+    public ProductFilterPage getProductsByCategory(Long categoryId, Pageable pageRequest, BigDecimal minPrice, BigDecimal maxPrice) {
+        Page<ProductEntity> productsEntity = productRepository.findAllByCategoryAndPriceRange(CategoryEntity.builder().id(categoryId).build(), minPrice, maxPrice, pageRequest);
 
         return productPageEntityToProductFilterPage(productsEntity);
     }
 
-    public ProductFilterPage getProductsByCategoryAndFilters(List<Long> filterIds, Pageable pageRequest) {
+    public ProductFilterPage getProductsByCategoryAndFilters(List<Long> filterIds, Pageable pageRequest, MinMaxProductPrice minMaxProductPrice) {
         Iterable<ProductFilterEntity> allById = productFilterRepository.findAllById(filterIds);
         List<ProductFilterEntity> filterListEntity = StreamSupport.stream(allById.spliterator(), false).toList();
 
@@ -56,7 +58,9 @@ public class ProductService {
                 .collect(Collectors.groupingBy(ProductFilterEntity::getGroupFiltersId));
 
         Specification<ProductEntity> finalSpec = withDynamicFilters(groupedFilters);
-
+        if (minMaxProductPrice != null && (minMaxProductPrice.getMinPrice() != null || minMaxProductPrice.getMaxPrice() != null)) {
+            finalSpec = finalSpec.and(withPriceRange(minMaxProductPrice.getMinPrice(), minMaxProductPrice.getMaxPrice()));
+        }
         // 3. Execute the dynamic query
         Page<ProductEntity> products = productRepository.findAll(finalSpec, pageRequest);
 
@@ -65,6 +69,26 @@ public class ProductService {
 
     public Long getProductIdsByCodeId(String codeId) {
         return productRepository.findByCodeId(codeId);
+    }
+
+    private Specification<ProductEntity> withPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+        return (root, query, cb) -> {
+            // We join ProductEntity -> MerchantProductEntity
+            // Assuming the field in ProductEntity is named "merchantProducts"
+            Join<Object, Object> merchantJoin = root.join("merchants");
+
+            // Ensure distinct results because one product might have multiple merchant entries
+            query.distinct(true);
+
+            if (minPrice != null && maxPrice != null) {
+                return cb.between(merchantJoin.get("price"), minPrice, maxPrice);
+            } else if (minPrice != null) {
+                return cb.greaterThanOrEqualTo(merchantJoin.get("price"), minPrice);
+            } else if (maxPrice != null) {
+                return cb.lessThanOrEqualTo(merchantJoin.get("price"), maxPrice);
+            }
+            return null;
+        };
     }
 
     private Specification<ProductEntity> withDynamicFilters(Map<Long, List<ProductFilterEntity>> filtersByGroup) {
