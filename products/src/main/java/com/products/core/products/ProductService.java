@@ -49,7 +49,7 @@ public class ProductService {
         return productPageEntityToProductFilterPage(productsEntity);
     }
 
-    public ProductFilterPage getProductsByCategoryAndFilters(List<Long> filterIds, Pageable pageRequest, MinMaxProductPrice minMaxProductPrice) {
+    public ProductFilterPage getProductsByFilters(List<Long> filterIds, Pageable pageRequest, MinMaxProductPrice minMaxProductPrice) {
         Iterable<ProductFilterEntity> allById = productFilterRepository.findAllById(filterIds);
         List<ProductFilterEntity> filterListEntity = StreamSupport.stream(allById.spliterator(), false).toList();
 
@@ -73,8 +73,6 @@ public class ProductService {
 
     private Specification<ProductEntity> withPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
         return (root, query, cb) -> {
-            // We join ProductEntity -> MerchantProductEntity
-            // Assuming the field in ProductEntity is named "merchantProducts"
             Join<Object, Object> merchantJoin = root.join("merchants");
 
             // Ensure distinct results because one product might have multiple merchant entries
@@ -115,10 +113,6 @@ public class ProductService {
         return spec;
     }
 
-    private Specification<ProductEntity> withCategory(CategoryEntity category) {
-        return (root, query, cb) -> cb.equal(root.get("category"), category);
-    }
-
     private ProductFilterPage productPageEntityToProductFilterPage(Page<ProductEntity> productEntity) {
         if (productEntity == null) {
             return null;
@@ -127,17 +121,26 @@ public class ProductService {
         ProductFilterPage.ProductFilterPageBuilder productFilterPage = ProductFilterPage.builder();
 
         List<Product> list = productEntity.getContent().stream()
-                .map(entity -> Product.builder()
-                        .id(entity.getId())
-                        .name(entity.getName())
-                        .images(entity.getImages().stream()
-                                .map(imageEntity -> Image.builder().
-                                        id(imageEntity.getId())
-                                        .filename(imageEntity.getFilename())
-                                        .productId(imageEntity.getProductId())
-                                        .build())
-                                .toList())
-                        .build())
+                .map(entity -> {
+                    BigDecimal minPrice = entity.getMerchants().stream()
+                            .map(com.products.repositories.merchants.MerchantProductEntity::getPrice)
+                            .filter(java.util.Objects::nonNull)
+                            .min(java.math.BigDecimal::compareTo)
+                            .orElse(java.math.BigDecimal.ZERO);
+
+                    return Product.builder()
+                            .id(entity.getId())
+                            .name(entity.getName())
+                            .minPrice(minPrice)
+                            .images(entity.getImages().stream()
+                                    .map(imageEntity -> Image.builder().
+                                            id(imageEntity.getId())
+                                            .filename(imageEntity.getFilename())
+                                            .productId(imageEntity.getProductId())
+                                            .build())
+                                    .toList())
+                            .build();
+                })
                 .toList();
         productFilterPage.totalPages(productEntity.getTotalPages()).currentPage(productEntity.getNumber()).content(list);
 

@@ -59,7 +59,7 @@ public class ProductController {
         Pageable paging = PageRequest.of(page, size);
         MinMaxProductPrice minMaxProductPrice = MinMaxProductPrice.builder().minPrice(minPrice).maxPrice(maxPrice).build();
 
-        ProductFilterPage productsByCategory = productService.getProductsByCategoryAndFilters(filters, paging, minMaxProductPrice);
+        ProductFilterPage productsByCategory = productService.getProductsByFilters(filters, paging, minMaxProductPrice);
         ProductFilterPageDto productPageDto = productMapper.productFilterPageToProductPageDto(productsByCategory);
 
         return new ResponseEntity<>(productPageDto, HttpStatus.OK);
