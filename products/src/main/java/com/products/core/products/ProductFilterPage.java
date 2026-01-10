@@ -50,6 +50,7 @@ public class ProductFilterPage {
                         .map(product -> ProductFilterDto.builder()
                                 .id(product.getId())
                                 .name(product.getName())
+                                .minPrice(product.getMinPrice())
                                 .images(product.getImages().stream().map(image -> ImageEntity.builder()
                                                 .id(image.getId())
                                                 .filename(image.getFilename())

@@ -4,6 +4,7 @@ import com.products.core.mapstruct.CycleAvoidingMappingContext;
 import com.products.core.products.Product;
 import com.products.core.products.ProductFilterPage;
 import com.products.core.products.ProductMapper;
+import com.products.repositories.merchants.MerchantProductEntity;
 import com.products.repositories.products.ProductEntity;
 import lombok.RequiredArgsConstructor;
 import org.apache.lucene.search.Query;
@@ -18,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -105,7 +108,19 @@ public class SearchService {
         }
 
         List<ProductEntity> productEntities = fullTextQuery.getResultList();
-        List<Product> products = ProductFilterPage.mapToProducts(productEntities);
+
+        List<Product> products = new ArrayList<>();
+
+        productEntities.forEach(p -> {
+            BigDecimal minPrice = p.getMerchants().stream()
+                    .map(MerchantProductEntity::getPrice)
+                    .min(BigDecimal::compareTo)
+                    .orElse(BigDecimal.ZERO);
+
+            Product product = Product.mapToProductWithMinPrice(p, minPrice);
+            products.add(product);
+        });
+
 
         Page<Product> productPage = new PageImpl<>(products, pageable, totalElements);
 

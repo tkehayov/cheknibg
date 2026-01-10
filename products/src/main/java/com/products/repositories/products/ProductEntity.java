@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.SortNatural;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -24,7 +25,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -45,8 +48,10 @@ public class ProductEntity {
     @Field(store = Store.YES)
     private String name;
 
+    @BatchSize(size = 40)
     @OneToMany(mappedBy = "product")
-    private List<MerchantProductEntity> merchants;
+    @Builder.Default
+    private Set<MerchantProductEntity> merchants = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "productId")
     private List<PropertiesGroupEntity> propertiesGroup;
@@ -62,8 +67,10 @@ public class ProductEntity {
     @Column(name = "code_id")
     private String codeId;
 
+    @BatchSize(size = 40)
     @OneToMany(mappedBy = "productId")
-    private List<ImageEntity> images;
+    @Builder.Default
+    private Set<ImageEntity> images = new LinkedHashSet<>();
 
     @OneToOne
     @JoinColumn(name = "category")

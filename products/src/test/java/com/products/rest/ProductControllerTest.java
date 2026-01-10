@@ -50,7 +50,7 @@ class ProductControllerTest {
         MinMaxProductPrice minMaxProductPrice = MinMaxProductPrice.builder().minPrice(new BigDecimal("100")).maxPrice(new BigDecimal("9000")).build();
         ProductFilterPage productPage = ProductFilterPage.builder().content(List.of(product)).totalPages(1).currentPage(0).build();
 
-        when(productService.getProductsByCategoryAndFilters(
+        when(productService.getProductsByFilters(
                 eq(List.of(1L)),
                 eq(PageRequest.of(0, 20)),
                 any(MinMaxProductPrice.class))).thenReturn(productPage);
