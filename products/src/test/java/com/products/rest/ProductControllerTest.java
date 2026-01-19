@@ -53,8 +53,8 @@ class ProductControllerTest {
         when(productService.getProductsByFilters(
                 eq(List.of(1L)),
                 eq(PageRequest.of(0, 20)),
-                any(MinMaxProductPrice.class))).thenReturn(productPage);
-        mockMvc.perform(get("/products/filters?filters=1&minPrice=100&maxPrice=9000&page=0&size=20")).andDo(print()).andExpect(status().isOk())
+                any(MinMaxProductPrice.class), eq("asc"))).thenReturn(productPage);
+        mockMvc.perform(get("/products/filters?filters=1&minPrice=100&maxPrice=9000&page=0&size=20&sortPrice=asc")).andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("Apple iPhone 14"));
     }
 }

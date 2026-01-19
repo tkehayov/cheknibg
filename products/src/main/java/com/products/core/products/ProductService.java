@@ -3,14 +3,15 @@ package com.products.core.products;
 import com.products.core.Image.Image;
 import com.products.core.categories.MinMaxProductPrice;
 import com.products.core.mapstruct.CycleAvoidingMappingContext;
-import com.products.repositories.categories.CategoryEntity;
 import com.products.repositories.productfilter.ProductFilterRepository;
 import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductFilterEntity;
 import com.products.repositories.products.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -43,13 +44,7 @@ public class ProductService {
         return productMapper.productEntityToProduct(emptyProductEntity, new CycleAvoidingMappingContext());
     }
 
-    public ProductFilterPage getProductsByCategory(Long categoryId, Pageable pageRequest, BigDecimal minPrice, BigDecimal maxPrice) {
-        Page<ProductEntity> productsEntity = productRepository.findAllByCategoryAndPriceRange(CategoryEntity.builder().id(categoryId).build(), minPrice, maxPrice, pageRequest);
-
-        return productPageEntityToProductFilterPage(productsEntity);
-    }
-
-    public ProductFilterPage getProductsByFilters(List<Long> filterIds, Pageable pageRequest, MinMaxProductPrice minMaxProductPrice) {
+    public ProductFilterPage getProductsByFilters(List<Long> filterIds, Pageable pageRequest, MinMaxProductPrice minMaxProductPrice, String sortPrice) {
         Iterable<ProductFilterEntity> allById = productFilterRepository.findAllById(filterIds);
         List<ProductFilterEntity> filterListEntity = StreamSupport.stream(allById.spliterator(), false).toList();
 
@@ -61,8 +56,21 @@ public class ProductService {
         if (minMaxProductPrice != null && (minMaxProductPrice.getMinPrice() != null || minMaxProductPrice.getMaxPrice() != null)) {
             finalSpec = finalSpec.and(withPriceRange(minMaxProductPrice.getMinPrice(), minMaxProductPrice.getMaxPrice()));
         }
+
+        Sort sort = Sort.unsorted();
+        if ("asc".equalsIgnoreCase(sortPrice)) {
+            sort = Sort.by("minPrice").ascending();
+        } else if ("desc".equalsIgnoreCase(sortPrice)) {
+            sort = Sort.by("minPrice").descending();
+        }
+
+        Pageable sortedPageable = PageRequest.of(
+                pageRequest.getPageNumber(),
+                pageRequest.getPageSize(),
+                sort
+        );
         // 3. Execute the dynamic query
-        Page<ProductEntity> products = productRepository.findAll(finalSpec, pageRequest);
+        Page<ProductEntity> products = productRepository.findAll(finalSpec, sortedPageable);
 
         return productPageEntityToProductFilterPage(products);
     }

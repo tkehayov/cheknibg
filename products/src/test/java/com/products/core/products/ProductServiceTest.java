@@ -61,25 +61,8 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void getProductsByCategory() {
-        ProductFilterPage actual = productService.getProductsByCategory(1L, PageRequest.of(0, 3), new BigDecimal("0"), new BigDecimal("9000"));
-        List<Product> content = actual.getContent();
-        Product firstElement = content.get(0);
-        Image image = firstElement.getImages().get(0);
-
-        assertThat(actual.getCurrentPage(), is(0));
-        assertThat(actual.getTotalPages(), is(1));
-
-        assertThat(firstElement.getName(), is("Apple iPhone 14 Pro 128GB Мобилни телефони (GSM)"));
-        assertThat(firstElement.getId(), is(1L));
-
-        assertThat(image.getFilename(), is("mac.jpg"));
-        assertThat(image.getId(), is(1L));
-    }
-
-    @Test
     public void getProductsByCategoryAndFilter() {
-        ProductFilterPage actual = productService.getProductsByFilters(List.of(1L), PageRequest.of(0, 3), null);
+        ProductFilterPage actual = productService.getProductsByFilters(List.of(1L), PageRequest.of(0, 3), null, "asc");
         List<Product> content = actual.getContent();
 
         Product firstProduct = content.get(0);
@@ -92,7 +75,7 @@ public class ProductServiceTest {
     @Test
     public void getSameProductByDifferentFilters() {
         List<Long> searchedFilters = List.of(7L, 4L);
-        ProductFilterPage actual = productService.getProductsByFilters(searchedFilters, PageRequest.of(0, 20), null);
+        ProductFilterPage actual = productService.getProductsByFilters(searchedFilters, PageRequest.of(0, 20), null, "DESC");
         List<Product> content = actual.getContent();
 
         Product firstProduct = content.get(0);

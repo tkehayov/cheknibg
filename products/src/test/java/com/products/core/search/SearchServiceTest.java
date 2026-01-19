@@ -46,7 +46,10 @@ public class SearchServiceTest {
 
     @Test
     public void searchDetailed() {
-        ProductFilterPage actual = searchService.searchDetailed("APPLE 16.2inch MacBook Pro M1 Max chip with 10‑core CPU",List.of(1L), PageRequest.of(0, 23));
+        PageRequest pageable = PageRequest.of(0, 23);
+        String searchTerm = "APPLE 16.2inch MacBook Pro M1 Max chip with 10‑core CPU";
+
+        ProductFilterPage actual = searchService.searchDetailed(searchTerm, List.of(1L), pageable, "asc");
         Product product = actual.getContent().get(0);
 
         assertEquals(1, actual.getTotalPages());
