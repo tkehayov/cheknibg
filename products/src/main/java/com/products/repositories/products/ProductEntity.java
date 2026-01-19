@@ -8,10 +8,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.SortNatural;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.SortableField;
 import org.hibernate.search.annotations.Store;
 
 import javax.persistence.Column;
@@ -25,6 +27,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -76,4 +79,9 @@ public class ProductEntity {
     @JoinColumn(name = "category")
     @IndexedEmbedded
     private CategoryEntity category;
+
+    @Field
+    @SortableField
+    @Formula("(SELECT MIN(m.price) FROM merchants_products m WHERE m.product_id = id)")
+    private BigDecimal minPrice;
 }

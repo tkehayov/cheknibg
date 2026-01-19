@@ -8,6 +8,7 @@ import com.products.repositories.merchants.MerchantProductEntity;
 import com.products.repositories.products.ProductEntity;
 import lombok.RequiredArgsConstructor;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Sort;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
@@ -61,7 +62,7 @@ public class SearchService {
         return mapper.productEntityToProduct(collect, new CycleAvoidingMappingContext());
     }
 
-    public ProductFilterPage searchDetailed(String searchTerm, List<Long> filtersId, Pageable pageable) {
+    public ProductFilterPage searchDetailed(String searchTerm, List<Long> filtersId, Pageable pageable, String sortPrice) {
         FullTextEntityManager fullTextEntityManager =
                 Search.getFullTextEntityManager(entityManager);
 
@@ -100,6 +101,13 @@ public class SearchService {
                 .createFullTextQuery(finalQuery, ProductEntity.class);
         fullTextQuery.setSort(queryBuilder.sort().byScore().createSort());
 
+        if (sortPrice != null && !sortPrice.isEmpty()) {
+            Sort sort = buildPriceSort(queryBuilder, sortPrice);
+            fullTextQuery.setSort(sort);
+        } else {
+            fullTextQuery.setSort(queryBuilder.sort().byScore().createSort());
+        }
+
         int totalElements = fullTextQuery.getResultSize();
 
         if (pageable != null) {
@@ -126,4 +134,21 @@ public class SearchService {
 
         return ProductFilterPage.mapToProductFilterPage(productPage);
     }
+
+    private Sort buildPriceSort(QueryBuilder queryBuilder, String sortPrice) {
+        if ("asc".equalsIgnoreCase(sortPrice)) {
+            return queryBuilder.sort()
+                    .byField("minPrice")
+                    .asc()
+                    .createSort();
+        }
+        if ("desc".equalsIgnoreCase(sortPrice)) {
+            return queryBuilder.sort()
+                    .byField("minPrice")
+                    .desc()
+                    .createSort();
+        }
+        return null;
+    }
+
 }

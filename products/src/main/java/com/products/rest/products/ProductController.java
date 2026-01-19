@@ -34,32 +34,20 @@ public class ProductController {
         return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/category/{id}")
-    public ResponseEntity<ProductFilterPageDto> getProductsByCategory(@PathVariable Long id,
-                                                                      @RequestParam(defaultValue = "0") int page,
-                                                                      @RequestParam(defaultValue = "20") int size,
-                                                                      @RequestParam(required = false) BigDecimal minPrice,
-                                                                      @RequestParam(required = false) BigDecimal maxPrice) {
-
-        Pageable paging = PageRequest.of(page, size);
-        ProductFilterPage productsByCategory = productService.getProductsByCategory(id, paging, minPrice, maxPrice);
-        ProductFilterPageDto productPageDto = productMapper.productFilterPageToProductPageDto(productsByCategory);
-
-        return new ResponseEntity<>(productPageDto, HttpStatus.OK);
-    }
-
     @GetMapping(value = "/filters")
     public ResponseEntity<ProductFilterPageDto> getProductsByFilters(
             @RequestParam List<Long> filters,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
             @RequestParam(required = false) BigDecimal minPrice,
-            @RequestParam(required = false) BigDecimal maxPrice) {
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) String sortPrice
+    ) {
 
         Pageable paging = PageRequest.of(page, size);
         MinMaxProductPrice minMaxProductPrice = MinMaxProductPrice.builder().minPrice(minPrice).maxPrice(maxPrice).build();
 
-        ProductFilterPage productsByCategory = productService.getProductsByFilters(filters, paging, minMaxProductPrice);
+        ProductFilterPage productsByCategory = productService.getProductsByFilters(filters, paging, minMaxProductPrice, sortPrice);
         ProductFilterPageDto productPageDto = productMapper.productFilterPageToProductPageDto(productsByCategory);
 
         return new ResponseEntity<>(productPageDto, HttpStatus.OK);
