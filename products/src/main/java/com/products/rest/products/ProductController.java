@@ -41,13 +41,14 @@ public class ProductController {
             @RequestParam(defaultValue = "20") int size,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
-            @RequestParam(required = false) String sortPrice
+            @RequestParam(required = false) String sortPrice,
+            @RequestParam(required = false) String sortName
     ) {
 
         Pageable paging = PageRequest.of(page, size);
         MinMaxProductPrice minMaxProductPrice = MinMaxProductPrice.builder().minPrice(minPrice).maxPrice(maxPrice).build();
 
-        ProductFilterPage productsByCategory = productService.getProductsByFilters(filters, paging, minMaxProductPrice, sortPrice);
+        ProductFilterPage productsByCategory = productService.getProductsByFilters(filters, paging, minMaxProductPrice, sortPrice, sortName);
         ProductFilterPageDto productPageDto = productMapper.productFilterPageToProductPageDto(productsByCategory);
 
         return new ResponseEntity<>(productPageDto, HttpStatus.OK);

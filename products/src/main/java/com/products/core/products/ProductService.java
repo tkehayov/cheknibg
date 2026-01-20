@@ -44,7 +44,7 @@ public class ProductService {
         return productMapper.productEntityToProduct(emptyProductEntity, new CycleAvoidingMappingContext());
     }
 
-    public ProductFilterPage getProductsByFilters(List<Long> filterIds, Pageable pageRequest, MinMaxProductPrice minMaxProductPrice, String sortPrice) {
+    public ProductFilterPage getProductsByFilters(List<Long> filterIds, Pageable pageRequest, MinMaxProductPrice minMaxProductPrice, String sortPrice, String sortName) {
         Iterable<ProductFilterEntity> allById = productFilterRepository.findAllById(filterIds);
         List<ProductFilterEntity> filterListEntity = StreamSupport.stream(allById.spliterator(), false).toList();
 
@@ -57,12 +57,7 @@ public class ProductService {
             finalSpec = finalSpec.and(withPriceRange(minMaxProductPrice.getMinPrice(), minMaxProductPrice.getMaxPrice()));
         }
 
-        Sort sort = Sort.unsorted();
-        if ("asc".equalsIgnoreCase(sortPrice)) {
-            sort = Sort.by("minPrice").ascending();
-        } else if ("desc".equalsIgnoreCase(sortPrice)) {
-            sort = Sort.by("minPrice").descending();
-        }
+        Sort sort = getOrders(sortPrice, sortName);
 
         Pageable sortedPageable = PageRequest.of(
                 pageRequest.getPageNumber(),
@@ -75,8 +70,24 @@ public class ProductService {
         return productPageEntityToProductFilterPage(products);
     }
 
+
     public Long getProductIdsByCodeId(String codeId) {
         return productRepository.findByCodeId(codeId);
+    }
+
+    private static Sort getOrders(String sortPrice, String sortName) {
+        Sort sort = Sort.unsorted();
+        if ("asc".equalsIgnoreCase(sortPrice)) {
+            sort = Sort.by("minPrice").ascending();
+        } else if ("desc".equalsIgnoreCase(sortPrice)) {
+            sort = Sort.by("minPrice").descending();
+        }
+        if ("asc".equalsIgnoreCase(sortName)) {
+            sort = Sort.by("name").ascending();
+        } else if ("desc".equalsIgnoreCase(sortName)) {
+            sort = Sort.by("name").descending();
+        }
+        return sort;
     }
 
     private Specification<ProductEntity> withPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {

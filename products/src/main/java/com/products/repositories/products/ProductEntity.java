@@ -48,6 +48,7 @@ public class ProductEntity {
     private Long id;
 
     @Column(name = "name")
+    @SortableField
     @Field(store = Store.YES)
     private String name;
 
