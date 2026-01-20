@@ -35,10 +35,11 @@ public class SearchController {
                                                @RequestParam(required = false) List<Long> filtersId,
                                                @RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "20") int size,
-                                               @RequestParam(required = false) String sortPrice
+                                               @RequestParam(required = false) String sortPrice,
+                                               @RequestParam(required = false) String sortName
     ) {
         Pageable paging = PageRequest.of(page, size);
-        ProductFilterPage productFilterPage = searchService.searchDetailed(s, filtersId, paging, sortPrice);
+        ProductFilterPage productFilterPage = searchService.searchDetailed(s, filtersId, paging, sortPrice, sortName);
 
         return ProductFilterPage.mapToDto(productFilterPage);
     }

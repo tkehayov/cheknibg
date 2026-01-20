@@ -62,7 +62,7 @@ public class SearchService {
         return mapper.productEntityToProduct(collect, new CycleAvoidingMappingContext());
     }
 
-    public ProductFilterPage searchDetailed(String searchTerm, List<Long> filtersId, Pageable pageable, String sortPrice) {
+    public ProductFilterPage searchDetailed(String searchTerm, List<Long> filtersId, Pageable pageable, String sortPrice, String sortName) {
         FullTextEntityManager fullTextEntityManager =
                 Search.getFullTextEntityManager(entityManager);
 
@@ -103,6 +103,9 @@ public class SearchService {
 
         if (sortPrice != null && !sortPrice.isEmpty()) {
             Sort sort = buildPriceSort(queryBuilder, sortPrice);
+            fullTextQuery.setSort(sort);
+        } else if (sortName != null && !sortName.isEmpty()) {
+            Sort sort = buildNameSort(queryBuilder, sortName);
             fullTextQuery.setSort(sort);
         } else {
             fullTextQuery.setSort(queryBuilder.sort().byScore().createSort());
@@ -145,6 +148,22 @@ public class SearchService {
         if ("desc".equalsIgnoreCase(sortPrice)) {
             return queryBuilder.sort()
                     .byField("minPrice")
+                    .desc()
+                    .createSort();
+        }
+        return null;
+    }
+
+    private Sort buildNameSort(QueryBuilder queryBuilder, String sortName) {
+        if ("asc".equalsIgnoreCase(sortName)) {
+            return queryBuilder.sort()
+                    .byField("name")
+                    .asc()
+                    .createSort();
+        }
+        if ("desc".equalsIgnoreCase(sortName)) {
+            return queryBuilder.sort()
+                    .byField("name")
                     .desc()
                     .createSort();
         }
