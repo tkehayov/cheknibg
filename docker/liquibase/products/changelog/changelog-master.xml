@@ -241,5 +241,8 @@
     <changeSet author="tkehayov" id="79" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/79.map-all-product-headphones-type-audio-filter.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="80" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/80.add-missing-filters-laptops.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 
 </databaseChangeLog>
