@@ -244,5 +244,17 @@
     <changeSet author="tkehayov" id="80" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/80.add-missing-filters-laptops.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="81" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/81.add-missing-filters-pc.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="82" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/82.add-missing-filters-pc.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="83" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/83.add-missing-filters-pc.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="84" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/84.add-missing-filters-pc.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 
 </databaseChangeLog>
