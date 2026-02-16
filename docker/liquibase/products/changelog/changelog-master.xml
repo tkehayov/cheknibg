@@ -259,5 +259,4 @@
     <changeSet author="tkehayov" id="85" context="dev">
         <sqlFile path="/liquibase/changelog/changes/85.delete-screen-tablet-group-filters.sql" relativeToChangelogFile="true"/>
     </changeSet>
-
 </databaseChangeLog>
