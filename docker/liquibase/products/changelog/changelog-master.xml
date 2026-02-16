@@ -256,5 +256,7 @@
     <changeSet author="tkehayov" id="84" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/84.add-missing-filters-pc.sql" relativeToChangelogFile="true"/>
     </changeSet>
-
+    <changeSet author="tkehayov" id="85" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/85.delete-screen-tablet-group-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
