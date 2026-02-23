@@ -241,14 +241,14 @@
     <changeSet author="tkehayov" id="79" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/79.map-all-product-headphones-type-audio-filter.sql" relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="tkehayov" id="80" context="dev,prod">
-        <sqlFile path="/liquibase/changelog/changes/80.add-missing-filters-laptops.sql" relativeToChangelogFile="true"/>
+    <changeSet author="tkehayov" id="80" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/80.add-missing-filters-laptops-dev.sql" relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="tkehayov" id="81" context="dev,prod">
-        <sqlFile path="/liquibase/changelog/changes/81.add-missing-filters-pc.sql" relativeToChangelogFile="true"/>
+    <changeSet author="tkehayov" id="81" context="prod">
+        <sqlFile path="/liquibase/changelog/changes/81.add-missing-filters-laptops-prod.sql" relativeToChangelogFile="true"/>
     </changeSet>
     <changeSet author="tkehayov" id="82" context="dev,prod">
-        <sqlFile path="/liquibase/changelog/changes/82.add-missing-filters-pc.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="/liquibase/changelog/changes/82.add-missing-filters-laptops.sql" relativeToChangelogFile="true"/>
     </changeSet>
     <changeSet author="tkehayov" id="83" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/83.add-missing-filters-pc.sql" relativeToChangelogFile="true"/>
@@ -256,13 +256,19 @@
     <changeSet author="tkehayov" id="84" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/84.add-missing-filters-pc.sql" relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="tkehayov" id="85" context="dev">
-        <sqlFile path="/liquibase/changelog/changes/85.delete-screen-tablet-group-filters.sql" relativeToChangelogFile="true"/>
+    <changeSet author="tkehayov" id="85" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/85.add-missing-filters-pc.sql" relativeToChangelogFile="true"/>
     </changeSet>
     <changeSet author="tkehayov" id="86" context="dev,prod">
-        <sqlFile path="/liquibase/changelog/changes/86.add-missing-tablets-pc.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="/liquibase/changelog/changes/86.add-missing-filters-pc.sql" relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="tkehayov" id="87" context="dev,prod">
-        <sqlFile path="/liquibase/changelog/changes/87.add-missing-phones.sql" relativeToChangelogFile="true"/>
+    <changeSet author="tkehayov" id="87" context="dev">
+        <sqlFile path="/liquibase/changelog/changes/87.delete-screen-tablet-group-filters.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="88" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/88.add-missing-tablets-pc.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="89" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/89.add-missing-phones.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>
