@@ -277,4 +277,7 @@
     <changeSet author="tkehayov" id="92" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/92.add-missing-audio.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="93" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/93.add-missing-monitors.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
