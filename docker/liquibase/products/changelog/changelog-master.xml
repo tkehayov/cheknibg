@@ -268,7 +268,10 @@
     <changeSet author="tkehayov" id="88" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/88.add-missing-tablets-pc.sql" relativeToChangelogFile="true"/>
     </changeSet>
-    <changeSet author="tkehayov" id="89" context="dev,prod">
-        <sqlFile path="/liquibase/changelog/changes/89.add-missing-phones.sql" relativeToChangelogFile="true"/>
+    <changeSet author="tkehayov" id="90" context="prod">
+        <sqlFile path="/liquibase/changelog/changes/90.add-missing-laptops-prod.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="91" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/91.add-missing-smart-watches.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>
