@@ -1,0 +1,2 @@
+INSERT INTO products_product_filters (product_id, product_filters_id)
+VALUES ((select id from products where code_id='32PHS6605/12'), (select pf.id from product_filters pf join group_filters gf on pf.group_filters_id = gf.id where gf.alias='brand-tv' and pf."filter"='PHILIPS'));
