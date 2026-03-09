@@ -281,6 +281,9 @@
         <sqlFile path="/liquibase/changelog/changes/93.add-missing-monitors.sql" relativeToChangelogFile="true"/>
     </changeSet>
     <changeSet author="tkehayov" id="94" context="dev,prod">
-        <sqlFile path="/liquibase/changelog/changes/94.map-all-product-peripherial.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="/liquibase/changelog/changes/94.add-missing-tv.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+    <changeSet author="tkehayov" id="95" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/95.map-all-product-peripherial.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>
