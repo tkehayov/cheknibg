@@ -292,4 +292,7 @@
     <changeSet author="tkehayov" id="97" context="dev,prod">
         <sqlFile path="/liquibase/changelog/changes/97.map-all-product-components.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet author="tkehayov" id="98" context="dev,prod">
+        <sqlFile path="/liquibase/changelog/changes/98.map-all-product-accessories.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
