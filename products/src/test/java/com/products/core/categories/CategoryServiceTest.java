@@ -71,7 +71,7 @@ public class CategoryServiceTest {
     @Test
     public void getCategoryFilters() {
         Long categoryId = 1L;
-        List<FilterGroup> filterGroups = categoryService.getFilters(categoryId);
+        List<FilterGroup> filterGroups = categoryService.getFilters(categoryId,List.of(categoryId));
 
         FilterGroup filterGroup = filterGroups.get(1);
         List<ProductFilter> filters = filterGroup.getProductFilters();
@@ -91,7 +91,7 @@ public class CategoryServiceTest {
     @Test
     public void getFiltersToNotExistsCategory() {
         Long categoryId = 9999L;
-        List<FilterGroup> filterGroups = categoryService.getFilters(categoryId);
+        List<FilterGroup> filterGroups = categoryService.getFilters(categoryId,List.of(categoryId));
 
         assertEquals(0, filterGroups.size());
     }
