@@ -9,4 +9,5 @@ public class ProductFilterDto {
     private Long id;
     private String filter;
     private Integer orders;
+    private long productCount;
 }

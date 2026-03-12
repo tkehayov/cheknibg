@@ -81,6 +81,7 @@ public class CategoryServiceTest {
         assertEquals(2L, filterGroup.getId());
         assertEquals("оперативна памет", filterGroup.getName());
         assertEquals("ram", filterGroup.getAlias());
+        assertEquals(1, filterGroup.getProductFilters().get(0).getProductCount());
 
         assertEquals(3, filters.size());
         assertEquals(1L, firstFilter.getId());
