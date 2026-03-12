@@ -1,11 +1,14 @@
 package com.products.core.categories;
 
+import com.products.core.products.ProductFilter;
 import com.products.repositories.categories.CategoryEntity;
 import com.products.repositories.categories.CategoryNameProjection;
 import com.products.repositories.categories.CategoryRepository;
 import com.products.repositories.categories.FilterGroupEntity;
 import com.products.repositories.merchants.MerchantProductRepository;
 import com.products.repositories.merchants.ProductPrice;
+import com.products.repositories.productfilter.ProductFilterCount;
+import com.products.repositories.productfilter.ProductFilterRepository;
 import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductFilterEntity;
 import lombok.AllArgsConstructor;
@@ -19,8 +22,11 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,6 +34,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CategoryService {
     private final MerchantProductRepository merchantProductRepository;
+    private final ProductFilterRepository productFilterRepository;
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
     private final EntityManager entityManager;
@@ -39,18 +46,86 @@ public class CategoryService {
         return categoryMapper.categoryEntityToCategory(entities);
     }
 
-    public List<FilterGroup> getFilters(Long categoryId) {
+    public List<FilterGroup> getFilters(Long categoryId, List<Long> selectedFilterIds) {
         Optional<CategoryEntity> categoryOptional = categoryRepository.findById(categoryId);
-        boolean categoryNotExists = categoryNotExists(categoryOptional);
-
-        if (categoryNotExists) {
+        if (categoryNotExists(categoryOptional)) {
             return Collections.emptyList();
         }
 
         CategoryEntity categoryEntity = categoryOptional.get();
         List<FilterGroupEntity> filterGroupEntities = categoryEntity.getFilterGroups();
+        List<Long> filtersId = getFiltersId(filterGroupEntities);
 
-        return categoryMapper.filterGroupEntityToFilterGroup(filterGroupEntities);
+        List<Long> activeFilters = selectedFilterIds == null ? Collections.emptyList() : selectedFilterIds;
+
+        Map<Long, Long> productCountByFilterId;
+
+        if (activeFilters.isEmpty()) {
+            productCountByFilterId = productFilterRepository
+                    .countProductsPerFilterGroups(filtersId)
+                    .stream()
+                    .collect(Collectors.toMap(ProductFilterCount::getFilterId, ProductFilterCount::getCount));
+        } else {
+            Map<Long, Long> filterToGroupMap = filterGroupEntities.stream()
+                    .flatMap(group -> group.getProductFilters().stream()
+                            .map(pf -> Map.entry(pf.getId(), group.getId()))
+                    )
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+            productCountByFilterId = new HashMap<>();
+
+            filterGroupEntities.forEach(group -> {
+                List<Long> filterIdsInGroup = group.getProductFilters().stream()
+                        .map(ProductFilterEntity::getId)
+                        .toList();
+
+                List<Long> selectedOutsideGroup = activeFilters.stream()
+                        .filter(id -> !filterIdsInGroup.contains(id))
+                        .toList();
+
+                List<ProductFilterCount> counts;
+                if (selectedOutsideGroup.isEmpty()) {
+                    counts = productFilterRepository.countProductsPerFilterGroups(filterIdsInGroup);
+                } else {
+                    long distinctSelectedGroups = selectedOutsideGroup.stream()
+                            .map(filterToGroupMap::get)
+                            .filter(Objects::nonNull)
+                            .distinct()
+                            .count();
+
+                    counts = productFilterRepository.countProductsPerFilterGroups(
+                            filterIdsInGroup,
+                            selectedOutsideGroup,
+                            distinctSelectedGroups
+                    );
+                }
+
+                counts.forEach(c -> productCountByFilterId.put(c.getFilterId(), c.getCount()));
+            });
+        }
+
+        List<FilterGroup> filterGroups = categoryMapper.filterGroupEntityToFilterGroup(filterGroupEntities);
+
+        return filterGroups.stream()
+                .map(group -> {
+                    List<ProductFilter> enrichedFilters = group.getProductFilters().stream()
+                            .map(filter -> ProductFilter.builder()
+                                    .id(filter.getId())
+                                    .filter(filter.getFilter())
+                                    .orders(filter.getOrders())
+                                    .productCount(productCountByFilterId.getOrDefault(filter.getId(), 0L))
+                                    .build()
+                            ).toList();
+
+                    return FilterGroup.builder()
+                            .id(group.getId())
+                            .name(group.getName())
+                            .orders(group.getOrders())
+                            .alias(group.getAlias())
+                            .productFilters(enrichedFilters)
+                            .build();
+                })
+                .toList();
     }
 
     public Category findByAlias(String alias) {

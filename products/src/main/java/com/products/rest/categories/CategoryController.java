@@ -49,8 +49,8 @@ public class CategoryController {
     }
 
     @GetMapping("/filters/{id}")
-    public ResponseEntity<?> getCategoryFilters(@PathVariable Long id) {
-        List<FilterGroup> filterGroups = categoryService.getFilters(id);
+    public ResponseEntity<?> getCategoryFilters(@PathVariable Long id, @RequestParam(required = false) List<Long> selectedFilterIds) {
+        List<FilterGroup> filterGroups = categoryService.getFilters(id, selectedFilterIds);
         List<FilterGroupDto> filterGroupDtos = categoryMapper.filterGroupToFilterGroupDto(filterGroups);
 
         return new ResponseEntity<>(filterGroupDtos, HttpStatus.OK);
