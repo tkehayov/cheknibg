@@ -11,16 +11,12 @@ import com.products.repositories.productfilter.ProductFilterCount;
 import com.products.repositories.productfilter.ProductFilterRepository;
 import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductFilterEntity;
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
-import org.apache.lucene.search.Query;
-import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.jpa.FullTextQuery;
-import org.hibernate.search.jpa.Search;
-import org.hibernate.search.query.dsl.BooleanJunction;
-import org.hibernate.search.query.dsl.QueryBuilder;
+import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -149,35 +145,24 @@ public class CategoryService {
     }
 
     public List<CategoryFilter> getCategorySearchFilter(String searchTerm) {
-        FullTextEntityManager fullTextEntityManager =
-                Search.getFullTextEntityManager(entityManager);
+        SearchSession searchSession = Search.session(entityManager);
 
-        QueryBuilder queryBuilder = fullTextEntityManager
-                .getSearchFactory()
-                .buildQueryBuilder()
-                .forEntity(ProductEntity.class)
-                .get();
-        BooleanJunction booleanJunction = queryBuilder.bool();
+        List<Object[]> resultList = searchSession.search(ProductEntity.class)
+                .select(f -> f.composite(
+                        f.field("category.id_projectable", Long.class),
+                        f.field("category.name_projectable", String.class)
+                ))
+                .where(f -> f.phrase()
+                        .field(SEARCHABLE_FIELD)
+                        .matching(searchTerm)
+                )
+                .sort(f -> f.score())
+                .fetchHits(50)
+                .stream()
+                .map(hit -> new Object[]{hit.get(0), hit.get(1)})
+                .toList();
 
-
-        Query titleQuery = queryBuilder
-                .phrase()
-                .onField(SEARCHABLE_FIELD)
-                .sentence(searchTerm)
-                .createQuery();
-
-        booleanJunction.must(titleQuery);
-
-        Query finalQuery = booleanJunction.createQuery();
-
-        FullTextQuery fullTextQuery = fullTextEntityManager
-                .createFullTextQuery(finalQuery, ProductEntity.class);
-
-        fullTextQuery.setSort(queryBuilder.sort().byScore().createSort())
-                .setProjection("category.id_searchable", "category.name");
-
-        List<Object[]> resultList = fullTextQuery.getResultList();
-        List<CategoryFilter> list = resultList.stream()
+        return resultList.stream()
                 .collect(Collectors.toMap(
                         row -> (String) row[1],
                         row -> row,
@@ -191,8 +176,6 @@ public class CategoryService {
                         .value((String) row[1])
                         .build())
                 .toList();
-
-        return list;
     }
 
     public MinMaxProductPrice getPriceFilters(Long categoryId, List<Long> filters) {

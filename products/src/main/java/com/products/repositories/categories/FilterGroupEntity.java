@@ -2,20 +2,19 @@ package com.products.repositories.categories;
 
 
 import com.products.repositories.products.ProductFilterEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Builder
 @Entity
@@ -31,11 +30,9 @@ public class FilterGroupEntity {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "filterGroups")
-    private Set<CategoryEntity> categories = new HashSet<>();
-
-    @Column(name = "category_id")
-    private Long categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private CategoryEntity categoryId;
 
     @Column(name = "orders")
     private Integer orders;

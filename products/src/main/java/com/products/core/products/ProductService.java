@@ -15,8 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -36,12 +36,10 @@ public class ProductService {
 
         if (product.isPresent()) {
             ProductEntity productEntity = product.get();
-            return productMapper.productEntityToProduct(productEntity, new CycleAvoidingMappingContext());
+            return Product.productEntityToProduct(productEntity);
         }
 
-        ProductEntity emptyProductEntity = ProductEntity.builder().build();
-
-        return productMapper.productEntityToProduct(emptyProductEntity, new CycleAvoidingMappingContext());
+        return Product.builder().build();
     }
 
     public ProductFilterPage getProductsByFilters(List<Long> filterIds, Pageable pageRequest, MinMaxProductPrice minMaxProductPrice, String sortPrice, String sortName) {
@@ -50,7 +48,7 @@ public class ProductService {
 
         // 2. Group the filters dynamically by their GroupFiltersId
         Map<Long, List<ProductFilterEntity>> groupedFilters = filterListEntity.stream()
-                .collect(Collectors.groupingBy(ProductFilterEntity::getGroupFiltersId));
+                .collect(Collectors.groupingBy(pf -> pf.getGroupFiltersId().getId()));
 
         Specification<ProductEntity> finalSpec = withDynamicFilters(groupedFilters);
         if (minMaxProductPrice != null && (minMaxProductPrice.getMinPrice() != null || minMaxProductPrice.getMaxPrice() != null)) {
@@ -155,7 +153,7 @@ public class ProductService {
                                     .map(imageEntity -> Image.builder().
                                             id(imageEntity.getId())
                                             .filename(imageEntity.getFilename())
-                                            .productId(imageEntity.getProductId())
+                                            .productId(imageEntity.getProductId().getId())
                                             .build())
                                     .toList())
                             .build();

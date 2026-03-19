@@ -7,19 +7,15 @@ import com.products.core.products.ProductMapper;
 import com.products.repositories.merchants.MerchantProductEntity;
 import com.products.repositories.products.ProductEntity;
 import lombok.RequiredArgsConstructor;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.Sort;
-import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.jpa.FullTextQuery;
-import org.hibernate.search.jpa.Search;
-import org.hibernate.search.query.dsl.BooleanJunction;
-import org.hibernate.search.query.dsl.QueryBuilder;
+import org.hibernate.search.engine.search.query.SearchResult;
+import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,141 +29,72 @@ public class SearchService {
     private static final String SEARCHABLE_FIELD = "name";
 
     public List<Product> search(String searchTerm) {
-        FullTextEntityManager fullTextEntityManager =
-                Search.getFullTextEntityManager(entityManager);
+        SearchSession searchSession = Search.session(entityManager);
 
-        QueryBuilder queryBuilder = fullTextEntityManager
-                .getSearchFactory()
-                .buildQueryBuilder()
-                .forEntity(ProductEntity.class)
-                .get();
-        BooleanJunction booleanJunction = queryBuilder.bool();
+        List<ProductEntity> results = searchSession.search(ProductEntity.class)
+                .where(f -> f.phrase()
+                        .field(SEARCHABLE_FIELD)
+                        .matching(searchTerm)
+                )
+                .sort(f -> f.score())
+                .fetchHits(MAX_RESULTS);
 
-        Query titleQuery = queryBuilder
-                .phrase()
-                .onField(SEARCHABLE_FIELD)
-                .sentence(searchTerm) // Treat the entire search term as a contiguous phrase
-                .createQuery();
-
-        booleanJunction.must(titleQuery);
-
-        Query finalQuery = booleanJunction.createQuery();
-
-        FullTextQuery fullTextQuery = fullTextEntityManager
-                .createFullTextQuery(finalQuery, ProductEntity.class);
-        fullTextQuery.setSort(queryBuilder.sort().byScore().createSort()).setMaxResults(MAX_RESULTS);
-
-        List<ProductEntity> collect = fullTextQuery.getResultList();
-
-        return mapper.productEntityToProduct(collect, new CycleAvoidingMappingContext());
+        return Product.productEntityToProduct(results);
     }
 
     public ProductFilterPage searchDetailed(String searchTerm, List<Long> filtersId, Pageable pageable, String sortPrice, String sortName) {
-        FullTextEntityManager fullTextEntityManager =
-                Search.getFullTextEntityManager(entityManager);
+        SearchSession searchSession = Search.session(entityManager);
 
-        QueryBuilder queryBuilder = fullTextEntityManager
-                .getSearchFactory()
-                .buildQueryBuilder()
-                .forEntity(ProductEntity.class)
-                .get();
+        SearchResult<ProductEntity> result = searchSession.search(ProductEntity.class)
+                .where(f -> {
+                    var bool = f.bool()
+                            .must(f.phrase()
+                                    .field(SEARCHABLE_FIELD)
+                                    .matching(searchTerm)
+                            );
 
-        Query titleQuery = queryBuilder
-                .phrase()
-                .onField(SEARCHABLE_FIELD)
-                .sentence(searchTerm) // Treat the entire search term as a contiguous phrase
-                .createQuery();
-        BooleanJunction booleanJunction = queryBuilder.bool();
-        booleanJunction.must(titleQuery);
-        if (filtersId != null && !filtersId.isEmpty()) {
+                    if (filtersId != null && !filtersId.isEmpty()) {
+                        bool.must(f.bool(inner -> filtersId.forEach(id ->
+                                inner.should(f.match()
+                                        .field("category.id_projectable")
+                                        .matching(id)
+                                )
+                        )));
+                    }
 
-            BooleanJunction<BooleanJunction> filterJunction = queryBuilder.bool();
+                    return bool;
+                })
+                .sort(f -> {
+                    if (sortPrice != null && !sortPrice.isEmpty()) {
+                        return "asc".equalsIgnoreCase(sortPrice)
+                                ? f.field("minPrice").asc()
+                                : f.field("minPrice").desc();
+                    } else if (sortName != null && !sortName.isEmpty()) {
+                        return "asc".equalsIgnoreCase(sortName)
+                                ? f.field("name_sort").asc()
+                                : f.field("name_sort").desc();
+                    }
+                    return f.score();
+                })
+                .fetch(
+                        pageable != null ? (int) pageable.getOffset() : 0,
+                        pageable != null ? pageable.getPageSize() : 20
+                );
 
-            for (Long categoryId : filtersId) {
-                Query categoryQuery = queryBuilder
-                        .keyword()
-                        .onField("category.id_searchable")
-                        .matching(categoryId)
-                        .createQuery();
-
-                filterJunction.should(categoryQuery);
-            }
-
-            booleanJunction.must(filterJunction.createQuery());
-        }
-        Query finalQuery = booleanJunction.createQuery();
-
-        FullTextQuery fullTextQuery = fullTextEntityManager
-                .createFullTextQuery(finalQuery, ProductEntity.class);
-        fullTextQuery.setSort(queryBuilder.sort().byScore().createSort());
-
-        if (sortPrice != null && !sortPrice.isEmpty()) {
-            Sort sort = buildPriceSort(queryBuilder, sortPrice);
-            fullTextQuery.setSort(sort);
-        } else if (sortName != null && !sortName.isEmpty()) {
-            Sort sort = buildNameSort(queryBuilder, sortName);
-            fullTextQuery.setSort(sort);
-        } else {
-            fullTextQuery.setSort(queryBuilder.sort().byScore().createSort());
-        }
-
-        int totalElements = fullTextQuery.getResultSize();
-
-        if (pageable != null) {
-            fullTextQuery.setFirstResult((int) pageable.getOffset());
-            fullTextQuery.setMaxResults(pageable.getPageSize());
-        }
-
-        List<ProductEntity> productEntities = fullTextQuery.getResultList();
+        long totalElements = result.total().hitCount();
+        List<ProductEntity> productEntities = result.hits();
 
         List<Product> products = new ArrayList<>();
-
         productEntities.forEach(p -> {
             BigDecimal minPrice = p.getMerchants().stream()
                     .map(MerchantProductEntity::getPrice)
                     .min(BigDecimal::compareTo)
                     .orElse(BigDecimal.ZERO);
 
-            Product product = Product.mapToProductWithMinPrice(p, minPrice);
-            products.add(product);
+            products.add(Product.mapToProductWithMinPrice(p, minPrice));
         });
 
-
         Page<Product> productPage = new PageImpl<>(products, pageable, totalElements);
-
         return ProductFilterPage.mapToProductFilterPage(productPage);
     }
-
-    private Sort buildPriceSort(QueryBuilder queryBuilder, String sortPrice) {
-        if ("asc".equalsIgnoreCase(sortPrice)) {
-            return queryBuilder.sort()
-                    .byField("minPrice")
-                    .asc()
-                    .createSort();
-        }
-        if ("desc".equalsIgnoreCase(sortPrice)) {
-            return queryBuilder.sort()
-                    .byField("minPrice")
-                    .desc()
-                    .createSort();
-        }
-        return null;
-    }
-
-    private Sort buildNameSort(QueryBuilder queryBuilder, String sortName) {
-        if ("asc".equalsIgnoreCase(sortName)) {
-            return queryBuilder.sort()
-                    .byField("name")
-                    .asc()
-                    .createSort();
-        }
-        if ("desc".equalsIgnoreCase(sortName)) {
-            return queryBuilder.sort()
-                    .byField("name")
-                    .desc()
-                    .createSort();
-        }
-        return null;
-    }
-
 }

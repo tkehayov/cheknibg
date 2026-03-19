@@ -6,3 +6,4 @@ docker/images/images
 data/lucene
 docker/cheknibg-client/build
 docker/cheknibg-merchant-admin/build
+lucene-index

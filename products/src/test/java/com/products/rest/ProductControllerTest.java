@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -30,7 +30,7 @@ class ProductControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
     private ProductService productService;
 
     @Test
@@ -46,7 +46,14 @@ class ProductControllerTest {
 
     @Test
     public void getProductsByCategoryAndFilters() throws Exception {
-        Product product = Product.builder().id(1L).name("Apple iPhone 14").productFilters(List.of(ProductFilter.builder().id(1L).filter("8 GB").build())).build();
+        Product product = Product.builder()
+                .id(1L)
+                .images(List.of())
+                .name("Apple iPhone 14")
+                .productFilters(List.of(
+                        ProductFilter.builder().id(1L).filter("8 GB").build()
+                ))
+                .build();
         MinMaxProductPrice minMaxProductPrice = MinMaxProductPrice.builder().minPrice(new BigDecimal("100")).maxPrice(new BigDecimal("9000")).build();
         ProductFilterPage productPage = ProductFilterPage.builder().content(List.of(product)).totalPages(1).currentPage(0).build();
 

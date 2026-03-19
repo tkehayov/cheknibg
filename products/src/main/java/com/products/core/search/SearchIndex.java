@@ -1,12 +1,13 @@
 package com.products.core.search;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.jpa.Search;
+import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
+
 
 @Component
 @RequiredArgsConstructor
@@ -15,9 +16,9 @@ public class SearchIndex {
     private final EntityManager entityManager;
 
     public void indexPersistedData() {
-        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+        SearchSession searchSession = Search.session(entityManager);
         try {
-            fullTextEntityManager.createIndexer().startAndWait();
+            searchSession.massIndexer().startAndWait();
         } catch (InterruptedException e) {
             throw new RuntimeException(e.getMessage());
         }

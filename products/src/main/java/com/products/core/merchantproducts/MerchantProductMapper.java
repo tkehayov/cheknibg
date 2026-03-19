@@ -20,10 +20,8 @@ import java.util.stream.Collectors;
         componentModel = "spring"
 )
 public interface MerchantProductMapper {
-    @Mapping(source = "merchantProductEntity", target = "currentPage", qualifiedByName = "currentPage")
-    MerchantProductPage merchantProductEntityToMerchantProduct(Page<MerchantProductEntity> merchantProductEntity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);
-
     List<ImportMerchantProduct> merchantProductEntityToImportMerchantProduct(List<MerchantProductEntity> merchantProductEntity);
+
     List<ImportMerchantProduct> importMerchantProductDtoToImportMerchantProduct(List<ImportMerchantProductDto> importMerchantProductDto);
 
     List<ImportMerchantProduct> importMerchantXmlProductDtoToImportMerchantProduct(List<ImportMerchantXmlProductDto> importMerchantXmlProductDto);
@@ -33,11 +31,6 @@ public interface MerchantProductMapper {
 
     @Mapping(source = "merchantProductPage", target = "content", qualifiedByName = "content")
     MerchantProductPageDto merchantProductPageToMerchantProductDto(MerchantProductPage merchantProductPage);
-
-    @Named("currentPage")
-    default Integer currentPage(Page<MerchantProductEntity> merchantProductEntity) {
-        return merchantProductEntity.getNumber();
-    }
 
     @Named("content")
     default List<MerchantProductDto> content(MerchantProductPage merchantProductPage) {

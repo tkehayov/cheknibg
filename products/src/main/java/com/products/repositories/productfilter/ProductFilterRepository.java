@@ -1,15 +1,15 @@
 package com.products.repositories.productfilter;
 
 import com.products.repositories.products.ProductFilterEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface ProductFilterRepository extends PagingAndSortingRepository<ProductFilterEntity, Long> {
+public interface ProductFilterRepository extends JpaRepository<ProductFilterEntity, Long> {
     @Query("SELECT pf.id as filterId, COUNT(DISTINCT p) AS count FROM ProductFilterEntity pf " +
             "JOIN pf.productFilters p " +
             "JOIN p.merchants m " +

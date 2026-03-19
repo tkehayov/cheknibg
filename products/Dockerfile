@@ -1,4 +1,4 @@
-FROM arm64v8/openjdk:17-ea-12-jdk-buster
+FROM eclipse-temurin:21-jdk
 MAINTAINER kehayov89@gmail.com
 
 COPY target/products-0.0.1-SNAPSHOT.jar products-0.0.1-SNAPSHOT.jar
