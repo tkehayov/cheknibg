@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk
+FROM arm64v8/eclipse-temurin:21-jdk
 MAINTAINER kehayov89@gmail.com
 
 COPY target/products-0.0.1-SNAPSHOT.jar products-0.0.1-SNAPSHOT.jar
