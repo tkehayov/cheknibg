@@ -1,6 +1,5 @@
 package com.products.core.merchantproducts;
 
-import com.products.core.mapstruct.CycleAvoidingMappingContext;
 import com.products.core.merchantproducts.comparator.MerchantProductComparatorService;
 import com.products.repositories.merchants.MerchantProductEntity;
 import com.products.repositories.merchants.MerchantProductRepository;
@@ -41,7 +40,7 @@ public class MerchantProductService {
                     .currentPage(0)
                     .build();
         }
-            return merchantProductMapper.merchantProductEntityToMerchantProduct(merchantsProductEntity, new CycleAvoidingMappingContext());
+            return MerchantProductPage.merchantProductEntityToMerchantProduct(merchantsProductEntity);
     }
 
     public ImportMerchantProductResponse importMerchantProducts(Long merchantId, List<ImportMerchantProduct> importMerchantProductInput) {
@@ -61,7 +60,6 @@ public class MerchantProductService {
         if (!modifiedProducts.isEmpty()) {
             List<MerchantProductEntity> modifiedMerchantProductsEntity = filterAllModifiedMerchantsProducts(modifiedProducts, currentMerchantsProductEntity);
             List<MerchantProductEntity> newMerchantProductsEntity = filterAllNewMerchantsProducts(merchantId, modifiedProducts, currentMerchantsProductEntity, existsProducts);
-
             merchantProductRepository.saveAll(modifiedMerchantProductsEntity);
             merchantProductRepository.saveAll(newMerchantProductsEntity);
         }

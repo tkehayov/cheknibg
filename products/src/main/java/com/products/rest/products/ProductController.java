@@ -3,7 +3,6 @@ package com.products.rest.products;
 import com.products.core.categories.MinMaxProductPrice;
 import com.products.core.products.Product;
 import com.products.core.products.ProductFilterPage;
-import com.products.core.products.ProductMapper;
 import com.products.core.products.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -23,13 +22,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value = "/products")
 public class ProductController {
-    private final ProductMapper productMapper;
     private final ProductService productService;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
         Product product = productService.getProduct(id);
-        ProductDto productDto = productMapper.productToProductDto(product);
+        ProductDto productDto = Product.productToProductDto(product);
 
         return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
@@ -49,7 +47,7 @@ public class ProductController {
         MinMaxProductPrice minMaxProductPrice = MinMaxProductPrice.builder().minPrice(minPrice).maxPrice(maxPrice).build();
 
         ProductFilterPage productsByCategory = productService.getProductsByFilters(filters, paging, minMaxProductPrice, sortPrice, sortName);
-        ProductFilterPageDto productPageDto = productMapper.productFilterPageToProductPageDto(productsByCategory);
+        ProductFilterPageDto productPageDto = ProductFilterPage.productFilterPageToProductPageDto(productsByCategory);
 
         return new ResponseEntity<>(productPageDto, HttpStatus.OK);
     }

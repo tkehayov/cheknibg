@@ -1,16 +1,19 @@
 package com.products.repositories.products;
 
+import com.products.repositories.categories.FilterGroupEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SortNatural;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -28,8 +31,9 @@ public class ProductFilterEntity implements Comparable<ProductFilterEntity>{
     @Column(name = "filter")
     private String filter;
 
-    @Column(name = "group_filters_id")
-    private Long groupFiltersId;
+    @ManyToOne
+    @JoinColumn(name = "group_filters_id")
+    private FilterGroupEntity groupFiltersId;
 
     @Column(name = "orders")
     private Integer orders;

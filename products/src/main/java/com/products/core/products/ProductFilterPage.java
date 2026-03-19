@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,7 @@ public class ProductFilterPage {
                                         .builder()
                                         .id(imageEntity.getId())
                                         .filename(imageEntity.getFilename())
-                                        .productId(imageEntity.getProductId()).build()
+                                        .productId(imageEntity.getProductId().getId()).build()
                                 ).toList()
                         )
                         .build()).toList();
@@ -51,16 +52,42 @@ public class ProductFilterPage {
                                 .id(product.getId())
                                 .name(product.getName())
                                 .minPrice(product.getMinPrice())
-                                .images(product.getImages().stream().map(image -> ImageEntity.builder()
+                                .images(product.getImages() == null ? new HashSet<>() : product.getImages().stream()
+                                        .map(image -> ImageEntity.builder()
                                                 .id(image.getId())
                                                 .filename(image.getFilename())
-                                                .productId(image.getProductId())
+                                                .productId(ProductEntity.builder().id(image.getProductId()).build())
                                                 .build())
                                         .collect(Collectors.toSet()))
                                 .build())
                         .toList())
                 .totalPages(productFilterPage.getTotalPages())
                 .currentPage(productFilterPage.getCurrentPage())
+                .build();
+    }
+
+    public static ProductFilterPageDto productFilterPageToProductPageDto(ProductFilterPage productFilterPage) {
+        if (productFilterPage == null) return null;
+
+        return ProductFilterPageDto.builder()
+                .currentPage(productFilterPage.getCurrentPage())
+                .totalPages(productFilterPage.getTotalPages())
+                .content(productFilterPage.getContent().stream()
+                        .map(product -> ProductFilterDto.builder()
+                                .id(product.getId())
+                                .name(product.getName())
+                                .minPrice(product.getMinPrice())
+                                .images(product.getImages().stream()
+                                        .map(image -> ImageEntity.builder()
+                                                .id(image.getId())
+                                                .filename(image.getFilename())
+                                                .productId(ProductEntity.builder()
+                                                        .id(image.getProductId())
+                                                        .build())
+                                                .build())
+                                        .collect(java.util.stream.Collectors.toSet()))
+                                .build())
+                        .toList())
                 .build();
     }
 }

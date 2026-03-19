@@ -1,35 +1,40 @@
 package com.products.repositories.categories;
 
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.FieldBridge;
-import org.hibernate.search.annotations.Store;
-import org.hibernate.search.bridge.builtin.LongBridge;
+import org.hibernate.search.engine.backend.types.Projectable;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.util.List;
 
 @Builder
 @Entity
 @Getter
+@Indexed
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "categories")
 public class CategoryEntity {
     @Id
+    @DocumentId
+    @GenericField(name = "id_projectable", projectable = Projectable.YES)
     @Column(name = "id")
-    @FieldBridge(impl = LongBridge.class)
-    @Field(name = "id_searchable", store = Store.YES)
     private Long id;
 
-    @Field(store = Store.YES)
+    @FullTextField(analyzer = "standard")
+    @KeywordField(name = "name_sort")
+    @GenericField(name = "name_projectable", projectable = Projectable.YES)
     @Column(name = "name")
     private String name;
 
