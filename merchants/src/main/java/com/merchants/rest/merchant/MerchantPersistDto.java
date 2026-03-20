@@ -1,8 +1,8 @@
 package com.merchants.rest.merchant;
 
-import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
+import jakarta.validation.constraints.NotNull;
 
 @Builder
 @Getter
