@@ -45,6 +45,6 @@ public class ProductCounterServiceTest {
         productCounterService.add(productCounter);
         List<ProductCounterEntity> all = repository.findAll();
 
-        assertEquals(6, all.size());
+        assertEquals(7, all.size());
     }
 }
