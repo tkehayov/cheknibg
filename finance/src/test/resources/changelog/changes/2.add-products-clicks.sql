@@ -1,6 +1,7 @@
-INSERT into products_counter (product_id,merchant_id,date_added) VALUES
-    (1,1,'2025-03-05T22:31:18.931305'),
-    (2,2,'2025-03-05T22:31:18.931305'),
-    (2,2,'2021-03-05T22:31:18.931305'),
-    (2,1,'2025-03-05T22:31:18.931305'),
-    (1,2,'2025-02-05T22:31:18.931305');
+INSERT into products_counter (product_id, merchant_id, date_added)
+VALUES (1, 1, make_timestamp(EXTRACT(YEAR FROM CURRENT_DATE)::int, 3, 5, 22, 31, 18)),
+       (2, 2, make_timestamp(EXTRACT(YEAR FROM CURRENT_DATE)::int, 3, 5, 22, 31, 18)),
+       (2, 2, make_timestamp(EXTRACT(YEAR FROM CURRENT_DATE)::int, 1, 5, 22, 31, 18)),
+       (1, 2, make_timestamp(EXTRACT(YEAR FROM CURRENT_DATE)::int, 1, 5, 22, 31, 18)),
+       (2, 1, make_timestamp(EXTRACT(YEAR FROM CURRENT_DATE)::int, 3, 5, 22, 31, 18)),
+       (1, 2, make_timestamp(EXTRACT(YEAR FROM CURRENT_DATE)::int, 2, 5, 22, 31, 18));
