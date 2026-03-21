@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+
     <springProperty scope="context" name="loki.url" source="loki.url"/>
     <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
-        <http class="com.github.loki4j.logback.HttpSender">
+        <http>
             <url>${loki.url}</url>
         </http>
         <format>
             <label>
-                <pattern>app=merchants,host=${HOSTNAME},level=%level</pattern>
+                <pattern>app=products,host=${HOSTNAME},level=%level</pattern>
+                <readMarkers>true</readMarkers>
             </label>
             <message>
                 <pattern>
@@ -22,15 +24,9 @@
             </message>
         </format>
     </appender>
-
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-
     <root level="INFO">
         <appender-ref ref="LOKI"/>
-        <appender-ref ref="STDOUT"/>
     </root>
+
+
 </configuration>
