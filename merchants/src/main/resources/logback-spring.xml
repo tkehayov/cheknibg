@@ -8,7 +8,7 @@
         </http>
         <format>
             <label>
-                <pattern>app=products,host=${HOSTNAME},level=%level</pattern>
+                <pattern>app=merchants,host=${HOSTNAME},level=%level</pattern>
                 <readMarkers>true</readMarkers>
             </label>
             <message>
