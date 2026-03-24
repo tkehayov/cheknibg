@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class PropertiesGroupEntity {
     @JoinColumn(name = "product_id")
     private ProductEntity productId;
 
+    @BatchSize(size = 40)
     @OneToMany(mappedBy = "groupId")
     private List<ProductPropertyEntity> properties;
 }

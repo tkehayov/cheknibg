@@ -60,9 +60,11 @@ public class ProductEntity {
     @Builder.Default
     private Set<MerchantProductEntity> merchants = new LinkedHashSet<>();
 
+    @BatchSize(size = 40)
     @OneToMany(mappedBy = "productId")
     private List<PropertiesGroupEntity> propertiesGroup;
 
+    @BatchSize(size = 40)
     @ManyToMany
     @JoinTable(name = "products_product_filters",
             joinColumns = {@JoinColumn(name = "product_id")},

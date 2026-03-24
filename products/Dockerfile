@@ -1,5 +1,7 @@
 FROM arm64v8/eclipse-temurin:21-jdk
-MAINTAINER kehayov89@gmail.com
+WORKDIR /app
 
-COPY target/products-0.0.1-SNAPSHOT.jar products-0.0.1-SNAPSHOT.jar
-ENTRYPOINT java -jar -Dspring.profiles.active=prod -DDB_URL=$DB_URL -DDB_USERNAME=$DB_USERNAME -DDB_PASSWORD=$DB_PASSWORD -DSERVICE_IMAGES_URL=$SERVICE_IMAGES_URL -DMERCHANT_SETTINGS_URL=$MERCHANT_SETTINGS_URL -DLOKI_URL=$LOKI_URL /products-0.0.1-SNAPSHOT.jar
+ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar /app/opentelemetry-javaagent.jar
+COPY target/products-0.0.1-SNAPSHOT.jar /app/products.jar
+
+ENTRYPOINT ["java", "-javaagent:/app/opentelemetry-javaagent.jar", "-jar", "/app/products.jar"]
