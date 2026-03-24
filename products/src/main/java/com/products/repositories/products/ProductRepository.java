@@ -19,8 +19,5 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, J
     @Query("SELECT p.id FROM ProductEntity p WHERE p.codeId=:codeId")
     Long findByCodeId(@Param("codeId") String codeId);
 
-    @EntityGraph(attributePaths = { "id","name",
-            "codeId",
-            "images" })
     Page<ProductEntity> findAll(Specification<ProductEntity> spec, Pageable pageable);
 }

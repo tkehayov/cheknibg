@@ -4,10 +4,6 @@ server:
 spring:
   application:
     name: API-GATEWAY-SERVICE
-  datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: none
@@ -15,6 +11,9 @@ spring:
     properties:
       hibernate:
         format_sql: false
+  mvc:
+    async:
+      request-timeout: 30000
 
 application:
   security:
@@ -41,7 +40,17 @@ management:
       exposure:
         include:
           - prometheus
+          - health
+          - info
 
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{trace_id},%X{span_id}]"
+
+otel:
+  instrumentation:
+    logback-appender:
+      enabled: true
 
 loki:
   url: ${LOKI_URL}

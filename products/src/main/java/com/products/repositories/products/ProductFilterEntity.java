@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.SortNatural;
 
 import java.util.SortedSet;
@@ -38,6 +39,7 @@ public class ProductFilterEntity implements Comparable<ProductFilterEntity>{
     @Column(name = "orders")
     private Integer orders;
 
+    @BatchSize(size = 40)
     @ManyToMany(mappedBy = "productFilters")
     @SortNatural
     private SortedSet<ProductEntity> productFilters =  new TreeSet<>();
