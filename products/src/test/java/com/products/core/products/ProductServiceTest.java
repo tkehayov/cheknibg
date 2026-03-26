@@ -1,11 +1,12 @@
 package com.products.core.products;
 
+import com.products.BaseIntegrationTest;
 import com.products.core.Image.Image;
 import com.products.core.merchantproducts.MerchantProduct;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +18,9 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
-@AutoConfigureTestDatabase
 @Transactional
-public class ProductServiceTest {
+@AutoConfigureMockMvc
+public class ProductServiceTest extends BaseIntegrationTest {
     @Autowired
     private ProductService productService;
 
@@ -62,7 +63,7 @@ public class ProductServiceTest {
 
     @Test
     public void getProductsByCategoryAndFilter() {
-        ProductFilterPage actual = productService.getProductsByFilters(List.of(1L), PageRequest.of(0, 3), null, "asc",null);
+        ProductFilterPage actual = productService.getProductsByFilters(List.of(1L), PageRequest.of(0, 3), null, "asc", null);
         List<Product> content = actual.getContent();
 
         Product firstProduct = content.get(0);
@@ -75,7 +76,7 @@ public class ProductServiceTest {
     @Test
     public void getSameProductByDifferentFilters() {
         List<Long> searchedFilters = List.of(7L, 4L);
-        ProductFilterPage actual = productService.getProductsByFilters(searchedFilters, PageRequest.of(0, 20), null, "desc",null);
+        ProductFilterPage actual = productService.getProductsByFilters(searchedFilters, PageRequest.of(0, 20), null, "desc", null);
         List<Product> content = actual.getContent();
 
         Product firstProduct = content.get(0);

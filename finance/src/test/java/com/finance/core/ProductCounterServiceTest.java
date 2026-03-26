@@ -1,12 +1,12 @@
 package com.finance.core;
 
+import com.finance.BaseIntegrationTest;
 import com.finance.core.productcounter.ProductCounter;
 import com.finance.core.productcounter.ProductCounterService;
 import com.finance.repository.productcounter.ProductCounterEntity;
 import com.finance.repository.productcounter.ProductCounterRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +16,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@AutoConfigureTestDatabase
 @Transactional
-public class ProductCounterServiceTest {
+public class ProductCounterServiceTest extends BaseIntegrationTest {
     @Autowired
     private ProductCounterService productCounterService;
     @Autowired

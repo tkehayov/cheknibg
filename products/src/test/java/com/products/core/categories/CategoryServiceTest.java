@@ -1,22 +1,21 @@
 package com.products.core.categories;
 
+import com.products.BaseIntegrationTest;
 import com.products.core.products.ProductFilter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 @SpringBootTest
-@AutoConfigureTestDatabase
 @Transactional
-public class CategoryServiceTest {
+public class CategoryServiceTest extends BaseIntegrationTest {
     @Autowired
     private CategoryService categoryService;
 
@@ -71,7 +70,7 @@ public class CategoryServiceTest {
     @Test
     public void getCategoryFilters() {
         Long categoryId = 1L;
-        List<FilterGroup> filterGroups = categoryService.getFilters(categoryId,List.of(categoryId));
+        List<FilterGroup> filterGroups = categoryService.getFilters(categoryId, List.of(categoryId));
 
         FilterGroup filterGroup = filterGroups.get(1);
         List<ProductFilter> filters = filterGroup.getProductFilters();
@@ -91,7 +90,7 @@ public class CategoryServiceTest {
     @Test
     public void getFiltersToNotExistsCategory() {
         Long categoryId = 9999L;
-        List<FilterGroup> filterGroups = categoryService.getFilters(categoryId,List.of(categoryId));
+        List<FilterGroup> filterGroups = categoryService.getFilters(categoryId, List.of(categoryId));
 
         assertEquals(0, filterGroups.size());
     }

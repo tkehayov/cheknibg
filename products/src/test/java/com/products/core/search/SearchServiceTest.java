@@ -1,11 +1,12 @@
 package com.products.core.search;
 
+import com.products.BaseIntegrationTest;
 import com.products.core.products.Product;
 import com.products.core.products.ProductFilterPage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +15,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@AutoConfigureTestDatabase
 @Transactional
-public class SearchServiceTest {
+@AutoConfigureMockMvc
+public class SearchServiceTest extends BaseIntegrationTest {
     @Autowired
     private SearchService searchService;
 
