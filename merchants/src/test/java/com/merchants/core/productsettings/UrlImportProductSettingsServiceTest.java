@@ -1,8 +1,8 @@
 package com.merchants.core.productsettings;
 
+import com.merchants.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +12,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@AutoConfigureTestDatabase
 @Transactional
-class UrlImportProductSettingsServiceTest {
+class UrlImportProductSettingsServiceTest extends BaseIntegrationTest {
     @Autowired
     private UrlImportProductSettingsService urlImportProductSettingsService;
 

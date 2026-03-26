@@ -1,5 +1,6 @@
 package com.products.rest;
 
+import com.products.BaseIntegrationTest;
 import com.products.core.categories.MinMaxProductPrice;
 import com.products.core.products.ProductFilter;
 import com.products.core.products.Product;
@@ -7,8 +8,8 @@ import com.products.core.products.ProductFilterPage;
 import com.products.core.products.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ProductControllerTest {
+class ProductControllerTest extends BaseIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 

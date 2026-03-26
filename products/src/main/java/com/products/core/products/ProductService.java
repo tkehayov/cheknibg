@@ -2,7 +2,6 @@ package com.products.core.products;
 
 import com.products.core.Image.Image;
 import com.products.core.categories.MinMaxProductPrice;
-import com.products.core.mapstruct.CycleAvoidingMappingContext;
 import com.products.repositories.productfilter.ProductFilterRepository;
 import com.products.repositories.products.ProductEntity;
 import com.products.repositories.products.ProductFilterEntity;
@@ -107,7 +106,7 @@ public class ProductService {
     }
 
     private Specification<ProductEntity> withDynamicFilters(Map<Long, List<ProductFilterEntity>> filtersByGroup) {
-        Specification<ProductEntity> spec = Specification.where(null); // Start with a TRUE condition
+        Specification<ProductEntity> spec = (root, query, cb) -> cb.conjunction();
 
         for (Map.Entry<Long, List<ProductFilterEntity>> entry : filtersByGroup.entrySet()) {
             List<ProductFilterEntity> groupFilters = entry.getValue();

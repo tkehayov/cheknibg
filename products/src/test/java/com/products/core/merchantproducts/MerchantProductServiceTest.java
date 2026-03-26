@@ -1,12 +1,12 @@
 package com.products.core.merchantproducts;
 
+import com.products.BaseIntegrationTest;
 import com.products.repositories.merchants.MerchantProductEntity;
 import com.products.repositories.merchants.MerchantProductRepository;
 import com.products.repositories.missingproducts.MissingProductEntity;
 import com.products.repositories.missingproducts.MissingProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.util.Streamable;
@@ -19,9 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@AutoConfigureTestDatabase
 @Transactional
-public class MerchantProductServiceTest {
+public class MerchantProductServiceTest extends BaseIntegrationTest {
     @Autowired
     private MerchantProductService merchantProductService;
     @Autowired
@@ -117,7 +116,7 @@ public class MerchantProductServiceTest {
         assertEquals(missingProducts.size(), 1);
         assertEquals(merchantProduct.getNotExists().get(0), "duplicate-DUMMY-PLT-00012");
     }
-    
+
     private List<ImportMerchantProduct> newImportMerchantProducts() {
         return List.of(
                 ImportMerchantProduct.builder().codeId("DUMMY-PLT-00012").url("https://www.buybest.bg/samsung-galaxy-a53-5g-128gb-6gb-ram-dual-sim").price(new BigDecimal("621.00")).build(),

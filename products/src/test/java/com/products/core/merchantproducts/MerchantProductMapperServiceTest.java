@@ -1,5 +1,6 @@
 package com.products.core.merchantproducts;
 
+import com.products.BaseIntegrationTest;
 import com.products.core.exceptions.FileReaderException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-public class MerchantProductMapperServiceTest {
+public class MerchantProductMapperServiceTest extends BaseIntegrationTest {
     @Autowired
     private MerchantProductMapperService merchantProductMapperService;
 
