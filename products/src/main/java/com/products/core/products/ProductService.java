@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,6 +40,25 @@ public class ProductService {
         }
 
         return Product.builder().build();
+    }
+
+    public List<Product> getProducts(List<Long> productsId) {
+        List<ProductEntity> products = productRepository.findAllById(productsId);
+
+        if (products.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return products.stream()
+                .map(entity -> {
+                    BigDecimal minPrice = entity.getMerchants().stream()
+                            .map(com.products.repositories.merchants.MerchantProductEntity::getPrice)
+                            .filter(java.util.Objects::nonNull)
+                            .min(BigDecimal::compareTo)
+                            .orElse(BigDecimal.ZERO);
+                    return Product.mapToProductWithMinPrice(entity, minPrice);
+                })
+                .toList();
     }
 
     public ProductFilterPage getProductsByFilters(List<Long> filterIds, Pageable pageRequest, MinMaxProductPrice minMaxProductPrice, String sortPrice, String sortName) {
