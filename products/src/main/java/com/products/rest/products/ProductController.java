@@ -32,6 +32,20 @@ public class ProductController {
         return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<List<ProductSummaryDto>> getProducts(@RequestParam List<Long> ids) {
+        List<ProductSummaryDto> products = productService.getProducts(ids).stream()
+                .map(p -> ProductSummaryDto.builder()
+                        .id(p.getId())
+                        .name(p.getName())
+                        .minPrice(p.getMinPrice())
+                        .image(p.getImages() == null ? ImageDto.builder().build() : ImageDto.builder().filename(p.getImages().get(0).getFilename()).build())
+                        .build())
+                .toList();
+
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/filters")
     public ResponseEntity<ProductFilterPageDto> getProductsByFilters(
             @RequestParam List<Long> filters,

@@ -95,4 +95,31 @@ public class ProductServiceTest extends BaseIntegrationTest {
 
         assertThat(productId, is(2L));
     }
+
+    @Test
+    public void getProducts() {
+        List<Product> actual = productService.getProducts(List.of(1L, 2L));
+
+        assertThat(actual.size(), is(2));
+
+        Product first = actual.get(0);
+        assertThat(first.getId(), is(1L));
+        assertThat(first.getName(), is("Apple iPhone 14 Pro 128GB Мобилни телефони (GSM)"));
+        assertThat(first.getMinPrice(), is(new BigDecimal("619.00")));
+        assertThat(first.getImages().get(0).getFilename(), is("mac.jpg"));
+
+        Product second = actual.get(1);
+        assertThat(second.getId(), is(2L));
+        assertThat(second.getName(), is("Xiaomi Redmi Note 11 128GB 6GB RAM Dual Мобилни телефони (GSM)"));
+        assertThat(second.getMinPrice(), is(new BigDecimal("621.00")));
+        assertThat(second.getImages().get(0).getFilename(), is("laptop.jpg"));
+    }
+
+    @Test
+    public void getProductsWithNonExistingIds() {
+        List<Product> actual = productService.getProducts(List.of(-1L, -2L));
+
+        assertThat(actual.size(), is(0));
+    }
+
 }
